@@ -21,3 +21,6 @@ include "%%CBSD_WORKDIR%%/etc/pfrdr.conf"
 
 # or:
 # rdr-anchor "/usr/jails/etc/pfrdr.conf"
+
+## include other custom rules
+include "%%CBSD_WORKDIR%%/etc/pfcustomflt.conf"
