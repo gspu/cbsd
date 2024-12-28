@@ -51,7 +51,7 @@ cluster_login()
 	[ -z "${CBSDFILE_RECURSIVE}" ] && ${ECHO} "${N1_COLOR}main cloud api: ${N2_COLOR}${CLOUD_URL}${N0_COLOR}" 1>&2
 	_cid=$( ${miscdir}/cbsd_md5 "${CLOUD_KEY}" )
 	# drop privileges to nobody
-	_ssh=$( ${SU_CMD} -m nobody -c "${CURL_CMD} --no-progress-meter -H \"cid:${_cid}\" ${CLOUD_URL}/api/v1/status/${jname}" 2>&1 )
+	_ssh=$( ${SUDO_CMD} -u nobody ${CURL_CMD} --no-progress-meter -H "cid:${_cid}" ${CLOUD_URL}/api/v1/status/${jname} 2>&1 )
 	_ret=$?
 	if [ ${_ret} -ne 0 ]; then
 		${ECHO} "${N1_COLOR}${CBSD_APP} error: curl error: ${N2_COLOR}${_ssh}${N0_COLOR}"

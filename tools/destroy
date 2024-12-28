@@ -65,7 +65,7 @@ destroy_jail_cloud()
 
 	# via file for debug
 	${CAT_CMD} > destroy-${jname}.sh <<EOF
-${SU_CMD} -m nobody -c "${CURL_CMD} --no-progress-meter -H \"cid:${_cid}\" ${CLOUD_URL}/api/v1/destroy/${jname}"
+${SUDO_CMD} -u nobody ${CURL_CMD} --no-progress-meter -H "cid:${_cid}" ${CLOUD_URL}/api/v1/destroy/${jname}
 EOF
 	${CHMOD_CMD} +x destroy-${jname}.sh
 	./destroy-${jname}.sh
@@ -129,7 +129,7 @@ destroy_bhyve_cloud()
 
 	# via file for debug
 	${CAT_CMD} > destroy-${jname}.sh <<EOF
-${SU_CMD} -m nobody -c "${CURL_CMD} --no-progress-meter -H \"cid:${_cid}\" ${CLOUD_URL}/api/v1/destroy/${jname}"
+${SUDO_CMD} -u nobody ${CURL_CMD} --no-progress-meter -H "cid:${_cid}" ${CLOUD_URL}/api/v1/destroy/${jname}
 EOF
 	${CHMOD_CMD} +x destroy-${jname}.sh
 	./destroy-${jname}.sh

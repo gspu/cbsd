@@ -299,7 +299,7 @@ rexec_node()
 
 	# its me ?
 	if [ "${_host}" = "${nodename}" ]; then
-		${SU_CMD} -m cbsd -c /bin/sh <<EOF
+		${SUDO_CMD} -u cbsd /bin/sh <<EOF
 ${THESCRIPT}
 EOF
 		_ret=$?

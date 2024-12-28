@@ -54,7 +54,7 @@ install_module()
 	local _metadata_tmp="/tmp/cbsd_module.$$"
 
 	# fetch metadata via unprivilege user
-	${SU_CMD} -m nobody -c "${FETCH_CMD} -q -o ${_metadata_tmp} ${_gh_raw_content_prefix}-${data}/${version}/metadata.conf"
+	${SUDO_CMD} -u nobody ${FETCH_CMD} -q -o ${_metadata_tmp} ${_gh_raw_content_prefix}-${data}/${version}/metadata.conf
 	_ret=$?
 
 	if [ ${_ret} -ne 0 ]; then
@@ -63,7 +63,7 @@ install_module()
 	fi
 
 	# trim .. in path and "
-	MODULE_DIR=$( ${SU_CMD} -m nobody -c "${GREP_CMD} -E \"${_grep_filter}\" ${_metadata_tmp}" | ${AWK_CMD}  -F"[=]" '{print $2}' | ${SED_CMD} -e 's:\"::g' -e 's:(\.\.:_:g' )
+	MODULE_DIR=$( ${SUDO_CMD} -u nobody ${GREP_CMD} -E "${_grep_filter}" ${_metadata_tmp} | ${AWK_CMD}  -F"[=]" '{print $2}' | ${SED_CMD} -e 's:\"::g' -e 's:(\.\.:_:g' )
 	_ret=$?
 
 	if [ ${_ret} -ne 0 -o -z "${MODULE_DIR}" ]; then

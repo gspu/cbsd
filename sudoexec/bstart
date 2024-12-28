@@ -318,10 +318,10 @@ start_bhyve()
 					# Linux does not support postfix in bs=, e.g. bs=4m
 					case "${platform}" in
 						Linux)
-							/usr/bin/nice -n 20 ${DD_CMD} if=${_myfile} bs=4000000 | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
+							${NICE_CMD} -n 20 ${DD_CMD} if=${_myfile} bs=4000000 | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
 							;;
 						*)
-							/usr/bin/nice -n 20 ${DD_CMD} if=${_myfile} bs=4m | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
+							${NICE_CMD} -n 20 ${DD_CMD} if=${_myfile} bs=4m | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
 							;;
 					esac
 					echo
@@ -403,10 +403,10 @@ start_bhyve()
 					# Linux does not support postfix in bs=, e.g. bs=4m
 					case "${platform}" in
 						Linux)
-							/usr/bin/nice -n 20 ${DD_CMD} if=${_myfile} bs=4000000 | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
+							${NICE_CMD} -n 20 ${DD_CMD} if=${_myfile} bs=4000000 | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
 							;;
 						*)
-							/usr/bin/nice -n 20 ${DD_CMD} if=${_myfile} bs=4m | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
+							${NICE_CMD} -n 20 ${DD_CMD} if=${_myfile} bs=4m | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
 							;;
 					esac
 					echo
@@ -1052,6 +1052,14 @@ EOF
 
 	fwcounter
 	expose mode=apply
+
+	# first-run hack for MYbQT via SSH method.
+	if [ -r ${jailsysdir}/${jname}/mybqt ]; then
+		${RM_CMD} ${jailsysdir}/${jname}/mybqt
+		nodeip-expose mode=create jname=${jname}
+	fi
+
+	return 0
 }
 
 # MAIN for multiple jails

@@ -574,7 +574,7 @@ phase2()
 	arch=$( uname -m )
 	[ "${arch}" = "x86_64" ] && arch="amd64"
 	if [ "${arch}" = "i386" -o "${arch}" = "amd64" ]; then
-		[ ! -f "${distdir}/misc/popcnttest" ] && compile_cc ${distdir}/misc/src/popcnttest.c -o ${distdir}/misc/popcnttest -msse4.2 > /dev/null 2>&1 || /usr/bin/true
+		[ ! -f "${distdir}/misc/popcnttest" ] && compile_cc ${distdir}/misc/src/popcnttest.c -o ${distdir}/misc/popcnttest -msse4.2 > /dev/null 2>&1 || true
 	fi
 	[ ! -f "${distdir}/misc/efivar" ] && compile_cc ${distdir}/misc/src/efivar.c -o ${distdir}/misc/efivar
 	[ ! -f "${distdir}/misc/cbsdtee" ] && compile_cc ${distdir}/misc/src/cbsdtee.c -o ${distdir}/misc/cbsdtee
@@ -1330,6 +1330,7 @@ start()
 		exit 1
 	fi
 
+	[ ! -d "${TMPDIR}" ] && TMPDIR="/tmp"
 
 	${CAT_CMD} << EOF_HEADER
 -------[${product} v.${myversion}]-------

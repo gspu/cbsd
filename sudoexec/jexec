@@ -318,30 +318,30 @@ else
 	if [ -z "${LOGIN_STR}" ]; then
 		if [ "${platform}" = "DragonFly" ]; then
 			# shellcheck disable=2153
-			exec /usr/bin/nice -n ${nice} ${JEXEC_CMD} ${jid} /bin/sh -c "${cmd}"
+			exec ${NICE_CMD} -n ${nice} ${JEXEC_CMD} ${jid} /bin/sh -c "${cmd}"
 			ret=$?
 		elif [ "${ver}" = "empty" ]; then
 			# non-FreeBSD env, (-U) + $user not supported ?
-			exec /usr/bin/nice -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} ${jid} /bin/sh -c "${cmd}"
+			exec ${NICE_CMD} -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} ${jid} /bin/sh -c "${cmd}"
 			ret=$?
 		else
-			exec /usr/bin/nice -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} -U ${user} ${jid} /bin/sh -c "${cmd}"
+			exec ${NICE_CMD} -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} -U ${user} ${jid} /bin/sh -c "${cmd}"
 			ret=$?
 		fi
 	else
 		if [ "${platform}" = "DragonFly" ]; then
-			exec /usr/bin/nice -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} ${jid} ${LOGIN_STR} <<CBSD_EOF
+			exec ${NICE_CMD} -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} ${jid} ${LOGIN_STR} <<CBSD_EOF
 ${cmd}
 CBSD_EOF
 			ret=$?
 		elif [ "${ver}" = "empty" -o "${OSNAME}" != "freebsd" ]; then
 			# non-FreeBSD env, (-U) + $user not supported ?
-			exec /usr/bin/nice -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} ${jid} ${LOGIN_STR} <<CBSD_EOF
+			exec ${NICE_CMD} -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} ${jid} ${LOGIN_STR} <<CBSD_EOF
 ${cmd}
 CBSD_EOF
 			ret=$?
 		else
-			exec /usr/bin/nice -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} -U ${user} ${jid} ${LOGIN_STR} <<CBSD_EOF
+			exec ${NICE_CMD} -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} -U ${user} ${jid} ${LOGIN_STR} <<CBSD_EOF
 ${cmd}
 CBSD_EOF
 			ret=$?

@@ -6,7 +6,7 @@ _CBSD_NC_SUBR=1
 if [ -n "${CBSD_RNODE}" ]; then
 	rnode="${CBSD_RNODE}"
 	unset CBSD_RNODE
-	cmd=$( /usr/bin/basename $0 )
+	cmd=$( ${BASENAME_CMD} $0 )
 	exec /usr/local/bin/cbsd rexe node=${rnode} /usr/local/bin/cbsd ${cmd} $@
 fi
 
@@ -181,7 +181,7 @@ init() {
 	fi
 	IFS="${OIFS}"
 
-	DEBLOG="${tmpdir}/`/usr/bin/basename $0`-log.$$"
+	DEBLOG="${tmpdir}/`${BASENAME_CMD} $0`-log.$$"
 	trap "${RM_CMD} -f ${DEBLOG}" HUP INT ABRT BUS TERM EXIT
 
 	# disable history of execution cbsd command inside cbsd command
@@ -753,7 +753,7 @@ get_help()
 
 	if [ ${_fetch} -eq 1 ]; then
 		f_dialog_info "You have no local documentation. Try to obtain docs from: ${cbsddocsrc}. Please wait..."
-		_res=$( ${SU_CMD} -m nobody -c "${FETCH_CMD} -q -o ${_myhtml} ${cbsddocsrc}/${EXTHELP}.html" 2>&1 )
+		_res=$( ${SUDO_CMD} -u nobody ${FETCH_CMD} -q -o ${_myhtml} ${cbsddocsrc}/${EXTHELP}.html 2>&1 )
 		if [ $? -ne 0 -o ! -f "${_myhtml}" ]; then
 			local msg_ok="It's a pity"
 			f_dialog_msgbox "${_res}"

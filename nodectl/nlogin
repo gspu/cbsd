@@ -66,12 +66,12 @@ if [ -n "${CMD}" ]; then
 	if [ ${tryroot} -eq 1 ]; then
 		${SSH_CMD} ${SSHOP} -C \"${CMD}\"
 	else
-		${SU_CMD} -m ${cbsduser} -c "${SSH_CMD} ${SSHOP} -C \"${CMD}\""
+		${SUDO_CMD} -u ${cbsduser} ${SSH_CMD} ${SSHOP} -C "${CMD}"
 	fi
 else
 	if [ ${tryroot} -eq 1 ]; then
 		${SSH_CMD} ${SSHOP}
 	else
-		${SU_CMD} -m ${cbsduser} -c "${SSH_CMD} ${SSHOP}"
+		${SUDO_CMD} -u ${cbsduser} ${SSH_CMD} ${SSHOP}
 	fi
 fi

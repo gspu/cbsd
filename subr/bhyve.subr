@@ -25,7 +25,7 @@ init_bhyve()
 
 		case "${arch}" in
 			amd64|i386)
-				_res=$( ${SU_CMD} -m cbsd -c ${miscdir}/popcnttest > /dev/null 2>&1 )
+				_res=$( ${SUDO_CMD} -u cbsd ${miscdir}/popcnttest > /dev/null 2>&1 )
 
 				if [ $? -ne 0 ]; then
 					# work-around for Alex (CBSD Telegram) issue: this is not clean check for EPT existance:

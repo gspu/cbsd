@@ -475,6 +475,10 @@ FID="/var/run/jail_${UNDhost_hostname}.id"
 [ -n "${mdsize}" -a "${mdsize}" != "0" -a -n "${MDFILE}" ] && unmountmd md=${MDFILE}
 ${RM_CMD} -f ${ftmpdir}/${jname}.conf
 
+for i in vnc_port vnc_bind ssh_port ssh_host rdp_port rdp_host; do
+	[ -r ${jailsysdir}/${jname}/${i} ] && ${RM_CMD} -f ${jailsysdir}/${jname}/${i}
+done
+
 # CBSD QUEUE
 if [ "${mod_cbsd_queue_enabled}" = "YES" -a -z "${MOD_CBSD_QUEUE_DISABLED}" ]; then
 	[ -n "${cbsd_jail_queue_name}" ] && ${cbsd_queue_backend} cbsd_queue_name=${cbsd_jail_queue_name} id=${jname} cmd=jstop status=2 data_status=0 workdir="${workdir}"

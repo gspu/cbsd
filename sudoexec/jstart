@@ -877,18 +877,18 @@ case "${platform}" in
 		#cat ${ftmpdir}/${jname}.conf
 		${MOUNT_CMD} -t devfs devfs ${path}/dev
 		echo "[debug] ${JAIL_CMD} ${path} ${host_hostname} ${ip4_addr} ${exec_start}"
-		/usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ /usr/bin/nice -n ${nice} ${JAIL_CMD} ${path} ${host_hostname} ${ip4_addr} ${exec_start}
+		/usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} ${path} ${host_hostname} ${ip4_addr} ${exec_start}
 		echo "[debug]: ${ftmpdir}/jstart.${jname}.$$"
 		;;
 	*)
-		cbsdlogger NOTICE ${CBSD_APP}: ${CPUSET} /usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ /usr/bin/nice -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname}
+		cbsdlogger NOTICE ${CBSD_APP}: ${CPUSET} /usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname}
 		#echo "${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname}"
 		case "${quiet}" in
 			0)
-				${CPUSET} /usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ /usr/bin/nice -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname}
+				${CPUSET} /usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname}
 				;;
 			1)
-				${CPUSET} /usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ /usr/bin/nice -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname} > /dev/null
+				${CPUSET} /usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname} > /dev/null
 				;;
 		esac
 esac

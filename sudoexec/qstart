@@ -213,10 +213,10 @@ start_qemu()
 					# Linux does not support postfix in bs=, e.g. bs=4m
 					case "${platform}" in
 						Linux)
-							/usr/bin/nice -n 20 ${DD_CMD} if=${_myfile} bs=4000000 | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
+							${NICE_CMD} -n 20 ${DD_CMD} if=${_myfile} bs=4000000 | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
 							;;
 						*)
-							/usr/bin/nice -n 20 ${DD_CMD} if=${_myfile} bs=4m | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
+							${NICE_CMD} -n 20 ${DD_CMD} if=${_myfile} bs=4m | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
 							;;
 					esac
 					echo
@@ -310,10 +310,10 @@ start_qemu()
 					# Linux does not support postfix in bs=, e.g. bs=4m
 					case "${platform}" in
 						Linux)
-							/usr/bin/nice -n 20 ${DD_CMD} if=${_myfile} bs=4000000 | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
+							${NICE_CMD} -n 20 ${DD_CMD} if=${_myfile} bs=4000000 | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
 							;;
 						*)
-							/usr/bin/nice -n 20 ${DD_CMD} if=${_myfile} bs=4m | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
+							${NICE_CMD} -n 20 ${DD_CMD} if=${_myfile} bs=4m | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
 							;;
 					esac
 					echo
@@ -483,19 +483,16 @@ start_qemu()
 	# UEFI
 	ovmf_firmware=
 
-	if [ -r /usr/share/ovmf/OVMF.fd ]; then
-		ovmf_firmware="/usr/share/ovmf/OVMF.fd"
-	elif [ -r /usr/share/OVMF/OVMF_CODE.fd ]; then
-		ovmf_firmware="/usr/share/OVMF/OVMF_CODE.fd"
-	elif [ -r /usr/share/edk2/x64/OVMF.fd ]; then
-		ovmf_firmware="/usr/share/edk2/x64/OVMF.fd"
-	elif [ -r /usr/share/edk2/x64/OVMF_CODE.fd ]; then
-		ovmf_firmware="/usr/share/edk2/x64/OVMF_CODE.fd"
-	elif [ -r /usr/local/share/edk2-qemu/QEMU_UEFI-x86_64.fd ]; then
-		ovmf_firmware="/usr/local/share/edk2-qemu/QEMU_UEFI-x86_64.fd"
-	elif [ -r /usr/local/share/edk2-qemu/QEMU_UEFI_CODE-x86_64.fd ]; then
-		ovmf_firmware="/usr/local/share/edk2-qemu/QEMU_UEFI_CODE-x86_64.fd"
-	fi
+	local _valid_ovmf_files="OVMF_CODE_4M.fd OVMF.fd OVMF_CODE.fd QEMU_UEFI-x86_64.fd QEMU_UEFI_CODE-x86_64.fd"
+	local _valid_ovmf_path_dir="/usr/share/OVMF /usr/share/ovmf /usr/share/edk2/x64 /usr/share/edk2-qemu/x64 /usr/local/share/edk2-qemu"
+
+	for i in ${_valid_ovmf_files}; do
+		[ -n "${ovmf_firmware}" ] && break
+		for j in ${_valid_ovmf_path_dir}; do
+			[ -n "${ovmf_firmware}" ] && break
+			[ -r "${j}/${i}" ] && ovmf_firmware="${j}/${i}"
+		done
+	done
 
 	if [ -r "${ovmf_firmware}" ]; then
 		# UEFI BOOT

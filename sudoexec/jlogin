@@ -145,9 +145,9 @@ login_internal()
 
 	if [ "${platform}" = "DragonFly" ]; then
 		# shellcheck disable=2153
-		jexec="/usr/bin/nice -n ${nice} ${JEXEC_CMD} ${jid} ${LOGIN_STR}"
+		jexec="${NICE_CMD} -n ${nice} ${JEXEC_CMD} ${jid} ${LOGIN_STR}"
 	else
-		jexec="/usr/bin/nice -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} ${jid} ${LOGIN_STR}"
+		jexec="${NICE_CMD} -n ${nice} ${SETFIB} ${CPUSET} ${JEXEC_CMD} ${jid} ${LOGIN_STR}"
 	fi
 	init_tmux
 

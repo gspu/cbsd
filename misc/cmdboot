@@ -179,7 +179,6 @@ mount \
 mv \
 nc \
 nice \
-pkgconf \
 pax \
 ps \
 ping \
@@ -198,7 +197,7 @@ ssh \
 ssh-keygen \
 stat \
 strings \
-su \
+sudo \
 sync \
 sysctl \
 stty \

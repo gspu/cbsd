@@ -172,10 +172,10 @@ start_xen()
 					# Linux does not support postfix in bs=, e.g. bs=1g
 					case "${platform}" in
 						Linux)
-							/usr/bin/nice -n 20 ${DD_CMD} if=${_myfile} bs=4000000 | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
+							${NICE_CMD} -n 20 ${DD_CMD} if=${_myfile} bs=4000000 | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
 							;;
 						*)
-							/usr/bin/nice -n 20 ${DD_CMD} if=${_myfile} bs=4m | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
+							${NICE_CMD} -n 20 ${DD_CMD} if=${_myfile} bs=4m | ${miscdir}/cbsdtee -e ${_ebytes} > ${data}/dsk1.vhd
 							;;
 					esac
 					echo

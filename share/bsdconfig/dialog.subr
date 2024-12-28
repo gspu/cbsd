@@ -2277,7 +2277,7 @@ f_dialog_init()
 		local displaynum="${DISPLAY#*:}"
 		eval xauth -if \~$SUDO_USER/.Xauthority extract - \
 			\"\$HOSTNAME/unix:\$displaynum\" \
-			\"\$HOSTNAME:\$displaynum\" | ${SUDO_CMD}sudo sh -c 'xauth -ivf \
+			\"\$HOSTNAME:\$displaynum\" | sudo sh -c 'xauth -ivf \
 			~root/.Xauthority merge - > /dev/null 2>&1'
 	fi
 

@@ -212,8 +212,9 @@ else
 	kill -9 ${vm_pid} > /dev/null 2>&1 || true
 fi
 
-[ -r ${jailsysdir}/${jname}/vnc_port ] && ${RM_CMD} -f ${jailsysdir}/${jname}/vnc_port
-[ -r ${jailsysdir}/${jname}/vnc_bind ] && ${RM_CMD} -f ${jailsysdir}/${jname}/vnc_bind
+for i in vnc_port vnc_bind ssh_port ssh_host rdp_port rdp_host; do
+	[ -r ${jailsysdir}/${jname}/${i} ] && ${RM_CMD} -f ${jailsysdir}/${jname}/${i}
+done
 
 # extra check for no any cbsd process related to this VM is active
 #epid=$( ${PS_CMD} axopid,ucomm,command -ww | ${GREP_CMD} "${tmpdir}/qemuload.${jname}.lock" | ${GREP_CMD} -v grep | ${AWK_CMD} '{printf $1" "}' )
