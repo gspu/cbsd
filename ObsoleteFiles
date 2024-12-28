@@ -92,6 +92,8 @@ etc/defaults/vm-linux-ubuntuserver-amd64-23.conf
 etc/defaults/vm-other-omnios-2023.conf
 etc/defaults/vm-linux-cloud-CentOS-stream-8-x86_64.conf
 etc/defaults/vm-linux-cloud-Rocky-8-x86_64.conf
+etc/defaults/vm-linux-cloud-Debian-x86-10.conf
+etc/defaults/vm-linux-cloud-Kali-2022-amd64.conf
 "
 
 OLD_DIRS="\
