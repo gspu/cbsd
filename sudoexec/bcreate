@@ -9,7 +9,7 @@ vm_efi iso_site iso_img register_iso_name register_iso_as vm_hostbridge bhyve_fl
 bhyve_rts_keeps_utc bhyve_force_msi_irq bhyve_x2apic_mode bhyve_mptable_gen bhyve_ignore_msr_acc cd_vnc_wait bhyve_vnc_resolution bhyve_vnc_tcp_bind bhyve_vnc_vgaconf nic_driver vnc_password \
 media_auto_eject vm_cpu_topology debug_engine xhci cd_boot_firmware jailed chrooted on_poweroff on_reboot on_crash is_cloud ci_jname ci_fqdn ci_template ci_interface ci_ip4_addr ci_gw4 \
 ci_nameserver_address ci_nameserver_searchci_adjust_inteface_helper ci_user_add ci_user_pw_user ci_user_pw_root ci_user_pubkey ci_user_pubkey2 uuid ci_interface_mtu ci_ip4_addr2 ci_gw42 ci_interface_mtu2 \
-interface2 ci_interface2 nic_flags nic2_flags bhyve_vnc_kbdlayout progress_state_file extra_profile_dir flavor vars_img tpm"
+interface2 ci_interface2 nic_flags nic2_flags bhyve_vnc_kbdlayout progress_state_file extra_profile_dir flavor vars_img tpm app_frontend"
 MYOPTARG="${MYOPTARG} ${BHYVE_ARGS}"
 MYDESC="Create bhyve VM from config file or args"
 ADDHELP="
@@ -120,6 +120,8 @@ CBSDMODULE="bhyve"
 EXTHELP="wf_bcreate"
 
 . ${subrdir}/nc.subr
+
+app_frontend=
 
 nic_flags=
 nic2_flags=
@@ -1172,6 +1174,18 @@ jcleanup jname=${jname}
 
 if [ "${mod_cbsd_queue_enabled}" = "YES" -a -z "${MOD_CBSD_QUEUE_DISABLED}" ]; then
 	[ -n "${cbsd_bhyve_queue_name}" ] && ${cbsd_queue_backend} cbsd_queue_name=${cbsd_bhyve_queue_name} id="${jname}" cmd=bcreate status=2 data_status=0
+fi
+
+# expose
+if [ -n "${app_frontend}" ]; then
+	case "${app_frontend}" in
+		mybqt)
+			${TOUCH_CMD} ${jailsysdir}/${jname}/mybqt
+			;;
+		*)
+			true
+			;;
+	esac
 fi
 
 end_time=$( ${DATE_CMD} +%s )
