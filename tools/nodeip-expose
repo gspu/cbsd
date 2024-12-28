@@ -1,0 +1,116 @@
+#!/usr/local/bin/cbsd
+#v14.2.2
+MYARG="jname mode"
+MYDESC="Operate with nodeip-expose settings"
+CBSDMODULE="sys"
+ADDHELP="
+${H3_COLOR}Description${N0_COLOR}:
+
+${H3_COLOR}General Options${N0_COLOR}:
+
+${H3_COLOR}Examples${N0_COLOR}:
+
+${H3_COLOR}See also${N0_COLOR}:
+
+"
+
+nodeip_expose=
+nodeip_expose_ssh=
+nodeip_expose_vnc=
+nodeip_expose_rdp=
+
+. ${cbsdinit}
+. ${subrdir}/system.subr
+. ${subrdir}/strings.subr
+
+readconf bhyve-default-default.conf
+readconf bhyve.conf
+readconf api.conf
+readconf bhyve-api.conf
+
+create_expose()
+{
+	local _original_vnc_port=
+	local _ssh_expose=0
+	local _vnc_expose=0
+	local _rdp_expose=0
+	local _ssh_port=
+	local _vnc_port=
+	local _rdp_port=
+
+	[ ! -r ${jailsysdir}/${jname}/vnc_port ] && return 0
+	_original_vnc_port=$( ${HEAD_CMD} -n1 ${jailsysdir}/${jname}/vnc_port | ${AWK_CMD} '{printf $1}' )
+
+	### SSH access
+	[ "${nodeip_expose}" = "1" ] && _ssh_expose=1
+	if [ -n "${nodeip_expose_ssh}" ]; then
+		if [ "${nodeip_expose_ssh}" = "1" ]; then
+			_ssh_expose=1
+		else
+			_ssh_expose=0
+		fi
+	fi
+
+	if [ "${_ssh_expose}" = "0" ]; then
+		_ssh_port=22
+	else
+		_ssh_port=$(( _original_vnc_port + 3000 ))
+		cbsdlogger NOTICE "${CBSD_APP}: expose mode=add jname=${jname} in=${_ssh_port} out=22"
+		expose mode=add jname=${jname} in=${_ssh_port} out=22
+		echo "${_ssh_port}" > ${jailsysdir}/${jname}/ssh_port
+		echo "${nodeip}" > ${jailsysdir}/${jname}/ssh_host
+	fi
+
+	### VNC access
+	[ "${nodeip_expose}" = "1" ] && _vnc_expose=1
+	if [ -n "${nodeip_expose_ssh}" ]; then
+		if [ "${nodeip_expose_vnc}" = "1" ]; then
+			_vnc_expose=1
+		else
+			_vnc_expose=0
+		fi
+	fi
+	if [ "${_vnc_expose}" = "0" ]; then
+		_vnc_port=${_original_vnc_port}
+	else
+		_vnc_port=$(( _original_vnc_port + 3001 ))
+		cbsdlogger NOTICE "${CBSD_APP}: expose mode=add jname=${jname} in=${_vnc_port} out=${_original_vnc_port} outaddr=127.0.0.1"
+		expose mode=add jname=${jname} in=${_vnc_port} out=${_original_vnc_port} outaddr=127.0.0.1
+		echo "${_vnc_port}" > ${jailsysdir}/${jname}/vnc_port
+		echo "${nodeip}" > ${jailsysdir}/${jname}/vnc_host
+	fi
+
+	### RDP access, VDI only (check)
+	_rdp_expose=0
+	[ "${nodeip_expose}" = "1" ] && _rdp_expose=1
+	if [ -n "${nodeip_expose_rdp}" ]; then
+		if [ "${nodeip_expose_rdp}" = "1" ]; then
+			_rdp_expose=1
+		else
+			_rdp_expose=0
+		fi
+	fi
+	if [ "${_rdp_expose}" = "0" ]; then
+		_rdp_port=3389
+	else
+		_rdp_port=$(( _original_vnc_port + 3002 ))
+		cbsdlogger NOTICE "${CBSD_APP}: expose mode=add jname=${jname} in=${_rdp_port} out=3389"
+		expose mode=add jname=${jname} in=${_rdp_port} out=3389
+		echo "${_rdp_port}" > ${jailsysdir}/${jname}/rdp_port
+		echo "${nodeip}" > ${jailsysdir}/${jname}/rdp_host
+	fi
+
+	return 0
+}
+
+. ${subrdir}/rcconf.subr
+[ $? -eq 1 ] && err 1 "${N1_COLOR}No such jail: ${N2_COLOR}${jname}${N0_COLOR}"
+
+## MAIN
+case "${mode}" in
+	create)
+		create_expose
+		;;
+esac
+
+exit 0
