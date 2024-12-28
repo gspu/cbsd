@@ -7,7 +7,7 @@ CBSDMODULE="sys"
 ADDHELP="
 ${H3_COLOR}Description${N0_COLOR}:
 
-The script emulates the API response/json output. 
+The script emulates the API response/json output.
 Mostly for CBSD front-end that can work  without an API (standalone).
 
 "
@@ -50,8 +50,13 @@ create_env()
 	ssh_user=
 	ssh_port=
 
-	#[ -z "${ssh_host}" ] && ssh_host="${nodeip}"
-	ssh_host=${ip4_addr%% *}
+	if [ -r "${jailsysdir}/${jname}/ssh_host" ]; then
+		ssh_host=$( ${HEAD_CMD} -n1 "${jailsysdir}/${jname}/ssh_host" | ${AWK_CMD} '{printf $1}' )
+		[ -z "${ssh_host}" ] && ssh_host=${ip4_addr%% *}
+	else
+		ssh_host=${ip4_addr%% *}
+	fi
+
 	[ -n "${ci_user_add}" ] && ssh_user="${ci_user_add}"
 	[ -z "${vm_os_type}" ] && vm_os_type="${emulator}"
 	[ -z "${vm_os_profile}" ] && vm_os_profile="default"
@@ -70,12 +75,26 @@ create_env()
 	primary_ip="${ssh_host}"
 	ip4_addr="${ssh_host}"
 	ossh_port=
-	port="22"
+
+	if [ -r "${jailsysdir}/${jname}/ssh_port" ]; then
+		ssh_port=$( ${HEAD_CMD} -n1 "${jailsysdir}/${jname}/ssh_port" | ${AWK_CMD} '{printf $1}' )
+		[ -z "${ssh_port}" ] && ssh_port="22"
+	else
+		ssh_port="22"
+	fi
 
 	case "${emulator}" in
 		jail)
 			type="container"
 			attach_cmd="/usr/local/bin/sudo /usr/local/bin/cbsd jlogin jname=${jname}"
+			vnc_port=
+			vnc_password=
+			vnc_host=
+			ssh_host=
+			ssh_port=
+			ssh_string=
+			ssh4_string=
+			ssh6_string=
 			;;
 		*)
 			type="vm"
@@ -142,8 +161,8 @@ create_env()
 		imgsize="${convval}"
 	fi
 
-	[ -z "${port4}" ] && port4="${port}"
-	[ -z "${port6}" ] && port6="22"
+	[ -z "${port4}" ] && port4="${ssh_port}"
+	[ -z "${port6}" ] && port6="${ssh_port}"
 	[ -z "${ssh4_host}" ] && ssh4_host="${v4_addr}"
 	[ -z "${ssh6_host}" ] && ssh6_host="${v6_addr}"
 
@@ -151,54 +170,34 @@ create_env()
 		port4="22"
 	fi
 
-	case "${vm_os_type}" in
-		windows)
-			port4=3389
-			port6=3389
-			rdp_host="${ssh_host}"
-			rdp_port="${port}"
-			rdp4_host="${ssh4_host}"
-			rdp6_host="${ssh6_host}"
-			rdp4_port="${port4}"
-			rdp6_port="${port6}"
-			[ -z "${rdp6_port}" ] && rdp6_port="${rdp4_port}"
-			ssh_user=
-			ssh_host=
-			ssh4_host=
-			ssh6_host=
-			ssh_port=
-			ssh4_port=
-			ssh6_port=
-			rdp_user="Admin"
-			rdp_password="cix2022"
-			;;
-		*)
-			rdp_user=
-			rdp_password=
-			rdp_host=
-			rdp_port=
-			;;
-	esac
-
-	if [ "${image}" = "ubuntu22_vdi" ]; then
+	if [ "${cbsd_vdi_image}" = "1" ]; then
 		port4=3389
 		port6=3389
-		rdp_host="${ssh_host}"
-		rdp_port="${port}"
+		rdp_user="${cbsd_vdi_user}"
+		rdp_password="${cbsd_vdi_password}"
+		rdp_host="${ssh4_host}"
 		rdp4_host="${ssh4_host}"
 		rdp6_host="${ssh6_host}"
+		rdp_port="${port4}"
 		rdp4_port="${port4}"
 		rdp6_port="${port6}"
 		[ -z "${rdp6_port}" ] && rdp6_port="${rdp4_port}"
 		ssh_user=
 		ssh_host=
+		ssh_port=
 		ssh4_host=
 		ssh6_host=
-		ssh_port=
 		ssh4_port=
 		ssh6_port=
-		rdp_user="user"
-		rdp_password="password"
+	else
+		rdp_user=
+		rdp_password=
+		rdp_host=
+		rdp_port=
+		rdp4_host=
+		rdp6_host=
+		rdp4_port=
+		rdp6_port=
 	fi
 
 	# jail rctl?
@@ -247,11 +246,6 @@ ${CAT_CMD} >> ${json_tmp} <<EOF
   "ssh6_host": "${ssh6_host}",
 EOF
 fi
-if [ -n "${ssh_port}" ]; then
-${CAT_CMD} >> ${json_tmp} <<EOF
-  "ssh_port": ${ssh_port},
-EOF
-fi
 if [ -n "${ssh4_port}" ]; then
 ${CAT_CMD} >> ${json_tmp} <<EOF
   "ssh4_port": ${ssh4_port},
@@ -287,6 +281,11 @@ ${CAT_CMD} >> ${json_tmp} <<EOF
   "rdp4_port": ${rdp4_port},
 EOF
 fi
+if [ -n "${rdp_port}" ]; then
+${CAT_CMD} >> ${json_tmp} <<EOF
+  "rdp_port": ${rdp_port},
+EOF
+fi
 if [ -n "${rdp6_host}" ]; then
 ${CAT_CMD} >> ${json_tmp} <<EOF
   "rdp6_host": "${rdp6_host}",
@@ -297,53 +296,35 @@ ${CAT_CMD} >> ${json_tmp} <<EOF
   "rdp6_port": ${rdp6_port},
 EOF
 fi
-if [ -n "${rdp_port}" ]; then
-${CAT_CMD} >> ${json_tmp} <<EOF
-  "rdp_port": ${rdp_port},
-EOF
-fi
 
-## VNC REDIR
-${CAT_CMD} >> ${json_tmp} <<EOF
-  "vnc_port": ${vnc_redir},
-  "vnc_password": "cbsd",
-  "vnc_host": "${vnc_bind}",
-EOF
-
-	case "${vm_os_type}" in
-		windows)
+	case "${cbsd_vdi_image}" in
+		1)
 			${CAT_CMD} >> ${json_tmp} <<EOF
-  "rdp_string": "xfreerdp +clipboard +fonts /rfx /size:1920x1200 /u:Admin /p:cix2022 /v:${rdp_host}:${rdp_port}",
-  "rdp4_string": "xfreerdp +clipboard +fonts /rfx /size:1920x1200 /u:Admin /p:cix2022 /v:${rdp4_host}:${port4}",
-  "rdp6_string": "xfreerdp +clipboard +fonts /rfx /size:1920x1200 /u:Admin /p:cix2022 /v:[${rdp6_host}]:${port6}"
+  "rdp_string": "xfreerdp +clipboard +fonts /rfx /size:1920x1200 /u:${rdp_user} /p:${rdp_password} /v:${rdp_host}:${rdp_port}",
+  "rdp4_string": "xfreerdp +clipboard +fonts /rfx /size:1920x1200 /u:${rdp_user} /p:${rdp_password} /v:${rdp4_host}:${rdp4_port}",
+  "rdp6_string": "xfreerdp +clipboard +fonts /rfx /size:1920x1200 /u:${rdp_user} /p:${rdp_password} /v:[${rdp6_host}]:${rdp6_port}"
 }
 EOF
 			;;
 		*)
-
-			if [ "${image}" = "ubuntu22_vdi" ]; then
-			${CAT_CMD} >> ${json_tmp} <<EOF
-  "rdp_string": "xfreerdp +clipboard +fonts /rfx /size:1920x1200 /u:user /p:password /v:${rdp_host}:${rdp_port}",
-  "rdp4_string": "xfreerdp +clipboard +fonts /rfx /size:1920x1200 /u:user /p:password /v:${rdp4_host}:${port4}",
-  "rdp6_string": "xfreerdp +clipboard +fonts /rfx /size:1920x1200 /u:user /p:password /v:[${rdp6_host}]:${port6}"
-}
-EOF
-			else
-			${CAT_CMD} >> ${json_tmp} <<EOF
-  "ssh_port": ${port},
-  "ssh_string": "ssh ${ssh_user}@${ssh_host} -p${port}",
+			if [ -n "${ssh_port}" -a -n "${ssh_host}" ]; then
+${CAT_CMD} >> ${json_tmp} <<EOF
+  "ssh_port": ${ssh_port},
+  "ssh_string": "ssh ${ssh_user}@${ssh_host} -p${ssh_port}",
   "ssh4_string": "ssh ${ssh_user}@${ssh4_host} -p${port4}",
-  "ssh6_string": "ssh ${ssh_user}@${ssh6_host} -p${port6}"
+  "ssh6_string": "ssh ${ssh_user}@${ssh6_host} -p${port6}",
+EOF
+			fi
+			${CAT_CMD} >> ${json_tmp} <<EOF
+  "vnc_port": ${vnc_redir},
+  "vnc_password": "cbsd",
+  "vnc_host": "${vnc_bind}"
 }
 EOF
-
-
-fi
 			;;
 	esac
 
-
-        # dup to param-values
+	# dup to param-values
 	${CAT_CMD} > ${conf_tmp} <<EOF
 id="${jname}"
 host_hostname="${host_hostname}"
