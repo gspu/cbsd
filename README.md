@@ -84,6 +84,10 @@ The project is the core for such projects as:
 - [ClonOS](https://clonos.convectix.com);
 - [MyBee](https://myb.convectix.com);
 
+We also support online services:
+
+- [CBSD Mirrors](https://github.com/cbsd/mirrors);
+
 ## Support
 
 * For CBSD-related support, discussion and talks, please join to Telegram CBSD usergroup channel ( @cbsdofficial ): https://t.me/cbsdofficial
