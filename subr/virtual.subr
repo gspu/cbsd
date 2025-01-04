@@ -35,11 +35,11 @@ check_iso_sha256sum()
 			_sha256sum_passed=1
 		else
 			${ECHO} "${N1_COLOR}Invalid CRC: ${N2_COLOR}${_sha256sum_new}${N0_COLOR}"
-			${ECHO} "${N1_COLOR}See more details about CRC: ${N2_COLOR}https://www.bsdstore.ru/en/cbsd_fetch.html${N0_COLOR}"
+			${ECHO} "${N1_COLOR}See more details about CRC: ${N2_COLOR}https://github.com/cbsd/cbsd-vmprofiles${N0_COLOR}"
 			_sha256sum_passed=0
 		fi
 	else
-		[ ${quiet} -ne 1 ] && ${ECHO} "${W1_COLOR}Check CRC sum skipped due to settings. ${N1_COLOR}See more: ${N2_COLOR}https://www.bsdstore.ru/en/cbsd_fetch.html${N0_COLOR}"
+		[ ${quiet} -ne 1 ] && ${ECHO} "${W1_COLOR}Check CRC sum skipped due to settings. ${N1_COLOR}See more: ${N2_COLOR}https://github.com/cbsd/cbsd-vmprofiles${N0_COLOR}"
 		_sha256sum_passed=1
 	fi
 
@@ -268,7 +268,6 @@ init_iso()
 				[ -s "${_myfile}" ] && continue # skip all other mirror when file exist
 				jswmode jname=${jname} mode=maintenance comment='Fetching_ISO'
 
-
 				if [ -n "${progress_state_file}" ]; then
 					fetchme -o ${outfile} -u ${i}${iso_img_dist} -p ${progress_state_file}
 				else
@@ -285,6 +284,7 @@ init_iso()
 			if [ ${sha256sum_passed} -ne 1 ]; then
 				${ECHO} "${N1_COLOR}SHA256 sum wrong. Please update profiles or use ${N2_COLOR}CBSD_ISO_SKIP_CHECKSUM=yes${N1_COLOR} variable"
 				${ECHO} "via env(1) or ${emulator}-default-default.conf config file to disable sha256sum validating${N0_COLOR}"
+				${ECHO} "Info: https://github.com/cbsd/cbsd-vmprofiles"
 			fi
 		fi
 

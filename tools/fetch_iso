@@ -67,7 +67,7 @@ ${H3_COLOR}See also${N0_COLOR}:
  # cbsd media --help
 
  cat ~cbsd/etc/defaults/fetch_iso.conf - config file, use ~cbsd/etc/fetch_iso.conf to overwrite.
- url: https://www.bsdstore.ru/en/cbsd_fetch.html
+ url: https://github.com/cbsd/cbsd-vmprofiles
 
 "
 
