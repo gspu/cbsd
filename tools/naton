@@ -109,6 +109,7 @@ case "${nat_enable}" in
 
 		[ ! -r ${workdir}/etc/pfnat.conf ] && ${TOUCH_CMD} ${workdir}/etc/pfnat.conf
 		[ ! -r ${workdir}/etc/pfrdr.conf ] && ${TOUCH_CMD} ${workdir}/etc/pfrdr.conf
+		[ ! -r ${workdir}/etc/pfcustomflt.conf ] && ${TOUCH_CMD} ${workdir}/etc/pfcustomflt.conf
 
 		readconf cbsd-pf.conf
 		if fn_exists cbsd_external_naton 2>/dev/null; then
