@@ -192,6 +192,11 @@ service cbsd-mq-api start
 
 Your first standalone private API cluster of VM is ready to serve you!
 
+## GUI
+
+There is a cross-platform graphical client for the CBSD API: [Mybee-QT](https://github.com/myb-project/mybee-qt). 
+MyBee-QT application has its own documentation, so we won't cover it here. Just keep this possibility in mind.
+
 ## create jail with curl
 
 Let's create a simple minimal payload to create a container, for example, a jail1.json file:
