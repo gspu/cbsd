@@ -68,6 +68,67 @@ if [ -z "${NOCOLOR}" ]; then
 
 	W1_COLOR="${LRED}"			# warning CBSD color 1
 	W2_COLOR="${RED}"			# warning CBSD color 2
+else
+	BOLD=
+	DBOLD=
+	NBOLD=
+	UNDERLINE=
+	NUNDERLINE=
+	BLINK=
+	NBLINK=
+	INVERSE=
+	NINVERSE=
+	BREAK=
+	NORMAL=
+
+	BLACK=
+	RED=
+	GREEN=
+	YELLOW=
+	BLUE=
+	MAGENTA=
+	CYAN=
+	GRAY=
+
+	#bold
+	DEF=
+	DGRAY=
+	LRED=
+	LGREEN=
+	LYELLOW=
+	LBLUE=
+	LMAGENTA=
+	LCYAN=
+	WHITE=
+
+	#bgcolor
+	BGBLACK=
+	BGRED=
+	BGGREEN=
+	BGBROWN=
+	BGBLUE=
+	BGMAGENTA=
+	BGCYAN=
+	BGGRAY=
+	BGDEF=
+
+	#control
+	CLRLINE=
+	CURSORRST=
+
+	N0_COLOR=
+	N1_COLOR=
+	N2_COLOR=
+	N4_COLOR=
+
+	H1_COLOR=
+	H2_COLOR=
+	H3_COLOR=
+	H4_COLOR=
+	H5_COLOR=
+
+	W1_COLOR=
+	W2_COLOR=
 fi
 
 ###
