@@ -279,7 +279,7 @@ sysinv_get_info_nics()
 
 	case "${platform}" in
 		Linux)
-			for i in $( ls /sys/class/net ); do
+			for i in $( ${LS_CMD} /sys/class/net ); do
 				if [ -n "${nics}" ]; then
 					nic=s"${nics} ${i}"
 				else
@@ -288,7 +288,7 @@ sysinv_get_info_nics()
 			done
 		;;
 		*)
-			for i in $(${IFCONFIG_CMD} -l); do
+			for i in $( ${IFCONFIG_CMD} -l ); do
 				case "${i%%[0-9]*}" in
 					ipfw|ppp|sl|lp|faith|fwe|fwip|plip|pfsync|pflog|tun|vboxnet|lo)
 						continue
