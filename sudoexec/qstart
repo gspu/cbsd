@@ -502,6 +502,10 @@ start_qemu()
 		uefi_args=
 	fi
 
+	if [ ${quiet} -ne 1 ]; then
+		[ -z "${uefi_args}" ] && ${ECHO} "${N1_COLOR}UEFI firmware not found (edk2-qemu-x64 package): UEFI boot disabled${N0_COLOR}"
+	fi
+
 	# todo: shared qemu/qemu virtual
 	# cloud-init enabled?
 	# this section should be AFTER master_prestart

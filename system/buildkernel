@@ -19,16 +19,16 @@ ${H3_COLOR}Options${N0_COLOR}:
  ${N2_COLOR}name=${N0_COLOR}         - name of the kernel, default: 'GENERIC';
  ${N2_COLOR}nice=${N0_COLOR}         - num: overwrite default nice: '19';
  ${N2_COLOR}target_arch=${N0_COLOR}  - <name>, build non-native target arch;
- ${N2_COLOR}ver=${N0_COLOR}          - set version: '13.0', '13.1';
+ ${N2_COLOR}ver=${N0_COLOR}          - set version: '14.1', '14.2';
                    when version without minor version: e.g:
-                  '13' or '12' - you will receive RELENG (stable=1), not release.
+                  '14' or '15' - you will receive RELENG (stable=1), not release.
 
 ${H3_COLOR}Examples${N0_COLOR}:
 
  # cbsd buildkernel
  # cbsd buildkernel destdir=/tmp/testkernel name=CBSD
- # cbsd buildkernel ver=13.0 arch=arm64 target_arch=aarch64
- # cbsd buildkernel ver=13.0 arch=riscv target_arch=riscv64
+ # cbsd buildkernel ver=14.1 arch=arm64 target_arch=aarch64
+ # cbsd buildkernel ver=15.0 arch=riscv target_arch=riscv64
 
 ${H3_COLOR}See also${N0_COLOR}:
 

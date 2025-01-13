@@ -36,11 +36,13 @@ init_srcdir
 idx=$( get_srcidx -p ${platform} -s ${stable} -v ${ver} )
 
 if [ -n "${idx}" ]; then
-	cbsdsqlrw local "UPDATE bsdsrc SET date=datetime('now','localtime'),source=\"${source}\" WHERE idx=\"${idx}\""
-	dt="$( cbsdsqlro local SELECT date FROM bsdsrc WHERE idx=\"${idx}\" )"
+	cbsdsqlrw local "UPDATE bsdsrc SET date=datetime('now','localtime'),source='${source}' WHERE idx='${idx}'"
+	dt=$( cbsdsqlro local "SELECT date FROM bsdsrc WHERE idx='${idx}'" )
 	date=$( ${DATE_CMD} -j -f "%Y-%m-%d %H:%M:%S" "${dt}" "+%s" )
 	${ECHO} "${N1_COLOR}sources updated: ${N2_COLOR}${srcdir}/src_${ver}${N0_COLOR}"
 else
-	cbsdsqlrw local "INSERT INTO bsdsrc ( platform,ver,rev,source ) VALUES ( \"${platform}\", \"ver\", \"${rev}\", \"${source}\" )"
+	cbsdsqlrw local "INSERT INTO bsdsrc ( platform,ver,rev,source ) VALUES ( '${platform}', 'ver', '${rev}', '${source}' )"
 	${ECHO} "${N1_COLOR}sources registered: ${N2_COLOR}${srcdir}/src_${ver}${N0_COLOR}"
 fi
+
+exit 0

@@ -37,6 +37,7 @@ check_local_ifaces()
 	local _res=
 
 	iptype ${CL_IP}
+
 	case $? in
 		1)
 			case "${platform}" in
