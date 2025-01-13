@@ -34,10 +34,10 @@ jails_stop()
 				env TERM=xterm /usr/local/cbsd/misc/daemonize -E TERM=xterm -p ${stoppid} /usr/local/cbsd/jailctl/jstop jname=${jname}
 				;;
 			xen)
-				env TERM=xterm /usr/local/cbsd/misc/daemonize -E TERM=xterm -p ${stoppid} /usr/local/cbsd/bhyvectl/xstop jname=${jname}
+				env TERM=xterm /usr/local/cbsd/misc/daemonize -E TERM=xterm -p ${stoppid} /usr/local/cbsd/xenctl/xstop jname=${jname}
 				;;
 			qemu)
-				env TERM=xterm /usr/local/cbsd/misc/daemonize -E TERM=xterm -p ${stoppid} /usr/local/cbsd/bhyvectl/qstop jname=${jname}
+				env TERM=xterm /usr/local/cbsd/misc/daemonize -E TERM=xterm -p ${stoppid} /usr/local/cbsd/qemuctl/qstop jname=${jname}
 				;;
 		esac
 		# lets save .pid file
