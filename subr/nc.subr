@@ -22,7 +22,7 @@ get_jid() {
 	[ -z "$jname" -a -z "${path}" ] && return 0
 
 	case "${platform}" in
-		DragonFly|Linux)
+		Linux)
 			true
 			return 0
 			;;
