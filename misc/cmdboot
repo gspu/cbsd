@@ -87,6 +87,7 @@ chflags \
 fetch \
 hammer2 \
 idprio \
+ifconfig \
 jexec \
 jot \
 kenv \
