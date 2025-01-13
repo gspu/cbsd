@@ -177,6 +177,8 @@ prepare_freebsd()
 
 prepare_dragonflybsd()
 {
+	[ -h "${dst}/compat" ] && ${RM_CMD} -f ${dst}/compat
+	[ ! -d "${dst}/compat" ] && ${MKDIR_CMD} -m 0755 "${dst}/compat"
 	[ ! -d "${dst}/usr/dports" ] && ${MKDIR_CMD} -m 0755 "${dst}/usr/dports"
 	[ ! -d "${dst}/usr/obj" ] && ${MKDIR_CMD} -m 0755 "${dst}/usr/obj"
 }
