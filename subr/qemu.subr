@@ -1109,8 +1109,38 @@ compile_machine_args()
 					${NVMMCTL_CMD} identify
 					_ret=$?
 					if [ ${_ret} -ne 0 ]; then
-						${ECHO} "${W1_COLOR}Warning${N1_COLOR}: identify failed: ${N2_COLOR}${NVMMCTL_CMD} identify${N1_COLOR}. Acceleration disabled. It will work slowly${N0_COLOR}"
-						_accel=0
+						readconf nvmm.conf
+						if [ "${nvmm_module_auto_load}" = "1" ]; then
+							${ECHO} "${W1_COLOR}Warning${N1_COLOR}: identify failed: ${N2_COLOR}${NVMMCTL_CMD} identify${N1_COLOR}${N0_COLOR}"
+							${ECHO} "${N2_COLOR}nvmm_module_auto_load${N1_COLOR} options is enabled via nvmm.conf, trying to load the module automatically via: ${N2_COLOR}kldload nvmm...${N0_COLOR}"
+							sync
+							sleep 1
+							${KLDLOAD_CMD} nvmm
+							_ret=$?
+							if [ ${_ret} -ne 1 ]; then
+								${ECHO} "${N1_COLOR}done, re-check..${N0_COLOR}"
+								${NVMMCTL_CMD} identify
+								_ret=$?
+								if [ ${_ret} -ne 0 ]; then
+									${ECHO} "${W1_COLOR}Warning${N1_COLOR}: identify failed: ${N2_COLOR}${NVMMCTL_CMD} identify${N1_COLOR}. Acceleration disabled. It will work slowly${N0_COLOR}"
+									_accel=0
+								else
+									${ECHO} "${N1_COLOR}machine_accel auto: ${N2_COLOR}${NVMMCTL_CMD} found!${N0_COLOR}"
+									_accel=1
+									_accel_auto="nvmm"
+								fi
+							else
+								echo "failed"
+								_accel=0
+							fi
+						else
+							${ECHO} "${N2_COLOR}nvmm_module_auto_load${N1_COLOR} options is disabled via nvmm.conf${N0_COLOR}"
+							${ECHO} "${W1_COLOR}Warning${N1_COLOR}: identify failed: ${N2_COLOR}${NVMMCTL_CMD} identify${N0_COLOR}"
+							${ECHO} "${W1_COLOR}Warning${N1_COLOR}: is nvmm module loaded?: ${N2_COLOR}kldload nvmm${N0_COLOR}"
+							${ECHO} "${W1_COLOR}Warning${N1_COLOR}: If nvmm module exist, please add to /boot/loader.conf: ${N2_COLOR}nvmm_load=YES${N0_COLOR}"
+							${ECHO} "${W1_COLOR}Warning${N1_COLOR}: Acceleration disabled. It will work slowly${N0_COLOR}"
+							_accel=0
+						fi
 					else
 						_accel=1
 						_accel_auto="nvmm"
