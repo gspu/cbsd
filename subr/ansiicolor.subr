@@ -65,6 +65,8 @@ if [ -z "${NOCOLOR}" ]; then
 	H3_COLOR="${LYELLOW}"			# highlight CBSD color 3
 	H4_COLOR="${YELLOW}"			# highlight CBSD color 4
 	H5_COLOR="${LCYAN}"			# highlight CBSD color 5
+	H6_COLOR="${LBLUE}"			# highlight CBSD color 6
+	H7_COLOR="${WHITE}"			# highlight CBSD color 7
 
 	W1_COLOR="${LRED}"			# warning CBSD color 1
 	W2_COLOR="${RED}"			# warning CBSD color 2
@@ -126,6 +128,8 @@ else
 	H3_COLOR=
 	H4_COLOR=
 	H5_COLOR=
+	H6_COLOR=
+	H7_COLOR=
 
 	W1_COLOR=
 	W2_COLOR=
