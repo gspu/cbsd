@@ -133,6 +133,7 @@ done
 
 start_qemu()
 {
+	local _use_ovmf=1
 	local QEMUCFG
 	local xvm_ram _qemu_bin _log
 	local _ebytes _dsk_ebytes _cloud_truncate
@@ -435,18 +436,24 @@ start_qemu()
 	#	unset console_args
 	#fi
 
-	if [ "${spice_default}" != "1" ]; then
-		# init vnc_args
-		if ! compile_vnc_args ; then
-			unset vnc_args
+	echo "XXX: ${nographic}"
+
+	if [ "${nographic}" != "1" ]; then
+		if [ "${spice_default}" != "1" ]; then
+			# init vnc_args
+			if ! compile_vnc_args ; then
+				unset vnc_args
+			fi
+		else
+			# init vnc_args
+			if ! compile_spice_args ; then
+				unset vnc_spice
+			fi
 		fi
 	else
-		# init vnc_args
-		if ! compile_spice_args ; then
-			unset vnc_spice
-		fi
+		unset vnc_args vnc_spice
+		vga_args="-nographic"
 	fi
-
 	xvm_ram=$(( vm_ram / 1024 / 1024  ))
 
 	# Poehali!
@@ -483,21 +490,39 @@ start_qemu()
 	# UEFI
 	ovmf_firmware=
 
-	local _valid_ovmf_files="OVMF_CODE_4M.fd OVMF.fd OVMF_CODE.fd QEMU_UEFI-x86_64.fd QEMU_UEFI_CODE-x86_64.fd"
-	local _valid_ovmf_path_dir="/usr/share/OVMF /usr/share/ovmf /usr/share/edk2/x64 /usr/share/edk2-qemu/x64 /usr/local/share/edk2-qemu"
+	case "${vm_arch}" in
+		aarch64)
+			local _valid_ovmf_files="FVP_AARCH64_EFI.fd QEMU_EFI.fd"
+			local _valid_ovmf_path_dir="/usr/local/share/edk2-fvp /usr/share/edk2-fvp /usr/share/qemu-efi-aarch64 /usr/local/share/qemu-efi-aarch64 ${cbsd_workdir}/share/qemu-efi-aarch64"
+			_use_ovmf=1
+			;;
+		riscv64)
+			_use_ovmf=0
+			;;
+		*)
+			local _valid_ovmf_files="OVMF_CODE_4M.fd OVMF.fd OVMF_CODE.fd QEMU_UEFI-x86_64.fd QEMU_UEFI_CODE-x86_64.fd"
+			local _valid_ovmf_path_dir="/usr/share/OVMF /usr/share/ovmf /usr/share/edk2/x64 /usr/share/edk2-qemu/x64 /usr/local/share/edk2-qemu ${cbsd_workdir}/share/qemu-efi-x64"
+			_use_ovmf=1
+			;;
+	esac
 
-	for i in ${_valid_ovmf_files}; do
-		[ -n "${ovmf_firmware}" ] && break
-		for j in ${_valid_ovmf_path_dir}; do
+	if [ ${_use_ovmf} -eq 1 ]; then
+
+		for i in ${_valid_ovmf_files}; do
 			[ -n "${ovmf_firmware}" ] && break
-			[ -r "${j}/${i}" ] && ovmf_firmware="${j}/${i}"
+			for j in ${_valid_ovmf_path_dir}; do
+				[ -n "${ovmf_firmware}" ] && break
+				[ -r "${j}/${i}" ] && ovmf_firmware="${j}/${i}"
+			done
 		done
-	done
 
-	if [ -r "${ovmf_firmware}" ]; then
-		# UEFI BOOT
-		uefi_args="-drive if=pflash,format=raw,unit=0,readonly=on,file=${ovmf_firmware}"
-		uefi_args="${uefi_args} -drive if=pflash,format=raw,unit=1,file=${jailsysdir}/${jname}/BHYVE_UEFI_VARS.fd"
+		if [ -r "${ovmf_firmware}" ]; then
+			# UEFI BOOT
+			uefi_args="-drive if=pflash,format=raw,unit=0,readonly=on,file=${ovmf_firmware}"
+			uefi_args="${uefi_args} -drive if=pflash,format=raw,unit=1,file=${jailsysdir}/${jname}/BHYVE_UEFI_VARS.fd"
+		else
+			uefi_args=
+		fi
 	else
 		uefi_args=
 	fi
