@@ -69,8 +69,8 @@ for i in $*; do
 	fi
 done
 
-# empty params. return all
-[ -z "${ARGS}" -a -z "${UNKNOWN_ARGS}" ] && ARGS=${ALL_ARGS}
+# empty known params and found unknown (+ third option in mind: custom_facts): so return all
+[ -z "${ARGS}" -a -z "${UNKNOWN_ARGS}" ] && ARGS="${ALL_ARGS}"
 
 for OID in ${ARGS}; do
 	case "${OID}" in

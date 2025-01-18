@@ -35,6 +35,8 @@ ${H3_COLOR}See also${N0_COLOR}:
   cbsd jset --help
   cbsd jconfig --help
   cbsd jrctl --help
+  https://github.com/cbsd/cbsd/blob/develop/share/docs/general/tag_n_facts.md
+
 "
 
 cloud_api=0
@@ -142,8 +144,8 @@ for i in $*; do
 	fi
 done
 
-# empty known params and found unknown: so return all
-[ -z "${ARGS}" ] && ARGS="${ALL_ARGS}"
+# empty known params and found unknown (+ third option in mind: custom_facts): so return all
+[ -z "${ARGS}" -a -z "${UNKNOWN_ARGS}" ] && ARGS="${ALL_ARGS}"
 
 [ ${baserw} -eq 1 ] && path="${data}"
 

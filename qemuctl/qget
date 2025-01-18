@@ -2,6 +2,29 @@
 #v12.1.5
 CBSDMODULE="qemu"
 MYARG="jname"
+ADDHELP="
+${H3_COLOR}Description${N0_COLOR}:
+
+Retrieve QEMU VM parameters value. If no arguments are specified,
+all parameters will be displayed.
+
+${H3_COLOR}Options${N0_COLOR}:
+
+ ${N2_COLOR}mode=${N0_COLOR}    - when set to 'quiet' - return value only.
+ ${N2_COLOR}<params>${N0_COLOR}  - return value for <params>.
+
+${H3_COLOR}Examples${N0_COLOR}:
+
+ # cbsd qget jname=vm1
+ # cbsd qget jname=vm1 mode=quiet vm_cpus vm_ram vm_os_profile
+
+${H3_COLOR}See also${N0_COLOR}:
+
+  cbsd qset --help
+  cbsd qconfig --help
+  https://github.com/cbsd/cbsd/blob/develop/share/docs/general/tag_n_facts.md
+
+"
 
 jname=
 ojname=
@@ -154,8 +177,8 @@ for i in $*; do
 	fi
 done
 
-# empty known params and found unknown: so return all
-[ -z "${ARGS}" ] && ARGS="${ALL_ARGS}"
+# empty known params and found unknown (+ third option in mind: custom_facts): so return all
+[ -z "${ARGS}" -a -z "${UNKNOWN_ARGS}" ] && ARGS="${ALL_ARGS}"
 
 for OID in ${ARGS}; do
 	case "${OID}" in
