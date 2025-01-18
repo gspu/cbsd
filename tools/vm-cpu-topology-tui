@@ -20,7 +20,6 @@ dialog_menu_main()
 	local sqldelimer=" "
 
 	local mark
-
 	local menu_list=$( cbsdsqlro local "SELECT name,sockets,cores,threads FROM vm_cpu_topology" | while read name sockets cores threads; do
 		eval mark=\$topology_selected_${name}
 		if [ "${mark}" = "1" ]; then
@@ -30,6 +29,7 @@ dialog_menu_main()
 		fi
 		echo "'${name}'	'[${mark}] Sockets=${sockets},Cores=${cores},Threads=${threads}'	'description'"
 	done ) || err 1 "${N1_COLOR}Error while create topology map${N0_COLOR}"
+
 
 	[ -z "${menu_list}" ] && menu_list="''	'no data'	''"
 
@@ -42,6 +42,9 @@ dialog_menu_main()
 		$menu_list
 
 	height=$(( height + 1 ))
+
+	# when empty form
+	[ $width -lt 42 ] && width=42
 
 	# Obtain default-item from previously stored selection
 	f_dialog_default_fetch defaultitem
@@ -183,7 +186,7 @@ get_construct_vm_cpu_topology_name()
 		validate_jname "${_input}"
 		case $? in
 			0)
-				_res=$( cbsdsqlro local "SELECT id FROM vm_cpu_topology WHERE name=\"${_input}\" LIMIT 1" )
+				_res=$( cbsdsqlro local "SELECT id FROM vm_cpu_topology WHERE name='${_input}' LIMIT 1" )
 				if [ -n "${_res}" ]; then
 					_message="ERROR: topology ${_input} already exist"
 				else
