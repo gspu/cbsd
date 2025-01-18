@@ -38,6 +38,12 @@ ${H3_COLOR}Examples${N0_COLOR}:
   # cbsd bls vm1
   # cbsd bls display=jname,vm_os_profile,vm_ram,vnc header=0
 
+${H3_COLOR}See also${N0_COLOR}:
+
+ cbsd bget --help
+ cat ~cbsd/etc/defaults/bls.conf
+ https://github.com/cbsd/cbsd/blob/develop/share/docs/general/tag_n_facts.md
+
 "
 EXTHELP="wf_bls"
 

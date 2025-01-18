@@ -47,6 +47,7 @@ ${H3_COLOR}See also${N0_COLOR}:
  cbsd jget --help
  cbsd jrctl --help
  cat ~cbsd/etc/defaults/jls.conf
+ https://github.com/cbsd/cbsd/blob/develop/share/docs/general/tag_n_facts.md
 
 "
 EXTHELP="wf_jls"

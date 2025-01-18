@@ -19,8 +19,16 @@ QEMU/KVM/NVMM support matrix:
 | NetBSD       | Y              | Y              |       N       |
 | Linux        | Y              | N              |       Y       |
 
+<details>
+  <summary>Linux notes</summary>
+
 ## CBSD + QEMU + Linux
 
+</details>
+
+
+<details>
+  <summary>FreeBSD notes</summary>
 
 ## CBSD + QEMU + FreeBSD
 
@@ -62,6 +70,11 @@ cbsd qcreate jname=vm2 vm_os_type=freebsd vm_os_profile=FreeBSD-aarch64-14.2 vm_
 cbsd up
 ```
 
+</details>
+
+<details>
+  <summary>DragonflyBSD notes</summary>
+
 ## CBSD + QEMU + DragonflyBSD
 
 **CBSD** version 13.0.18 added support for [QEMU](http://wiki.qemu.org/Main_Page) and [NVMM](https://blog.netbsd.org/tnf/entry/from_zero_to_nvmm) accelerator. Similar to the commands for jail, bhyve and XEN, you can create and manage QEMU-based virtual machines through similar commands and dialog forms, while the commands are prefixed with 'q': qstart, qdestroy ..
@@ -72,21 +85,18 @@ When using NVMM, make sure the module is loaded:
 
 ```
 	kldload nvmm
-	
 ```
 
 Don't forget to add nvmm into auto-load via /boot/loader.conf:
 
 ```
 	nvmm_load="YES"
-	
 ```
 
 You can check the status of NVMM through the command:
 
 ```
 	nvmmctl identify
-	
 ```
 
 If the module is missing or does not work correctly, you can create VMs, but they will work without acceleration.
@@ -97,10 +107,11 @@ You need to install QEMU package named 'qemu' (or 'qemu-devel' in some cases):
 
 ```
 	pkg install qemu
-	
 ```
 
 Detailed description of working with NVMM/QEMU on the: [DragonflyBSD project page](https://www.dragonflybsd.org/docs/docs/howtos/nvmm/), [NetBSD project guide](https://www.netbsd.org/docs/guide/en/chap-virt.html)
+
+</details>
 
 When working with emulation of non-native architectures, you may need firmware and bios to boot systems:
 
@@ -127,7 +138,6 @@ You can work with QEMU-based virtual machines through the usual CBSD methods: TU
 	cbsd qcreate --help
 	cbsd qstart --help
 	cbsd qdestroy --help
-	
 ```
 
 ## [Demo of working with QEMU via CBSD]()

@@ -14,6 +14,7 @@ Exploring the CBSD virtual environment management framework](https://eerielinux.
 - [Working with CBSDfile](general/cbsdfile.md) ( up, destroy, login, exec )
 - [Broker driven CBSD cluster (example)](general/)
 - [CBSD integration with PHPIPAM (IP management)](general/wf_ipam.md)
+- [Tags and custom facts](general/tag_n_facts.md) ( jget/bget/xget/jls/bls/bget.. )
 - [API module: private cloud via API](general/cbsd_api.md)
 - [CBSD and OCI containers](general/cbsd_oci.md)
 - [About fetch work: CBSD mirrors](https://github.com/cbsd/mirrors)

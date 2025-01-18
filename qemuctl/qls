@@ -36,6 +36,12 @@ ${H3_COLOR}Examples${N0_COLOR}:
 
   # cbsd qls display=jname,vm_os_profile,vm_ram,vnc header=0
 
+${H3_COLOR}See also${N0_COLOR}:
+
+ cbsd qget --help
+ cat ~cbsd/etc/defaults/qls.conf
+ https://github.com/cbsd/cbsd/blob/develop/share/docs/general/tag_n_facts.md
+
 "
 
 EXTHELP="wf_qls"
