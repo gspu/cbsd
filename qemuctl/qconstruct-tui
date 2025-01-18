@@ -396,9 +396,9 @@ while [ 1 ]; do
 			;;
 		"GO")
 			# store last choices
-			/usr/local/cbsd/misc/cbsdsysrc -qf ${tmpdir}/qconstruct.conf last_vm_os_type="${vm_os_type}" > /dev/null 2>&1
-			/usr/local/cbsd/misc/cbsdsysrc -qf ${tmpdir}/qconstruct.conf last_vm_os_profile="${vm_os_profile}" > /dev/null 2>&1
-			/usr/local/cbsd/misc/cbsdsysrc -qf ${tmpdir}/qconstruct.conf last_vm_os_arch="${arch}" > /dev/null 2>&1
+			/usr/local/cbsd/misc/cbsdsysrc -qf ${tmpdir}/qconstruct.conf last_vm_os_type="${vm_os_type}" \
+				last_vm_os_profile="${vm_os_profile}" \
+				last_vm_os_arch="${arch}" > /dev/null 2>&1
 			gen_newjail_conf
 			;;
 		"-")

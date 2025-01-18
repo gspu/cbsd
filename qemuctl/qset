@@ -111,8 +111,8 @@ update_jails()
 			cbsdsqlrw ${jailsysdir}/${jname}/local.sqlite UPDATE settings SET ${i}=\"${VAL}\"
 			# back compatible
 			case "${i}" in
-				vm_cpus|vm_ram)
-					cbsdsqlrw local UPDATE qemu SET ${i}=\"${VAL}\" WHERE jname=\"${jname}\"
+				vm_cpus|vm_ram|nographic)
+					cbsdsqlrw local "UPDATE qemu SET ${i}='${VAL}' WHERE jname='${jname}'"
 					;;
 			esac
 			;;

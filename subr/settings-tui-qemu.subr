@@ -362,7 +362,7 @@ get_construct_qemu_options_menu()
 	local defaultitem=
 	local menu_choice=
 #	local _checkbox="qemu_hap qemu_nestedhvm"
-	local _checkbox="usb xhci tablet"
+	local _checkbox="usb xhci tablet nographic"
 
 	f_dialog_default_fetch defaultitem
 
@@ -405,6 +405,8 @@ get_construct_qemu_options_menu()
 	menu_list="${menu_list} '${item_let} bios'			'[${bios}]'			'-bios params: path to bios file'"
 	inc_menu_index item_let
 	menu_list="${menu_list} '${item_let} kernel'			'[${kernel}]'			'-kernel params: path to kernel file'"
+	inc_menu_index item_let
+	menu_list="${menu_list} '${item_let} nographic'			'[${nographic_mark}]'		'-nographic params: qemu -nographic'"
 
 	menu_list="${menu_list} 'Save'	'Save changes and quit'	'Save!'"
 
@@ -437,7 +439,7 @@ get_construct_qemu_options()
 		"Save")
 			break
 			;;
-		usb|xhci|tablet)
+		usb|xhci|tablet|nographic)
 			invert_checkbox ${mychoice}
 			continue
 			;;

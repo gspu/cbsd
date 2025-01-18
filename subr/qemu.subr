@@ -1019,8 +1019,17 @@ compile_cpu_args()
 
 	# todo: auto
 	if [ "${cpu}" = "auto" ]; then
-		true
-		# ???
+
+		# !! check for native arch before auto
+		case "${vm_arch}" in
+			aarch64)
+				cpu_args="-cpu cortex-a57"
+				;;
+			*)
+				true
+				;;
+		esac
+
 	else
 		cpu_args="-cpu ${cpu}"
 	fi
@@ -1033,6 +1042,11 @@ compile_vga_args()
 	vga_args=
 
 	[ -z "${vga}" ] && return 0
+
+	if [ "${nographic}" = "1" ]; then
+		vga_args="-nographic"
+		return 0
+	fi
 	if [ "${vga}" = "0" ]; then
 		vga_args="-nographic"
 		return 0

@@ -1,0 +1,28 @@
+#!/bin/sh
+#v13.0.23
+# Update qemu tables for nographic
+: ${distdir="/usr/local/cbsd"}
+[ ! -r "${distdir}/subr/cbsdbootstrap.subr" ] && exit 1
+. ${distdir}/subr/cbsdbootstrap.subr || exit 1
+test_sql_stuff
+
+[ ! -h "${dbdir}/local.sqlite" ] && exit
+
+_test=$( ${miscdir}/sqlcli ${mydb} "SELECT name FROM sqlite_master WHERE type='table' AND name='nographic'" )
+if [ -z "${_test}" ]; then
+	${ECHO} "  * ${MAGENTA}Update qemu tables: nographic"
+	${miscdir}/sqlcli ${dbdir}/local.sqlite "ALTER TABLE qemu ADD COLUMN nographic TEXT DEFAULT '0'"
+fi
+
+vms=$( ${miscdir}/sqlcli ${dbdir}/local.sqlite "SELECT jname FROM jails WHERE emulator = 'qemu'" )
+
+for i in ${vms}; do
+	mydb="${jailsysdir}/${i}/local.sqlite"
+	[ ! -r "${mydb}" ] && continue
+	# alter nographic if not exist
+	unset _test
+	_test=$( ${miscdir}/sqlcli ${mydb} "SELECT COUNT(nographic) FROM settings LIMIT 1" 2>/dev/null )
+	[ -n "${_test}" ] && continue
+	${ECHO} "  * ${N1_COLOR}Update settings tables: nographic for ${N2_COLOR}${i}${N0_COLOR}"
+	${miscdir}/sqlcli ${mydb} "ALTER TABLE settings ADD COLUMN nographic TEXT DEFAULT '0'"
+done
