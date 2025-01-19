@@ -203,6 +203,24 @@ get_construct_carp_vhid()
 	return 0
 }
 
+get_construct_carp_peer()
+{
+	title=" IPv4 peer "
+	prompt=" Enter valid IPv4 "
+	defaultitem="${carp_peer}"
+	cbsd_inputbox_simple && carp_peer="${mtag}"
+	return 0
+}
+
+get_construct_carp_peer6()
+{
+	title=" IPv6 peer "
+	prompt=" Enter valid IPv6 "
+	defaultitem="${carp_peer6}"
+	cbsd_inputbox_simple && carp_peer6="${mtag}"
+	return 0
+}
+
 get_construct_carp_advskew()
 {
 	title=" advskew "

@@ -82,6 +82,19 @@ validate_ipaddr()
 {
 	[ -z "${ip4_addr}" ] && return 1
 
+	# load ip4_addr of all jails
+	_i=0
+	OIFS="${IFS}"
+	IFS="|"
+	eval $( cbsdsqlro local "SELECT jname,ip4_addr FROM jails WHERE ip4_addr!='0'" 2>/dev/null | while read _jname _ips; do
+		IFS="${OIFS}"
+		echo jname${_i}=\"$_jname\"
+		echo ips${_i}=\"${_ips}\"
+		_i=$(( _i + 1 ))
+		IFS="|"
+	done )
+	IFS="${OIFS}"
+
 	# Yes, we wrote in the example that the valid separator between NIC and address
 	# is '#' and not '|' as experienced jail.conf users can get used to.
 	# But we will still try to convert the input with '|' to correct form
@@ -90,33 +103,37 @@ validate_ipaddr()
 	 [ ${_pos} -ne 0 ] && ip4_addr=$( echo ${ip4_addr} | ${TR_CMD} '|' '#' )
 
 	. ${subrdir}/vnet.subr	# for is_nic_exist
+	OIFS="${IFS}"
+	IFS=","
 	for _i in ${ip4_addr}; do
+		IFS="${OIFS}"
 		ipwmask ${_i}
 		[ -z "${IWM}" -o "${_i}" = "0" ] && continue
 
-		iptype ${IWM}
-		if [ $? -ne 0 ]; then
-			if [ -n "${V_INTERFACE}" -a -n "${V_IP}" ]; then
-				if ! is_nic_exist -n ${V_INTERFACE}; then
-					log_err 1 "${N1_COLOR}jset for ${jname} error: interface not exist: ${N2_COLOR}${V_INTERFACE}${N0_COLOR}"
+		special_ips=$( is_special_ip ${_i} )
+		is_special=$?
+
+		if [ ${is_special} -eq 0 ]; then
+			iptype ${IWM}
+			if [ $? -ne 0 ]; then
+				if [ -n "${V_INTERFACE}" -a -n "${V_IP}" ]; then
+					if ! is_nic_exist -n ${V_INTERFACE}; then
+						log_err 1 "${N1_COLOR}jset for ${jname} error: interface not exist: ${N2_COLOR}${V_INTERFACE}${N0_COLOR}"
+					fi
+					_myip="${_myip} ${V_IP}"
+				else
+					_myip="${_myip} ${IWM}"
 				fi
-				_myip="${_myip} ${V_IP}"
-			else
-				_myip="${_myip} ${IWM}"
 			fi
+		else
+			#echo "SPECIAL"
+			true
 		fi
+		IFS=","
 	done
+	IFS="${OIFS}"
 
-	# check for other jail
-	IFS="|"
-	_i=0
-	eval $( cbsdsqlro local SELECT jname,ip4_addr FROM jails WHERE ip4_addr!="0" 2>/dev/null | while read _jname _ips; do
-		echo jname${_i}=\"$_jname\"
-		echo ips${_i}=\"${_ips}\"
-		_i=$(( _i + 1 ))
-	done )
-	unset IFS
-
+	# check for other jails
 	for _i in $( ${SEQ_CMD} 0 255 ); do
 		_ok=1
 		unset _existing_ipjail _existing_ip
@@ -164,7 +181,7 @@ modify_ipaddr()
 	local _A _ip4_addr_old _pureip _inet _face _interface _IP4 _IP6 _MODIF _nIPs IFS _dhcp
 	local _is_freebsd _elftest
 
-	_A=$( cbsdsqlro local "SELECT interface,ip4_addr,applytpl,vnet,baserw,data,host_hostname FROM jails WHERE jname=\"${jname}\"" )
+	_A=$( cbsdsqlro local "SELECT interface,ip4_addr,applytpl,vnet,baserw,data,host_hostname FROM jails WHERE jname='${jname}'" )
 	sqllist "${_A}" _interface _ip4_addr_old applytpl vnet baserw data host_hostname
 
 	_is_freebsd=1
@@ -378,7 +395,7 @@ modify_ipaddr()
 		${JAIL_CMD} -m ${_nIPs} jid=${jid}
 	fi
 
-	cbsdsqlrw local UPDATE jails SET ${i}=\"${ip4_addr}\" WHERE jname=\"${jname}\"
+	cbsdsqlrw local "UPDATE jails SET ${i}='${ip4_addr}' WHERE jname='${jname}'"
 	${ECHO} "${argpart}: ${N1_COLOR}${ip4_addr}${N0_COLOR}"
 
 	if [ "${mod_cbsd_queue_enabled}" = "YES" -a -z "${MOD_CBSD_QUEUE_DISABLED}" ]; then

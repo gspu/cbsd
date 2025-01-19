@@ -178,7 +178,8 @@ populate_output_data()
 					if [ "${_val}" = "\-" ]; then
 						_val="0"
 					else
-						_val=$( is_special_ip ${_val} )
+						true
+						#_val=$( is_special_ip "${_val}" )
 					fi
 					;;
 				real_ip4)
