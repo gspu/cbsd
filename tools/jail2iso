@@ -1077,6 +1077,7 @@ vmm.ko \
 #		fi
 		cd ${TMP_DIR}/
 
+# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 MFS_BOOT_FILES="\
 boot1.efi \
 cdboot \
@@ -1319,6 +1320,7 @@ case "${media}" in
 		if [ ${efi} -eq 1 ]; then
 			# efifat was deprecated in 12.2-RELEASE
 			if [ -r ${TMP_DIR}/boot/boot1.efifat ]; then
+				# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 				${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p efi:=${TMP_DIR}/boot/boot1.efifat -p freebsd-boot:=${TMP_DIR}/boot/gptboot -p freebsd-ufs:=${dstdir}/${dstname}.part -p freebsd-swap::1M -o ${dstdir}/${dstname}
 			elif [ -r ${TMP_DIR}/boot/boot1.efi ]; then
 				_efi_part=$( ${MKTEMP_CMD} )
@@ -1330,16 +1332,25 @@ case "${media}" in
 				/sbin/newfs_msdos -F 32 -c 1 -L EFISYS /dev/${unit}
 				${MOUNT_CMD} -t msdosfs /dev/${unit} ${tmp_mp}
 				${MKDIR_CMD} -p ${tmp_mp}/EFI/BOOT
-				${CP_CMD} /boot/loader.efi ${tmp_mp}/EFI/BOOT/BOOTX64.efi
+				case "${arch}" in
+					arm64)
+						${CP_CMD} /boot/loader.efi ${tmp_mp}/EFI/BOOT/bootaa64.efi
+						;;
+					*)
+						${CP_CMD} /boot/loader.efi ${tmp_mp}/EFI/BOOT/BOOTX64.efi
+						;;
+				esac
 				${UMOUNT_CMD} ${tmp_mp}
 				${RMDIR_CMD} ${tmp_mp}
 				${MDCONFIG_CMD} -d -u ${unit}
+				# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 				${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p efi:=${_efi_part} -p freebsd-boot:=${TMP_DIR}/boot/gptboot -p freebsd-ufs:=${dstdir}/${dstname}.part -p freebsd-swap::1M -o ${dstdir}/${dstname}
 				${RM_CMD} -f ${_efi_part}
 			else
 				err 1 "${N1_COLOR}${CBSD_APP}: no such boot1.efi or loader.efi: ${N2_COLOR}${TMP_DIR}/boot/${N0_COLOR}"
 			fi
 		else
+			# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 			${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p freebsd-boot:=${TMP_DIR}/boot/gptboot -p freebsd-ufs:=${dstdir}/${dstname}.part -p freebsd-swap::1M -o ${dstdir}/${dstname}
 		fi
 		[ -r ${dstdir}/${dstname}.part ] && ${RM_CMD} -f ${dstdir}/${dstname}.part
@@ -1375,6 +1386,7 @@ case "${media}" in
 		if [ ${efi} -eq 1 ]; then
 			# efifat was deprecated in 12.2-RELEASE
 			if [ -r ${TMP_DIR}/boot/boot1.efifat ]; then
+				# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 				${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p efi:=${TMP_DIR}/boot/boot1.efifat -p freebsd-boot:=${TMP_DIR}/boot/gptboot -p freebsd-ufs:=${dstdir}/${dstname}.part -p freebsd-swap::1M -o ${dstdir}/${dstname}
 			elif [ -r ${TMP_DIR}/boot/boot1.efi ]; then
 				_efi_part=$( ${MKTEMP_CMD} )
@@ -1386,16 +1398,25 @@ case "${media}" in
 				/sbin/newfs_msdos -F 32 -c 1 -L EFISYS /dev/${unit}
 				${MOUNT_CMD} -t msdosfs /dev/${unit} ${tmp_mp}
 				${MKDIR_CMD} -p ${tmp_mp}/EFI/BOOT
-				${CP_CMD} /boot/loader.efi ${tmp_mp}/EFI/BOOT/BOOTX64.efi
+				case "${arch}" in
+					arm64)
+						${CP_CMD} /boot/loader.efi ${tmp_mp}/EFI/BOOT/bootaa64.efi
+						;;
+					*)
+						${CP_CMD} /boot/loader.efi ${tmp_mp}/EFI/BOOT/BOOTX64.efi
+						;;
+				esac
 				${UMOUNT_CMD} ${tmp_mp}
 				${RMDIR_CMD} ${tmp_mp}
 				${MDCONFIG_CMD} -d -u ${unit}
 				if [ "${arch}" = "arm64" ]; then
 					echo "arm64 debug: bsdlabel"
+					# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 					echo "${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p efi:=${_efi_part} -p freebsd-boot:=${TMP_DIR}/boot/gptboot -p freebsd-ufs:=${dstdir}/${dstname}.part -p freebsd-swap::1M -o ${dstdir}/${dstname}"
 					${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p efi:=${_efi_part} -p freebsd-boot:=${TMP_DIR}/boot/gptboot -p freebsd-ufs:=${dstdir}/${dstname}.part -p freebsd-swap::1M -o ${dstdir}/${dstname}
 				else
 					# swap?
+					# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 					# ${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p efi:=${_efi_part} -p freebsd-boot:=${TMP_DIR}/boot/gptboot -p freebsd-ufs:=${dstdir}/${dstname}.part -p freebsd-swap::1M -o ${dstdir}/${dstname}
 					if [ -r "${dstdir}/${dstname}-extra.part" ]; then
 						_mk_cmd="${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p efi:=${_efi_part} -p freebsd-boot:=${TMP_DIR}/boot/gptboot -p freebsd-ufs:=${dstdir}/${dstname}.part -p freebsd-ufs:=${dstdir}/${dstname}-extra.part  -p freebsd-swap::1M -o ${dstdir}/${dstname}"
@@ -1411,6 +1432,7 @@ case "${media}" in
 			fi
 		else
 			# swap?
+			# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 			# ${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p freebsd-boot:=${TMP_DIR}/boot/gptboot -p freebsd-ufs:=${dstdir}/${dstname}.part -p freebsd-swap::1M -o ${dstdir}/${dstname}
 			if [ -r "${dstdir}/${dstname}-extra.part" ]; then
 				_mk_cmd="${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p freebsd-boot:=${TMP_DIR}/boot/gptboot -p freebsd-ufs:=${dstdir}/${dstname}.part -p freebsd-ufs:=${dstdir}/${dstname}-extra.part -p freebsd-swap::1M -o ${dstdir}/${dstname}"
@@ -1455,8 +1477,10 @@ case "${media}" in
 				if [ ${efi} -eq 1 ]; then
 					# efifat was deprecated in 12.2-RELEASE
 					if [ -r ${TMP_DIR}/boot/boot1.efifat ]; then
+						# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 						${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p efi:=${TMP_DIR}/boot/boot1.efifat -p freebsd-boot:=${TMP_DIR}/boot/gptboot ${_swap_args} -p freebsd-ufs:=${dstdir}/${dstname}.part -o ${dstdir}/${dstname}
 					elif [ -r ${TMP_DIR}/boot/boot1.efi ]; then
+						# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 						[ ! -r ${TMP_DIR}/boot/gptboot ] && err 1 "${N1_COLOR}${CBSD_APP}: no such boot/gptboot in hier: ${N2_COLOR}${TMP_DIR}/boot/gptboot${N0_COLOR}"
 						_efi_part=$( ${MKTEMP_CMD} )
 						${TRUNCATE_CMD} -s64M ${_efi_part}
@@ -1467,10 +1491,20 @@ case "${media}" in
 						/sbin/newfs_msdos -F 32 -c 1 -L EFISYS /dev/${unit}
 						${MOUNT_CMD} -t msdosfs /dev/${unit} ${tmp_mp}
 						${MKDIR_CMD} -p ${tmp_mp}/EFI/BOOT
-						${CP_CMD} /boot/loader.efi ${tmp_mp}/EFI/BOOT/BOOTX64.efi
+
+						case "${arch}" in
+							arm64)
+								${CP_CMD} /boot/loader.efi ${tmp_mp}/EFI/BOOT/bootaa64.efi
+								;;
+							*)
+								${CP_CMD} /boot/loader.efi ${tmp_mp}/EFI/BOOT/BOOTX64.efi
+								;;
+						esac
+
 						${UMOUNT_CMD} ${tmp_mp}
 						${RMDIR_CMD} ${tmp_mp}
 						${MDCONFIG_CMD} -d -u ${unit}
+						# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 						${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p efi:=${_efi_part} -p freebsd-boot:=${TMP_DIR}/boot/gptboot ${_swap_args} -p freebsd-ufs:=${dstdir}/${dstname}.part -o ${dstdir}/${dstname}
 						${RM_CMD} ${_efi_part}
 					else
@@ -1478,6 +1512,7 @@ case "${media}" in
 						err 1 "${N1_COLOR}${CBSD_APP}: no such boot1.efi or loader.efi: ${N2_COLOR}${TMP_DIR}${N0_COLOR}"
 					fi
 				else
+					# gptboot not for aarch64: jail2iso: no such boot/gptboot in hier: /usr/jails/tmp/cloud-iso.56237/boot/gptboot
 					${MKIMG_CMD} -s gpt -b ${TMP_DIR}/boot/pmbr -p freebsd-boot:=${TMP_DIR}/boot/gptboot ${_swap_args} -p freebsd-ufs:=${dstdir}/${dstname}.part -o ${dstdir}/${dstname}
 				fi
 				if [ -n "${freesize}" ]; then

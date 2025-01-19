@@ -436,8 +436,6 @@ start_qemu()
 	#	unset console_args
 	#fi
 
-	echo "XXX: ${nographic}"
-
 	if [ "${nographic}" != "1" ]; then
 		if [ "${spice_default}" != "1" ]; then
 			# init vnc_args
@@ -493,21 +491,20 @@ start_qemu()
 	case "${vm_arch}" in
 		aarch64)
 			local _valid_ovmf_files="FVP_AARCH64_EFI.fd QEMU_EFI.fd"
-			local _valid_ovmf_path_dir="/usr/local/share/edk2-fvp /usr/share/edk2-fvp /usr/share/qemu-efi-aarch64 /usr/local/share/qemu-efi-aarch64 ${cbsd_workdir}/share/qemu-efi-aarch64"
-			_use_ovmf=1
+			local _valid_ovmf_path_dir="/usr/local/share/edk2-fvp /usr/share/edk2-fvp /usr/share/qemu-efi-aarch64 /usr/local/share/qemu-efi-aarch64 ${workdir}/share/qemu-efi-aarch64"
+			_use_ovmf=0
 			;;
 		riscv64)
 			_use_ovmf=0
 			;;
 		*)
 			local _valid_ovmf_files="OVMF_CODE_4M.fd OVMF.fd OVMF_CODE.fd QEMU_UEFI-x86_64.fd QEMU_UEFI_CODE-x86_64.fd"
-			local _valid_ovmf_path_dir="/usr/share/OVMF /usr/share/ovmf /usr/share/edk2/x64 /usr/share/edk2-qemu/x64 /usr/local/share/edk2-qemu ${cbsd_workdir}/share/qemu-efi-x64"
+			local _valid_ovmf_path_dir="/usr/share/OVMF /usr/share/ovmf /usr/share/edk2/x64 /usr/share/edk2-qemu/x64 /usr/local/share/edk2-qemu ${workdir}/share/qemu-efi-x64"
 			_use_ovmf=1
 			;;
 	esac
 
 	if [ ${_use_ovmf} -eq 1 ]; then
-
 		for i in ${_valid_ovmf_files}; do
 			[ -n "${ovmf_firmware}" ] && break
 			for j in ${_valid_ovmf_path_dir}; do
@@ -528,9 +525,15 @@ start_qemu()
 	fi
 
 	if [ ${quiet} -ne 1 ]; then
-		[ -z "${uefi_args}" ] && ${ECHO} "${N1_COLOR}UEFI firmware not found (edk2-qemu-x64 package): UEFI boot disabled${N0_COLOR}"
+		case "${vm_arch}" in
+			aarch64|riscv64)
+				true
+				;;
+			*)
+				[ -z "${uefi_args}" ] && ${ECHO} "${N1_COLOR}UEFI firmware not found ('edk2-qemu-x64' for x86, 'edk2-fvp' for aarch64): UEFI boot disabled${N0_COLOR}"
+				;;
+		esac
 	fi
-
 	# todo: shared qemu/qemu virtual
 	# cloud-init enabled?
 	# this section should be AFTER master_prestart
@@ -735,7 +738,7 @@ ${vga_args} \
 -monitor unix:${jailsysdir}/${jname}/qemu-monitor.sock,server,nowait"
 	fi
 
-	[ ${quiet} -ne 1 ] && echo "[debug]: $qemu_cmd"
+	[ ${quiet} -ne 1 ] && echo "[debug]: ${qemu_cmd}"
 	[ -n "${cfg_only}" ] && exit 0
 
 	# API compat: ~cbsd/jails-system/info*.*
@@ -807,7 +810,7 @@ ${vga_args} \
 	fi
 
 	[ ${quiet} -ne 1 ] && ${ECHO} "${N1_COLOR}PID: ${N2_COLOR}${vm_pid}${N0_COLOR}"
-	cbsdsqlrw local "UPDATE jails SET jid=\"${vm_pid}\" WHERE jname=\"${jname}\""
+	cbsdsqlrw local "UPDATE jails SET jid='${vm_pid}' WHERE jname='${jname}'"
 
 	# update state_time
 	cbsdsqlrw ${jailsysdir}/${jname}/local.sqlite UPDATE settings SET state_time="(strftime('%s','now'))"

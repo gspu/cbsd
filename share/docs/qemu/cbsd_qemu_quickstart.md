@@ -20,7 +20,7 @@ QEMU/KVM/NVMM support matrix:
 | Linux        | Y              | N              |       Y       |
 
 <details>
-  <summary>Linux notes</summary>
+  <summary>Setup Linux host</summary>
 
 ## CBSD + QEMU + Linux
 
@@ -28,7 +28,7 @@ QEMU/KVM/NVMM support matrix:
 
 
 <details>
-  <summary>FreeBSD notes</summary>
+  <summary>Setup FreeBSD host</summary>
 
 ## CBSD + QEMU + FreeBSD
 
@@ -36,16 +36,23 @@ Currently (at 2025) FreeBSD does not have QEMU acceleration, however, you can us
 
 How-to-start:
 
-1) Install the QEMU package ( [qemu](https://www.freshports.org/emulators/qemu/) or [qemu-devel](https://www.freshports.org/emulators/qemu-devel/) package ) then reinitialize CBSD:
+1) Install the QEMU package ( [qemu](https://www.freshports.org/emulators/qemu/) or [qemu-devel](https://www.freshports.org/emulators/qemu-devel/) package ) then reinitialize CBSD ( prefer 'qemu-devel' package instead of 'qemu' ):
 ```
-pkg install -y qemu-devel
+pkg install -y qemu-devel || pkg instal -y qemu
+pkg install -y tmux
 cbsd initenv
+```
+
+To test:
+```
+cbsd summary
 ```
 
 Install additional software:
 
+  - for ARM/aarch64 VM: `pkg install -y `
   - for RISCV-based VM: `pkg install -y opensbi u-boot-qemu-riscv64`
-
+  - for x86-64 VM: `pkg install -y edk2-qemu-x64`
 
 Create a vm using any of the three preferred methods:
 
@@ -73,7 +80,7 @@ cbsd up
 </details>
 
 <details>
-  <summary>DragonflyBSD notes</summary>
+  <summary>Setup DragonflyBSD host</summary>
 
 ## CBSD + QEMU + DragonflyBSD
 

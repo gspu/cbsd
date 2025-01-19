@@ -140,13 +140,13 @@ case "${mode}" in
 	get)
 		[ -z "${device_name}" ] && err 1 "${N2_COLOR}device_name= ${N1_COLOR} is mandatory${N0_COLOR}"
 		if [ "${device_name}" = "virtio-net" ]; then
-			case "${platform}" in
-				Linux)
-					device_name="virtio-net-pci"
-					;;
-			esac
+#			case "${platform}" in
+#				Linux)
+#					device_name="virtio-net-pci"
+#					;;
+#			esac
 		fi
-		_sql="SELECT ${select} FROM pcibus WHERE pcislot_name='${device_name}'"
+		_sql="SELECT ${select} FROM pcibus WHERE pcislot_name='${device_name}' OR pcislot_name='virtio-net-pci'"
 		sqllistdelimer=" "
 		cbsdsqlro ${jailsysdir}/${jname}/local.sqlite ${_sql}
 		;;
