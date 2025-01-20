@@ -26,6 +26,7 @@ QEMU/KVM/NVMM support matrix:
 
 </details>
 
+Follow the [Quick start instructions for Linux](/share/docs/general/cbsd_quickstart.md#installation-on-linux).
 
 <details>
   <summary>Setup FreeBSD host</summary>
