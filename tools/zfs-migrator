@@ -9,7 +9,7 @@ ${H3_COLOR}Description:${N0_COLOR}
 
 Alternative virtual environmental migration, based on the ZFS file system and its
 capabilities. To transfer the virtual container, you must first add the destination node 
-via 'cbsd node mode=add` command.
+via 'cbsd node mode=add' command.
 
 ${H3_COLOR}Options:${N0_COLOR}
 
