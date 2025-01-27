@@ -1195,15 +1195,15 @@ get_construct_vm_os_profile()
 			_cloud_list=$( ${MKTEMP_CMD} )
 
 			trap "${RM_CMD} -f ${_classic_list} ${_cloud_list}" HUP INT ABRT BUS TERM EXIT
-			env NOCOLOR=1 show_profile_list search_profile=${_search_profile} show_cloud=0 show_${emulator}=1 uniq=1 display=path,name,contrib header=0 arch_only=${arch} > ${_classic_list}
-			env NOCOLOR=1 show_profile_list search_profile=${_search_cloud_profile} show_cloud=1 show_${emulator}=1 uniq=1 display=path,name,contrib header=0 arch_only=${arch} > ${_cloud_list}
+			env NOCOLOR=1 show_profile_list search_profile=${_search_profile} show_cloud=0 show_${emulator}=1 uniq=1 display=path,name,contrib,imginit header=0 arch_only=${arch} > ${_classic_list}
+			env NOCOLOR=1 show_profile_list search_profile=${_search_cloud_profile} show_cloud=1 show_${emulator}=1 uniq=1 display=path,name,contrib,imginit header=0 arch_only=${arch} > ${_cloud_list}
 
 			_classic_cnt=$( ${WC_CMD} ${_classic_list} | ${AWK_CMD} '{printf $1}' )
 			_cloud_cnt=$( ${WC_CMD} ${_cloud_list} | ${AWK_CMD} '{printf $1}' )
 
 			menu_list="${menu_list} '>' ' -- Classic images [${_classic_cnt}] -- ' ''"
 
-			eval $( ${CAT_CMD} ${_classic_list} | while read path vm_profile contrib; do
+			eval $( ${CAT_CMD} ${_classic_list} | while read path vm_profile contrib imginit; do
 				unset long_description iso_img_dist_size
 				eval $( ${GREP_CMD} ^long_description= ${path} )
 				eval $( ${GREP_CMD} ^iso_img_dist_size= ${path} )
@@ -1217,7 +1217,12 @@ get_construct_vm_os_profile()
 				fi
 				[ "${contrib}" = "1" ] && long_description="[contrib] ${long_description}"
 				_mypath=$( echo ${path} | ${SED_CMD} s:^${workdir}/::g )
-				menu_list="${menu_list} '${vm_profile}' '${_mypath}' '${long_description}, size: ${iso_img_dist_size}'"
+				# ↯ - downloaded ( echo $'\U21AF' )
+				if [ "${imginit}" = "1" ]; then
+					menu_list="${menu_list} '${vm_profile}' '${_mypath} (↯)' '${long_description}, size: ${iso_img_dist_size}, (↯) - image already downloaded/cached'"
+				else
+					menu_list="${menu_list} '${vm_profile}' '${_mypath}' '${long_description}, size: ${iso_img_dist_size}'"
+				fi
 				echo "menu_list=\"${menu_list}\""
 				# store filename
 				echo "profile${_all}=\"${vm_profile}\""
@@ -1226,7 +1231,7 @@ get_construct_vm_os_profile()
 				echo "_all=${_all}"
 			done )
 
-			eval $( ${CAT_CMD} ${_cloud_list} | while read path vm_profile contrib; do
+			eval $( ${CAT_CMD} ${_cloud_list} | while read path vm_profile contrib imginit; do
 				unset long_description iso_img_dist_size
 				# when -n $1 we apply profile, so skip unnecessary vars
 				eval $( ${GREP_CMD} ^long_description= ${path} )
@@ -1241,7 +1246,12 @@ get_construct_vm_os_profile()
 				fi
 				[ "${contrib}" = "1" ] && long_description="[contrib] ${long_description}"
 				_mypath=$( echo ${path} | ${SED_CMD} s:^${workdir}/::g )
-				cloud_menu_list="${cloud_menu_list} '${vm_profile}' '${_mypath}' '${long_description}, size: ${iso_img_dist_size}'"
+				# ↯ - downloaded ( echo $'\U21AF' )
+				if [ "${imginit}" = "1" ]; then
+					cloud_menu_list="${cloud_menu_list} '${vm_profile}' '${_mypath} (↯)' '${long_description}, size: ${iso_img_dist_size}, (↯) - image already downloaded/cached'"
+				else
+					cloud_menu_list="${cloud_menu_list} '${vm_profile}' '${_mypath}' '${long_description}, size: ${iso_img_dist_size}'"
+				fi
 				echo "cloud_menu_list=\"${cloud_menu_list}\""
 				# store filename
 				echo "profile${_all}=\"${vm_profile}\""
