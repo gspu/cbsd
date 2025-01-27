@@ -160,7 +160,7 @@ obtain_iso()
 	fi
 
 	if [ ${fastscan} -eq 1 ]; then
-		scan_fastest_mirror -s "${iso_site} ${cbsd_iso_mirrors}" -t 3 -u "${iso_img_dist}"
+		scan_fastest_mirror -s "${iso_site_local} ${iso_site} ${cbsd_iso_mirrors}" -t 3 -u "${iso_img_dist}"
 		iso_site="${FASTEST_SRC_MIRROR}"
 	fi
 

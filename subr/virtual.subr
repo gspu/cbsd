@@ -51,13 +51,13 @@ check_iso_sha256sum()
 # $sha256sum - optional - check for sha256sum
 init_iso()
 {
-	local sha256sum_new
-	local sha256sum_passed
-	local _sorted_mirror_list _sorted_mirror_list2
-	local _sorted_mirror_list_rate
+	local sha256sum_new=
+	local sha256sum_passed=
+	local _sorted_mirror_list= _sorted_mirror_list2=
+	local _sorted_mirror_list_rate=
 	local _fetch_attempt=0
 	local _iso_img_type=
-	local _ret _is_link
+	local _ret _is_link= _full_list_iso_site=
 
 	[ -z "${quiet}" ] && quiet="0"
 
@@ -214,14 +214,18 @@ init_iso()
 						full_list_iso_site="${_res}"
 					fi
 					continue
-				fi
-
-				if [ -n "${full_list_iso_site}" ]; then
-					full_list_iso_site="${full_list_iso_site} ${i}"
 				else
-					full_list_iso_site="${i}"
+					if [ -n "${full_list_iso_site}" ]; then
+						full_list_iso_site="${full_list_iso_site} ${i}"
+					else
+						full_list_iso_site="${i}"
+					fi
 				fi
 			done
+
+			_full_list_iso_site=$( for i in ${full_list_iso_site}; do printf "${i}\n"; done | ${SORT_CMD} -u | ${TR_CMD} '\r\n' ' ' )
+			full_list_iso_site="${_full_list_iso_site}"
+
 			full_list_iso_desc_tmp=$( substr --pos=0 --len=200 --str="${full_list_iso_site}" )
 			full_list_iso_desc="${full_list_iso_desc_tmp} ..."
 			unset full_list_iso_desc_tmp

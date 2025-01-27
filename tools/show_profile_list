@@ -27,7 +27,7 @@ ${H3_COLOR}Options${N0_COLOR}:
 
  ${N2_COLOR}arch_only=${N0_COLOR}        - show profiles for the specified architecture, e.g.: 'aarch64',
                      when not set, 'amd64' architecture is used by default;
- ${N2_COLOR}display=${N0_COLOR}          - list by comma for column: path,name,active,contrib.
+ ${N2_COLOR}display=${N0_COLOR}          - list by comma for column: path,name,active,contrib,imginit.
                      Default value: 'path,name,active';
  ${N2_COLOR}extra_profile_dir${N0_COLOR} - Extra directory to search VMs profiles.
  ${N2_COLOR}has_init${N0_COLOR}          - set '1' to show profiles only who has initialized images, default: '0';
@@ -260,7 +260,15 @@ show_jaildata_from_sql()
 			contrib=1
 		fi
 
+		img_initcontrib=0
+		_cur_part=$( substr --pos=0 --len=${_etcdefdir_len} --str=${_i} )
+		if [ "${_cur_part}" = "${_etcdef_part}" ]; then
+			contrib=1
+		fi
+
 		[ -n "${ohas_init}" ] && has_init="${ohas_init}"
+
+		imginit=$( . ${_i} 2>/dev/null; [ -z "${register_iso_name}" ] && exit 0 ; [ -r "${srcdir}/iso/${register_iso_name}" ] && echo "1" )
 
 		if [ "${has_init}" = "1" ]; then
 			iso_img=
