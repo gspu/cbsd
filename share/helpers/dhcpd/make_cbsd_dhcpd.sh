@@ -6,7 +6,7 @@
 #    please use file in ${jailsysdir}/${jname}/dhcpd_extra.conf
 #    << all content from this file will be dropped to { } block
 #
-# Additional: https://www.bsdstore.ru/en/articles/cbsd_vm_hook_dhcpd.html
+# Additional: https://www.convectix.com/en/articles/cbsd_vm_hook_dhcpd.html
 #
 # Autor: olevole@olevole.ru
 

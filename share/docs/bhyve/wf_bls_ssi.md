@@ -40,5 +40,5 @@ to display the name of the node that hosts this virtual machine.
 	% cbsd bls
 ```
 
-![](http://www.bsdstore.ru/img/bls1.png)
+![](http://www.convectix.com/img/bls1.png)
 

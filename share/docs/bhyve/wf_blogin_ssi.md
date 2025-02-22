@@ -26,7 +26,7 @@ The file can be placed for the individual environment in the directory _$workdir
 and globally, overwriting the value from _$workdir/etc/defaults/blogin.conf_.
 To do this, create a file with your configuration in the directory _$workdir/etc/_
 
-With a custom call, you can use [CBSD variables](http://www.bsdstore.ru/en/13.0.x/wf_cbsd_variables_ssi.html) \- for this or that environment
+With a custom call, you can use [CBSD variables](http://www.convectix.com/en/13.0.x/wf_cbsd_variables_ssi.html) \- for this or that environment
 
 For example, if you want instead of the standard behavior, when the blogin launched the VNC client, the file _$workdir/etc/blogin.conf_ can look like this:
 
@@ -43,7 +43,7 @@ login_cmd="/usr/bin/ssh your_user@${ipv4_first}"
 
 ```
 
-![](http://www.bsdstore.ru/img/blogin1.png)
+![](http://www.convectix.com/img/blogin1.png)
 
-![](http://www.bsdstore.ru/img/blogin2.png)
+![](http://www.convectix.com/img/blogin2.png)
 

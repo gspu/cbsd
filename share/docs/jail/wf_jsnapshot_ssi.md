@@ -58,7 +58,7 @@ cbsd jexec jname=jail1 file -s /root/date
 /root/date: ERROR: cannot open `/root/date' (No such file or directory)
 ```
 
-![](http://www.bsdstore.ru/img/jsnapshot1.png)
+![](http://www.convectix.com/img/jsnapshot1.png)
 
-![](http://www.bsdstore.ru/img/jsnapshot2.png)
+![](http://www.convectix.com/img/jsnapshot2.png)
 

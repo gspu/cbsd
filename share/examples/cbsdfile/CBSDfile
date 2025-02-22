@@ -2,7 +2,7 @@
 # cbsd [up|destroy] <name>     - to deploy only <name> env
 #
 # Uncommend CLOUD_\* vars ro work remote API provider
-# See https://www.bsdstore.ru/en/cbsdfile.html for details
+# See https://www.convectix.com/en/cbsdfile.html for details
 #CLOUD_URL="https://us-sw.api.my.domain"
 #CLOUD_KEY="ssh-ed25519 XXX your@comment"
 

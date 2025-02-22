@@ -51,6 +51,6 @@ So, if you want to migrate to another host **jail1** container configuration usi
 cbsd jexport jname=jail1 jexport_exclude="/"
 ```
 
-![](http://www.bsdstore.ru/img/jexport1.png)
+![](http://www.convectix.com/img/jexport1.png)
 
 

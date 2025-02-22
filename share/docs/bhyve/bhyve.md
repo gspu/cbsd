@@ -24,7 +24,7 @@ For convenience, the bhyve control commands in CBSD are similar to the jail cont
 
 Using **CBSD**, you can combine in one tool management for both jail containers and virtual machines on the bhyve hypervisor, using this or that approach in different tasks
 
-Additionally, you can read the article: [Jails против Bhyve](http://www.bsdstore.ru/ru/articles/bhyve_vs_jails.html) (rus)
+Additionally, you can read the article: [Jails против Bhyve](http://www.convectix.com/ru/articles/bhyve_vs_jails.html) (rus)
 
 ## Getting Started with bhyve
 
@@ -39,7 +39,7 @@ If your system lacks any components or settings, you will see the appropriate pr
 
 When ready, you will see a dialog-based menu for creating a virtual machine:
 
-![](http://www.bsdstore.ru/img/bconstruct-tui1.png)
+![](http://www.convectix.com/img/bconstruct-tui1.png)
 
 The options **vm\_os\_profile**, **jname**, and **imgsize** \- are mandatory for manual input
 
@@ -49,11 +49,11 @@ If you start the virtual machine for the first time, when you start, the corresp
 
 A number of parameters (bhyve arguments) are available in the submenu **bhyve\_options**:
 
-![](http://www.bsdstore.ru/img/bconstruct-tui2.png)
+![](http://www.convectix.com/img/bconstruct-tui2.png)
 
 and **vnc\_options**:
 
-![](http://www.bsdstore.ru/img/bconstruct-tui3.png)
+![](http://www.convectix.com/img/bconstruct-tui3.png)
 
 Please note that when you enter the **imgsize** parameter, you specify the amount of the first (boot) virtual hard disk.
 
@@ -70,5 +70,5 @@ You may prefer two other switching options available in **CBSD**
 
 Attention! Note the presence of a menu for selecting the bhyve IP address in the bconstruct-tui menu. Keep in mind that without auxiliary scripts inside the distribution or virtual machine, you can not manage the settings in the virtual machine itself from the outside.
 This menu item saves the IP address in the CBSD database so that you can configure third-party methods (for example via DHCP) to automatically configure the OS without having to put your own scripts inside. As an example,
-Look at the article: [CBSD/bhyve and DHCPD](http://www.bsdstore.ru/en/articles/cbsd_vm_hook_dhcpd.html)
+Look at the article: [CBSD/bhyve and DHCPD](http://www.convectix.com/en/articles/cbsd_vm_hook_dhcpd.html)
 

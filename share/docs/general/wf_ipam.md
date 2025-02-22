@@ -12,7 +12,7 @@ but organizing a single VPC for virtual environments based on VXLAN and integrat
 
 
 We assume that **CBSD** nodes are already configured and between them is organized by VPC, as described in the
-[VPC with **CBSD** (vxlan)](http://www.bsdstore.ru/en/13.0.x/wf_vpc_ssi.html) article.
+[VPC with **CBSD** (vxlan)](http://www.convectix.com/en/13.0.x/wf_vpc_ssi.html) article.
 
 
 ## Installing PHPIPAM
@@ -36,7 +36,7 @@ pkg install -y phpipam
 , or from [official repositories](https://github.com/phpipam/phpipam) on GitHub.
 
 
-In addition, for **CBSD** there is [CBSDfile](http://www.bsdstore.ru/en/cbsdfile.html) to deploy this service from scratch through the "cbsd up" command.
+In addition, for **CBSD** there is [CBSDfile](http://www.convectix.com/en/cbsdfile.html) to deploy this service from scratch through the "cbsd up" command.
 In this example, we will follow the rapid/quick way and use a ready-made image for the **CBSD**
 an image that is the result of the "cbsd jexport" command to the container formed by [CBSDfile](https://github.com/cbsd/cbsdfile-recipes/blob/master/jail/phpipam/CBSDfile)).
 In our presence there are three servers with names: SRV-01, SRV-02 and SRV-03. We choose any of them as a hoster for phpipam and get a container:
@@ -47,7 +47,7 @@ cbsd repo action=get sources=img name=phpipam
 
 ```
 
-![](http://www.bsdstore.ru/img/phpipam/phpipam1.png)
+![](http://www.convectix.com/img/phpipam/phpipam1.png)
 
 Run container:
 
@@ -57,7 +57,7 @@ cbsd jstart phpipam
 
 ```
 
-![](http://www.bsdstore.ru/img/phpipam/phpipam2.png)
+![](http://www.convectix.com/img/phpipam/phpipam2.png)
 
 Alternative via CBSDFile:
 
@@ -76,7 +76,7 @@ cbsd up
 And open the page in the browser: http://<container IP>
 
 
-![](http://www.bsdstore.ru/img/phpipam/phpipam3.png)
+![](http://www.convectix.com/img/phpipam/phpipam3.png)
 
 ## PHPIPAM setup
 
@@ -89,7 +89,7 @@ Authorizes in PHPIPAM as administrator using default credential:
 Change the password (in our case, we set the password to 'qwerty123') and activate the functionality of the API to work with PHPIPAM remotely. To do this, click on the 'phpIPAM settings' item:
 
 
-![](http://www.bsdstore.ru/img/phpipam/phpipam4.png)
+![](http://www.convectix.com/img/phpipam/phpipam4.png)
 
 Set the Site URL if necessary: to the correct value. This is especially important if the service works through external balancer. If you use the NGINX-based balancer, make sure that the configuration pass the corresponding headers:
 
@@ -109,12 +109,12 @@ Set the Site URL if necessary: to the correct value. This is especially importan
 Activate API features, do not forget to save the changes via **save** button then go to the **API** settings through the left menu:
 
 
-![](http://www.bsdstore.ru/img/phpipam/phpipam5.png)
+![](http://www.convectix.com/img/phpipam/phpipam5.png)
 
 Create a key to access API:
 
 
-![](http://www.bsdstore.ru/img/phpipam/phpipam6.png)
+![](http://www.convectix.com/img/phpipam/phpipam6.png)
 
 As an **App id**, use an arbitrary unique identifier (which you need to remember to configure the **CBSD** module). In our case, we use ID: **Admin**
 
@@ -122,18 +122,18 @@ Set the access rights to the value: **Read/Write**
 
 Set the access method to the API through the token: **User token**
 
-![](http://www.bsdstore.ru/img/phpipam/phpipam7.png)
+![](http://www.convectix.com/img/phpipam/phpipam7.png)
 
 Also, through the Subnets menu, we must add/create a working network that is given to virtual environments and which will be notified through API.
 
 
-![](http://www.bsdstore.ru/img/phpipam/phpipam8.png)
+![](http://www.convectix.com/img/phpipam/phpipam8.png)
 
-![](http://www.bsdstore.ru/img/phpipam/phpipam9.png)
+![](http://www.convectix.com/img/phpipam/phpipam9.png)
 
 In this example, this network is **CBSD** VPC1: **10.0.1.0/24**
 
-![](http://www.bsdstore.ru/img/phpipam/phpipam10.png)
+![](http://www.convectix.com/img/phpipam/phpipam10.png)
 
 This PHPIPAM configuration is completed.
 
@@ -192,7 +192,7 @@ cbsd ipam mode=create subnet=10.0.1.0/24 ip4_addr=10.0.1.50 description="jail" n
 If the record was created in PHPIPAM, then you are left very little - politely ask the **CBSD** to do it for you, further ;-)
 
 
-![](http://www.bsdstore.ru/img/phpipam/phpipam11.png)
+![](http://www.convectix.com/img/phpipam/phpipam11.png)
 
 To remove our test record:
 
@@ -286,7 +286,7 @@ subnet=192.168.0.0/16
 
 
 Of course, you can write your own, more elegant handler instead of these demonstration scripts.
-Now, if you do not use [your own profiles](http://www.bsdstore.ru/en/13.0.x/wf_profiles_ssi.html), just link the scripts to the cbsd directories.
+Now, if you do not use [your own profiles](http://www.convectix.com/en/13.0.x/wf_profiles_ssi.html), just link the scripts to the cbsd directories.
 
 
 For jail:
@@ -315,7 +315,7 @@ installations into a separate entity/service that guarantees issuing free IP;
 - automatic address space accounting and documentation, which virtual environment ( **name**), what emulator type ( **jail/Bhyve**)
 has taken one or another IP and on which node it is started (the **description** field in PHPIPAM will be filled with the **CBSD** on which the environment is launched );
 
-[![](http://www.bsdstore.ru/img/phpipam/phpipam12.png)](http://www.bsdstore.ru/img/phpipam/phpipam12.png)
+[![](http://www.convectix.com/img/phpipam/phpipam12.png)](http://www.convectix.com/img/phpipam/phpipam12.png)
 
 Demo of results (rus comment)
 

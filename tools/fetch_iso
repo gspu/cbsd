@@ -143,7 +143,16 @@ gen_sha256_sum()
 
 	/usr/local/cbsd/misc/cbsdsysrc -qf ${_profile} sha256sum="${_sha256sum}"
 	# update size
-	_iso_img_dist_size=$( ${STAT_CMD} -f %z ${_file} )
+
+	case "${platform}" in
+		Linux)
+			_iso_img_dist_size=$( ${STAT_CMD} --printf="%s" ${_file} 2>/dev/null )
+			;;
+		*)
+			_iso_img_dist_size=$( ${STAT_CMD} -f %z ${_file} 2>/dev/null )
+			;;
+	esac
+
 	/usr/local/cbsd/misc/cbsdsysrc -qf ${_profile} iso_img_dist_size="${_iso_img_dist_size}"
 	${ECHO} "${N2_COLOR}${_sha256sum}${N1_COLOR}. Updated${N0_COLOR}"
 }
@@ -201,11 +210,29 @@ obtain_iso()
 				cd ${dstdir}
 				/bin/sh -c "${iso_extract}"
 				set +o xtrace
-				_ebytes_raw_data=$( ${STAT_CMD} -f "%z" ${dstdir}/${iso_img} 2>/dev/null )
+
+				case "${platform}" in
+					Linux)
+						_ebytes_raw_data=$( ${STAT_CMD} --printf="%s" ${dstdir}/${iso_img} 2>/dev/null )
+						;;
+					*)
+						_ebytes_raw_data=$( ${STAT_CMD} -f "%z" ${dstdir}/${iso_img} 2>/dev/null )
+						;;
+				esac
+
 				#_ebytes_raw_data=$(( _ebytes_raw_data * 512 ))					# real referenced size/data ( for: stat -f "%b" )
 				${RM_CMD} -f ${dstdir}/${iso_img}
 			else
-				_ebytes_raw_data=$( ${STAT_CMD} -f "%z" ${dstdir}/${fout} 2>/dev/null )
+
+				case "${platform}" in
+					Linux)
+						_ebytes_raw_data=$( ${STAT_CMD} --printf="%s" ${dstdir}/${fout} 2>/dev/null )
+						;;
+					*)
+						_ebytes_raw_data=$( ${STAT_CMD} -f "%z" ${dstdir}/${fout} 2>/dev/null )
+						;;
+				esac
+
 				#_ebytes_raw_data=$(( _ebytes_raw_data * 512 ))					# real referenced size/data ( for: stat -f "%b" )
 			fi
 
@@ -352,7 +379,15 @@ fetch_iso_by_path()
 	fi
 
 	# check size
-	iso_bsize=$( ${STAT_CMD} -f "%z" ${dstdir}/${fout} 2>/dev/null )
+	case "${platform}" in
+		Linux)
+			iso_bsize=$( ${STAT_CMD} --printf="%s" ${dstdir}/${fout} 2>/dev/null )
+			;;
+		*)
+			iso_bsize=$( ${STAT_CMD} -f "%z" ${dstdir}/${fout} 2>/dev/null )
+			;;
+	esac
+
 	processed_iso_size=$(( processed_iso_size + iso_bsize ))
 
 	# gen_sha256?

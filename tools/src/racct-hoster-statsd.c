@@ -259,7 +259,7 @@ sum_data_hoster()
 				strcat(json_str, json_buf);
 			} else {
 				strcpy(json_str,
-				    "{ \"tube\":\"racct-system\", \"node\":\"clonos.bsdstore.ru\", \"data\":[");
+				    "{ \"tube\":\"racct-system\", \"node\":\"clonos.convectix.com\", \"data\":[");
 				strcat(json_str, json_buf);
 			}
 		}

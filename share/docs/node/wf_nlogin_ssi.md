@@ -10,5 +10,5 @@ The **cbsd nlogin node=XXX ..** command, on availability of key execute login to
 
 If nlogin run without arguments list of node will be printed for choose
 
-![](http://www.bsdstore.ru/img/nlogin1.png)
+![](http://www.convectix.com/img/nlogin1.png)
 

@@ -41,7 +41,7 @@ You will force **CBSD** to execute your script as a data cloning method.
 
 **Attention:** The script must always end with 0 exit code when success
 
-Please note that standard variables are available in the script [CBSD variables](http://www.bsdstore.ru/en/13.0.x/wf_cbsd_variables_ssi.html). Additionally, these variables are exported: **$newjname**, **$newdata**
+Please note that standard variables are available in the script [CBSD variables](http://www.convectix.com/en/13.0.x/wf_cbsd_variables_ssi.html). Additionally, these variables are exported: **$newjname**, **$newdata**
 
 Why it is needed: if you use NAS or NFS as a storage and have access there, you can clone the data using NAS or directly on the NFS server, which will significantly increase the cloning speed and reduce unnecessary traffic. See: [Issue #373](https://github.com/cbsd/cbsd/issues/373)
 
@@ -53,6 +53,6 @@ cloning jail jail2 to jail3 with changes ip address **ip4\_addr** and name of ho
 cbsd jclone old=jail2 new=jail3 host_hostname=jail3.my.domain ip4_addr=10.0.0.22/24
 ```
 
-![](http://www.bsdstore.ru/img/jclone1.png)
+![](http://www.convectix.com/img/jclone1.png)
 
 

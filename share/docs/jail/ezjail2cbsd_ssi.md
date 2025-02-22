@@ -2,18 +2,18 @@
 
 FreeBSD virtual environment management and repository
 
-- [About](http://www.bsdstore.ru/en/about.html)
-- [News](http://www.bsdstore.ru/en/news.html)
-- [Screenshots](http://www.bsdstore.ru/en/screenshots.html)
-- [Tutorial](http://www.bsdstore.ru/en/tutorial.html)
-- [Documentation »](http://www.bsdstore.ru/en/docs.html)  - [Articles by author's](http://www.bsdstore.ru/en/articles.html)
-  - [Articles and press](http://www.bsdstore.ru/en/press.html)
-- [Marketplace(Templates)](https://marketplace.bsdstore.ru)
-- [Support the project](http://www.bsdstore.ru/en/donate.html)
-- [bhyve.cloud](http://www.bsdstore.ru/en/bhyve-cloud.html)
-- Lang »  - [Русский](http://www.bsdstore.ru/ru/13.0.x/ezjail2cbsd_ssi.html)
-  - [English](http://www.bsdstore.ru/en/13.0.x/ezjail2cbsd_ssi.html)
-  - [Deutsch](http://www.bsdstore.ru/de/13.0.x/ezjail2cbsd_ssi.html)
+- [About](http://www.convectix.com/en/about.html)
+- [News](http://www.convectix.com/en/news.html)
+- [Screenshots](http://www.convectix.com/en/screenshots.html)
+- [Tutorial](http://www.convectix.com/en/tutorial.html)
+- [Documentation »](http://www.convectix.com/en/docs.html)  - [Articles by author's](http://www.convectix.com/en/articles.html)
+  - [Articles and press](http://www.convectix.com/en/press.html)
+- [Marketplace(Templates)](https://marketplace.convectix.com)
+- [Support the project](http://www.convectix.com/en/donate.html)
+- [bhyve.cloud](http://www.convectix.com/en/bhyve-cloud.html)
+- Lang »  - [Русский](http://www.convectix.com/ru/13.0.x/ezjail2cbsd_ssi.html)
+  - [English](http://www.convectix.com/en/13.0.x/ezjail2cbsd_ssi.html)
+  - [Deutsch](http://www.convectix.com/de/13.0.x/ezjail2cbsd_ssi.html)
 
 2020-10 upd: we reached the first fundraising goal and rented a server in Hetzner for development! Thank you for [donating](https://www.patreon.com/clonos) !
 
@@ -34,7 +34,7 @@ Notes: this is ZFS-only solution
 Migration from **ezjail** with basejail to **CBSD** with basejail can be doing at least by this easy way:
 
 - Install **CBSD** and do an initial setup, like in the manual
-- Create an empty jail with any name, for example: "jail1", make sure, that you uncheck "astart" option.; (https://www.bsdstore.ru/en/12.0.x/wf\_jcreate\_ssi.html;
+- Create an empty jail with any name, for example: "jail1", make sure, that you uncheck "astart" option.; (https://www.convectix.com/en/12.0.x/wf\_jcreate\_ssi.html;
 - Stop the jail from **ezjail**, that you want to migrate and do a snapshot of it filesystem:
 
 

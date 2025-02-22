@@ -40,7 +40,7 @@ For configuration format and configuration options for cloud-init, refer to the 
 In addition, the **CBSD** distribution includes an example of a simple configuration that you can view in the
 _/usr/local/cbsd/share/examples/cloud-init_ directory and use as a starting point for creating your own cloud installations.
 
-Attention! Despite the [lack of binding to ZFS](http://www.bsdstore.ru/en/articles/cbsd_with_dfs.html),
+Attention! Despite the [lack of binding to ZFS](http://www.convectix.com/en/articles/cbsd_with_dfs.html),
 installation using ZFS is recommended for use with cloud-init. In this case, **CBSD** uses COW technology in the form of a
 zfs clone to create a virtual machine based on the cloud image. Otherwise, **CBSD** each time will be forced to perform a lengthy operation with a
 standard copy of the cloud image on the virtual machine disk.
@@ -49,7 +49,7 @@ However, it is still much more efficient than installing via ISO using the insta
 Attention! In some cases, you may need a runtime configuration, for example, when using network-config version 1.
 Unlike version 2, where you can use the match parameter with wildcard as the network interface name, the first version requires a strong interface name.
 Which may vary depending on the numbering of the PCI bus. In this case, you may need the opportunity
-[pre/post start/stop hooks](http://www.bsdstore.ru/en/13.0.x/wf_jconfig_ssi.html#execscript) in **CBSD**,
+[pre/post start/stop hooks](http://www.convectix.com/en/13.0.x/wf_jconfig_ssi.html#execscript) in **CBSD**,
 which helps you create dynamic configurations for cloud-init.
 
 In addition, an assistant for cloud-init was added to the **CBSD** virtual machines configurator via bconstruct-tui,
@@ -62,7 +62,7 @@ These are the profiles that the **CBSD** uses.
 
 
 In addition, if you notice that image acquisition speed is low ( **CBSD** uses its own mirrors to duplicate images referenced by **CBSD** profiles),
-and you have a desire to help the project, please read the information on how to raise your own mirror: [fetch\_iso](http://www.bsdstore.ru/en/cbsd_fetch.html#cbsd_partners).
+and you have a desire to help the project, please read the information on how to raise your own mirror: [fetch\_iso](http://www.convectix.com/en/cbsd_fetch.html#cbsd_partners).
 You can send us a link to your mirror (or add it yourself via [https://github.com/cbsd/cbsd-vmprofile](https://github.com/cbsd/cbsd-vmprofiles),
 and thereby improve the quality for your country/region.
 
@@ -87,18 +87,18 @@ pay attention to **ci\_ip4\_addr** and **ci\_gw4** \- when using the DHCP value,
 
 Profiles of cloud images are in the vm\_os\_profile menu. Select this item in the main menu:
 
-![](http://www.bsdstore.ru/img/cloudinit1.png)
+![](http://www.convectix.com/img/cloudinit1.png)
 
 At the bottom of the list, you will see an area with Cloud images,
 if these profiles are created in **CBSD** for the selected OS family:
 
-![](http://www.bsdstore.ru/img/cloudinit2.png)
+![](http://www.convectix.com/img/cloudinit2.png)
 
 Next, configure the network settings, user and public key of the guest machine:
 
-![](http://www.bsdstore.ru/img/cloudinit3.png)
+![](http://www.convectix.com/img/cloudinit3.png)
 
-![](http://www.bsdstore.ru/img/cloudinit4.png)
+![](http://www.convectix.com/img/cloudinit4.png)
 
 Further configuration and launch of a cloud-based virtual machine is no different from the main method. Good luck!
 

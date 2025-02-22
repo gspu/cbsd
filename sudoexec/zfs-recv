@@ -10,7 +10,6 @@ MYDESC="zfs-recv wrapper"
 
 
 [ -z "${force}" ] && force=0
-echo "jname: $jname, zdata: ${zdata}, mountpoint: ${mountpoint}, force=${force}" >> /tmp/ok.txt
 
 ### extra checks for valid data
 # 1. check for valid datapool
@@ -84,9 +83,7 @@ if [ "${mountpoint}" = "-" -a "${emulator}" != "jail" ]; then
 	target=$( ${BASENAME_CMD} "${zdata}" )
 	case "${target}" in
 		dsk*)
-			echo "CHECK FOR /dev/zvol/${target}" >> /tmp/ok.txt
 			if [ -e "/dev/zvol/${zdata}" ]; then
-				echo "${LN_CMD} -sf /dev/zvol/${zdata} ${workdir}/vm/${jname}/${target}" >> /tmp/ok.txt
 				${LN_CMD} -sf /dev/zvol/${zdata} ${workdir}/vm/${jname}/${target}
 			fi
 			;;

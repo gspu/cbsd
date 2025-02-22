@@ -25,5 +25,5 @@ _Note_: because the program will run under qemu, they are have default limit of 
 
 instead of 128.
 
-![](http://www.bsdstore.ru/img/cbsd_with_qemu.png)
+![](http://www.convectix.com/img/cbsd_with_qemu.png)
 

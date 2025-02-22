@@ -20,7 +20,6 @@ init_xen_usage()
 #	${ECHO} "${H1_COLOR}*${N0_COLOR} sysrc cloned_interfaces='bridge0'${N0_COLOR}"
 #	${ECHO} "${H1_COLOR}*${N0_COLOR} sysrc ifconfig_bridge0='addm ${H3_COLOR}bge0${N0_COLOR} SYNCDHCP'${N0_COLOR}"
 	${ECHO} "${H1_COLOR}*${N0_COLOR} sysrc xencommons_enable=YES${N0_COLOR}"
-	${ECHO} "${H1_COLOR}*${N0_COLOR} sysrc xendriverdomain_enable=YES${N0_COLOR}"
 	if [ ${freebsdhostversion} -lt 1300100 ]; then
 		${ECHO} "${H1_COLOR}*${N0_COLOR} echo 'vm.max_wired=-1' >> /etc/sysctl.conf${N0_COLOR}"
 	else

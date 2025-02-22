@@ -8,7 +8,7 @@ For those who do not like to configure the system we have prepared an independen
 ## Intro
 
 **CBSD** allows the user to create environments at different levels of abstraction
-by providing a large number of methods for creating environments - [**CBSDfile**](http://www.bsdstore.ru/en/cbsdfile.html),
+by providing a large number of methods for creating environments - [**CBSDfile**](http://www.convectix.com/en/cbsdfile.html),
 \[jb\]create commands, which work both in the configuration file and through command line arguments.
 Finally, you can use interactive dialog menus (\[jb\]construct-tui). Despite the variety,
 all of these options require the login to the server each time via SSH to enter the respective commands.
@@ -27,7 +27,7 @@ where no one will interfere with each other. Each user works only with their env
 - Three (!) works with a cluster/API method are officially supported: platform-dependent - **CBSDFile** (requires **CBSD** as a subtle client) and two independent:
 **[nubectl](https://github.com/bitcoin-software/nubectl)** (client available on all modern platforms: Linux, Windows, MacOS) and any curl-like HTTP client with JSON as a payload;
 - Maximum simplicity: You are adjusting only three parameters to get a fully working environment within a few seconds;
-- Extensibility: Custom recommendations for host selection (for example - **DRS**), integration with external services (for example - [**IPAM**](http://www.bsdstore.ru/en/13.0.x/wf_ipam_ssi.html)), extrases (external helpers);
+- Extensibility: Custom recommendations for host selection (for example - **DRS**), integration with external services (for example - [**IPAM**](http://www.convectix.com/en/13.0.x/wf_ipam_ssi.html)), extrases (external helpers);
 
 If you encounter these problems and want to relieve your life - then this is an article for you!
 
@@ -69,11 +69,14 @@ Let's start by looking at the simplest single-mode installation.
 
 ## Standalone API
 
+<details>
+  <summary>FreeBSD OS</summary>
+
 Installing and configuring the **CBSD** API in standalone mode.
 
 In this example, all operations are performed on one hypervisor, which will act simultaneously as an API and a broker and a **CBSD** hoster, where working environments will be launched.
 
-Assuming you have a stock vanilla FreeBSD 13.0+ installation.
+Assuming you have a stock vanilla FreeBSD 14.2+ installation.
 
 1) Install additional packages:
 
@@ -142,7 +145,7 @@ Copy configuration sample to work dir:
 
 ```
 cp -a /usr/local/cbsd/modules/api.d/etc/api.conf ~cbsd/etc/
-cp -a /usr/local/cbsd/modules/api.d/etc/bhyve-api.conf ~cbsd/etc/
+cp -a /usr/local/cbsd/modules/api.d/etc/vm-api.conf ~cbsd/etc/
 cp -a /usr/local/cbsd/modules/api.d/etc/jail-api.conf ~cbsd/etc/
 
 ```
@@ -191,6 +194,133 @@ service cbsd-mq-api start
 ```
 
 Your first standalone private API cluster of VM is ready to serve you!
+
+</details>
+
+<details>
+  <summary>Linux-debian based OS</summary>
+
+Installing and configuring the **CBSD** API in standalone mode.
+
+In this example, all operations are performed on one hypervisor, which will act simultaneously as an API and a broker and a **CBSD** hoster, where working environments will be launched.
+
+Assuming you have a stock vanilla Debian 13 installation.
+
+1) Install additional packages:
+
+```
+apt install -y cbsd-mq-router cbsd-mq-api beanstalkd
+```
+
+2) Enable and run beanstalkd, the broker service.
+
+```
+systemctl enable beanstalkd
+systemctl start beanstalkd
+```
+
+3) Configure MQ router.
+
+First, get hoster FQDN via \`hostname\` command. Let's say your host has a name: **apitest.my.domain**
+
+Open _/etc/cbsd-mq-router.json_ in any favorite editor and set "tube" and "reply\_tube\_prefix" params ( cbsd\_ **<hostname\_without\_dot>** and cbsd\_ **<hostname\_without\_dot>**\_result\_id ), e.g:
+
+
+```
+{
+    "cbsdenv": "/usr/jails",
+    "cbsdcolor": false,
+    "broker": "beanstalkd",
+    "logfile": "/dev/stdout",
+    "beanstalkd": {
+      "uri": "127.0.0.1:11300",
+      "tube": "cbsd_apitest_my_domain",
+      "reply_tube_prefix": "cbsd_cbsd_apitest_my_domain_result_id",
+      "reconnect_timeout": 5,
+      "reserve_timeout": 5,
+      "publish_timeout": 5,
+      "logdir": "/var/log/cbsdmq"
+    }
+}
+```
+
+4) Start MQ router:
+
+```
+systemctl enable cbsd-mq-router
+systemctl start cbsd-mq-router
+
+```
+
+5) Install CBSD API module.
+
+```
+cbsd module mode=install api
+echo 'api.d' >> ~cbsd/etc/modules.conf
+cbsd initenv
+
+```
+
+6) Configure CBSD API module.
+
+Copy configuration sample to work dir:
+
+```
+cp -a /usr/local/cbsd/modules/api.d/etc/api.conf ~cbsd/etc/
+cp -a /usr/local/cbsd/modules/api.d/etc/vm-api.conf ~cbsd/etc/
+cp -a /usr/local/cbsd/modules/api.d/etc/jail-api.conf ~cbsd/etc/
+
+```
+
+Open ~cbsd/etc/api.conf in any favorite editor and set "server\_list=" to server FQDN, e.g:
+
+```
+...
+server_list="apitest.my.domain"
+...
+
+```
+
+Set 'cbsd' user permission for ~cbsd/etc/api.conf file:
+
+```
+chown cbsd:cbsd ~cbsd/etc/api.conf
+
+```
+
+Here you can check that the API module scripts works:
+
+```
+su -m cbsd -c '/usr/local/cbsd/modules/api.d/misc/recomendation.sh'
+
+```
+
+must return the host from server\_list ( **apitest.my.domain** )
+
+```
+su -m cbsd -c '/usr/local/cbsd/modules/api.d/misc/freejname.sh'
+
+```
+
+must return the unique name ' **envX**'.
+
+
+7) Configure RestAPI daemon:
+
+```
+mkdir -p /var/db/cbsd-api /usr/jails/var/db/api/map
+chown -R cbsd:cbsd /var/db/cbsd-api /usr/jails/var/db/api/map
+service cbsd-mq-api enable
+service cbsd-mq-api start
+
+```
+
+Your first standalone private API cluster of VM is ready to serve you!
+
+
+
+</details>
+
 
 ## GUI
 
@@ -287,7 +417,7 @@ Other parameters in payload, which can be useful when creating a VM:
 "host\_hostname":specify hostname for your VM, for example: "foo.example.com""extras":extras (see below)"recomendation":enter your own recommendation on where to place the VM. Instead of automatic selection. For multi-node clusters. For example: "host23.my.domain" (provided that the host23.my.domain host exists)
 
 Please note that, unlike classic bcreate/bconstruct-tui, the parameters vm\_os\_type and vm\_os\_profile here are consolidated to one "img" parameter for even greater simplicity.
-At the same time, mapping of **<img>** is set in the file that you have copied earlier, it is _~cbsd/etc/bhyve-api.conf_.
+At the same time, mapping of **<img>** is set in the file that you have copied earlier, it is _~cbsd/etc/vm-api.conf_.
 At the time of writing an article, affordable values as 'img': **'centos7', 'centos8', 'ubuntu', 'debian', 'freebsd\_ufs', 'freebsd\_zfs', 'openbsd', 'netbsd'.**
 
 Please note that the first VM of each image can be created not quickly if you have not created such profile on a host - **CBSD** will download and unpack the ISO
@@ -299,7 +429,7 @@ with which you plan to work through the API.
 In some cases curl and RestAPI are much more convenient than ssh + \`cbsd bcreate / bconstruct-tui\`.
 If you have to deploy a lot of virtual environments and often, you cannot avoid the need to learn and use some high-level language.
 The above method CURL and HTTP requests are well suited if you develop a programmable cloud based on **CBSD**, but it's not very convenient for human.
-As an intermediate option, we can offer the option of interacting with the API through the [**CBSDfile**](http://www.bsdstore.ru/en/cbsdfile.html).
+As an intermediate option, we can offer the option of interacting with the API through the [**CBSDfile**](http://www.convectix.com/en/cbsdfile.html).
 
 The API-enabled CBSDfile gives you the ability to easily build a private programmable cloud to run virtual environments because you can
 fully describe in one file the finished a service (or several services) in a single virtual environment (or several virtual environments).
@@ -343,7 +473,7 @@ With it, you can create and delete environments, as well as log-in via ssh for u
 
 In addition, nubectl supports the description of Infrastructure As a Code via yaml files. Refer to [example cloud config](https://github.com/bitcoin-software/nubectl/blob/master/dist.cloud.yaml).
 
-![](http://www.bsdstore.ru/img/nubectl1.png)
+![](http://www.convectix.com/img/nubectl1.png)
 
 Another sample with **nubectl-windows**:
 
@@ -388,7 +518,7 @@ server_list="srv-01.olevole.ru srv-02.olevole.ru srv-03.olevole.ru bob.your-serv
 
 You can check that the recommendation script (/usr/local/cbsd/modules/api.d/misc/recomendation.sh) offers hosts in round-robin by default:
 
-![](http://www.bsdstore.ru/img/cbsd_api1.png)
+![](http://www.convectix.com/img/cbsd_api1.png)
 
 **WIP...**
 
@@ -404,10 +534,10 @@ API return SSH connection string as **ssh4\_string** : the external address (nod
 If you use external addresses as a pool, or you have direct access ( IPSec / VXLAN / other tunnels ) to the host's private network,
 you can change the behavior by disabling the selection of a dynamic port and turning off redirection altogether.
 Then, the API will give as ssh\[4,6\]\_string IP:22 of the virtual machine.
-This is the responsibility of the nodeip\_expose=1 parameter in ~cbsd/etc/bhyve-api.conf and ~cbsd/etc/jail-api.conf (for bhyve and jail, respectively).
+This is the responsibility of the nodeip\_expose=1 parameter in ~cbsd/etc/vm-api.conf and ~cbsd/etc/jail-api.conf (for bhyve and jail, respectively).
 
 If you are using a cluster with several servers in different datacenters, which are united into one private network in which the environments are running,
-you may want to change the source of issuing addresses to an external service, as is done [**here**](http://www.bsdstore.ru/en/13.0.x/wf_ipam_ssi.html).
+you may want to change the source of issuing addresses to an external service, as is done [**here**](http://www.convectix.com/en/13.0.x/wf_ipam_ssi.html).
 
 If you want to perform some own custom operations when creating environments - use the ability called 'extras': this is a kind of tags or custom parameters
 for which you can map any of your operations.

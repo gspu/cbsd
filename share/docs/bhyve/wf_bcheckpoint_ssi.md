@@ -34,7 +34,7 @@ where:
 - \- **mode**: (required) action relative to the environment: create (create checkpoint), list (list of checkpoints created), destroyall (destroy all checkpoints)
 - \- **name**: (optional) specify an alternate checkpoint name, by default: checkpoint
 - \- **poweroff**: (optional). When poweroff=1, **CBSD** will automatically shut down the virtual machine instantly
-(via [bstop](http://www.bsdstore.ru/en/13.0.x/wf_bstop_bstart_ssi.html) **noacpi=1**) on the fact of checkpoint creation.
+(via [bstop](http://www.convectix.com/en/13.0.x/wf_bstop_bstart_ssi.html) **noacpi=1**) on the fact of checkpoint creation.
 
 ```
 % cbsd bls

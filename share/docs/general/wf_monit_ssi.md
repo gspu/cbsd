@@ -2,18 +2,18 @@
 
 FreeBSD virtual environment management and repository
 
-- [About](http://www.bsdstore.ru/en/about.html)
-- [News](http://www.bsdstore.ru/en/news.html)
-- [Screenshots](http://www.bsdstore.ru/en/screenshots.html)
-- [Tutorial](http://www.bsdstore.ru/en/tutorial.html)
-- [Documentation »](http://www.bsdstore.ru/en/docs.html)  - [Articles by author's](http://www.bsdstore.ru/en/articles.html)
-  - [Articles and press](http://www.bsdstore.ru/en/press.html)
-- [Marketplace(Templates)](https://marketplace.bsdstore.ru)
-- [Support the project](http://www.bsdstore.ru/en/donate.html)
-- [bhyve.cloud](http://www.bsdstore.ru/en/bhyve-cloud.html)
-- Lang »  - [Русский](http://www.bsdstore.ru/ru/13.0.x/wf_monit_ssi.html)
-  - [English](http://www.bsdstore.ru/en/13.0.x/wf_monit_ssi.html)
-  - [Deutsch](http://www.bsdstore.ru/de/13.0.x/wf_monit_ssi.html)
+- [About](http://www.convectix.com/en/about.html)
+- [News](http://www.convectix.com/en/news.html)
+- [Screenshots](http://www.convectix.com/en/screenshots.html)
+- [Tutorial](http://www.convectix.com/en/tutorial.html)
+- [Documentation »](http://www.convectix.com/en/docs.html)  - [Articles by author's](http://www.convectix.com/en/articles.html)
+  - [Articles and press](http://www.convectix.com/en/press.html)
+- [Marketplace(Templates)](https://marketplace.convectix.com)
+- [Support the project](http://www.convectix.com/en/donate.html)
+- [bhyve.cloud](http://www.convectix.com/en/bhyve-cloud.html)
+- Lang »  - [Русский](http://www.convectix.com/ru/13.0.x/wf_monit_ssi.html)
+  - [English](http://www.convectix.com/en/13.0.x/wf_monit_ssi.html)
+  - [Deutsch](http://www.convectix.com/de/13.0.x/wf_monit_ssi.html)
 
 2020-10 upd: we reached the first fundraising goal and rented a server in Hetzner for development! Thank you for [donating](https://www.patreon.com/clonos) !
 
@@ -39,21 +39,21 @@ There is a fairly logical explanation for this - in modern realities it is rathe
 That is why **CBSD** places great emphasis on integration capabilities with tools that extend the capabilities of the CBSD framework to provide additional capabilities to users.
 
 
-In this chapter, we solve the issue of monitoring the health of services in containers or virtual machines using [monit](http://www.bsdstore.ru/_blank),
+In this chapter, we solve the issue of monitoring the health of services in containers or virtual machines using [monit](http://www.convectix.com/_blank),
 followed by restarting the environments under certain conditions.
 The main actor providing the integration is the export of **CBSD** environment facts, which are dynamic data,
-and the presence of [**hooks**](http://www.bsdstore.ru/en/13.0.x/wf_jconfig_ssi.html#execscript) in **CBSD**,
+and the presence of [**hooks**](http://www.convectix.com/en/13.0.x/wf_jconfig_ssi.html#execscript) in **CBSD**,
 which automates the process of creating and deleting **monit** rules.
 
 
 Other chapters in this series:
 
 
-- [API module: private cloud via API](http://www.bsdstore.ru/en/cbsd_api_ssi.html)
-- [VPC with **CBSD** (vxlan)](http://www.bsdstore.ru/en/13.0.x/wf_vpc_ssi.html)
-- [**CBSD** integration with PHPIPAM (IP management)](http://www.bsdstore.ru/en/13.0.x/wf_ipam_ssi.html)
-- [Example of using CBSD/bhyve and ISC-DHCPD](http://www.bsdstore.ru/en/articles/cbsd_vm_hook_dhcpd.html)
-- [Example of using CBSD/jail and Consul](http://www.bsdstore.ru/en/articles/cbsd_jail_hook_consul.html)
+- [API module: private cloud via API](http://www.convectix.com/en/cbsd_api_ssi.html)
+- [VPC with **CBSD** (vxlan)](http://www.convectix.com/en/13.0.x/wf_vpc_ssi.html)
+- [**CBSD** integration with PHPIPAM (IP management)](http://www.convectix.com/en/13.0.x/wf_ipam_ssi.html)
+- [Example of using CBSD/bhyve and ISC-DHCPD](http://www.convectix.com/en/articles/cbsd_vm_hook_dhcpd.html)
+- [Example of using CBSD/jail and Consul](http://www.convectix.com/en/articles/cbsd_jail_hook_consul.html)
 - DRS for **CBSD**
 
 Why **Monit**?
@@ -76,9 +76,9 @@ To assess the difference, just look at the difference in the consumed resources 
 
 monit consul executable file size: 425 Kb**78 Mb**RAM consumption without check-rules (default):25 Mb **80 Mb**
 
-[![](http://www.bsdstore.ru/img/monit/monit1.png)](http://www.bsdstore.ru/img/monit/monit1.png)
+[![](http://www.convectix.com/img/monit/monit1.png)](http://www.convectix.com/img/monit/monit1.png)
 
-[![](http://www.bsdstore.ru/img/monit/monit2.png)](http://www.bsdstore.ru/img/monit/monit2.png)
+[![](http://www.convectix.com/img/monit/monit2.png)](http://www.convectix.com/img/monit/monit2.png)
 
 In addition, the purpose of the article is to show the concept itself, which can be easily used with any other, more massive tools.
 
@@ -100,7 +100,7 @@ to ensure the reliability of the external **monit** service itself.
 
 We will maintain the configuration of checks for each environment,
 regardless of the general configuration, so that the rules always remain with the environment, even if it moves from node to node.
-This is _especially_ useful when using [**CBSDfile**](http://www.bsdstore.ru/en/cbsdfile.html) deployments,
+This is _especially_ useful when using [**CBSDfile**](http://www.convectix.com/en/cbsdfile.html) deployments,
 where rules and hook scripts can be located in the same directory.
 
 
@@ -169,7 +169,7 @@ Inside each directory is an executable file called **monit.sh**, which will do a
 
 
 Of course, you can write your own, nicer handler instead of these demo scripts.
-Now, if you are not using [your own profiles](http://www.bsdstore.ru/en/13.0.x/wf_profiles_ssi.html),
+Now, if you are not using [your own profiles](http://www.convectix.com/en/13.0.x/wf_profiles_ssi.html),
 just link the scripts to the **CBSD** directories:
 
 
@@ -239,7 +239,7 @@ The service must have a task with the container name **lb1**:
 
 ```
 
-![](http://www.bsdstore.ru/img/monit/monit3.png)
+![](http://www.convectix.com/img/monit/monit3.png)
 
 Now simulate a denial of nginx service, you just need to stop it:
 

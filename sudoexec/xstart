@@ -61,7 +61,6 @@ ${CAT_CMD} >> $1 << EOF
 # $vm_os_type specific:
 builder = "hvm"
 serial="pty"
-vncconsole=1
 EOF
 }
 
@@ -146,7 +145,15 @@ start_xen()
 				else
 					_cloud_source_is_zvol=0
 					_cloud_source_zvol=
-					_ebytes=$( ${STAT_CMD} -f "%z" ${_myfile} 2>/dev/null )
+
+					case "${platform}" in
+						Linux)
+							_ebytes=$( ${STAT_CMD} --printf="%s" ${_myfile} 2>/dev/null )
+							;;
+						*)
+							_ebytes=$( ${STAT_CMD} -f "%z" ${_myfile} 2>/dev/null )
+							;;
+					esac
 				fi
 
 				# store original disk size to restore them after replace by cloud image
@@ -155,7 +162,16 @@ start_xen()
 					_dsk_source_zvol="${is_zvol}"
 					_cloud_truncate=0
 				else
-					_dsk_ebytes=$( ${STAT_CMD} -f "%z" ${data}/dsk1.vhd 2>/dev/null )
+
+					case "${platform}" in
+						Linux)
+							_dsk_ebytes=$( ${STAT_CMD} --printf="%s" ${data}/dsk1.vhd 2>/dev/null )
+							;;
+						*)
+							_dsk_ebytes=$( ${STAT_CMD} -f "%z" ${data}/dsk1.vhd 2>/dev/null )
+							;;
+					esac
+
 					_cloud_truncate=1
 					_dsk_source_zvol=
 				fi
@@ -318,11 +334,7 @@ vga = "stdvga"
 videoram=32
 
 #vm_vnc_port='${vm_vnc_port}'
-opengl=1
-vncconsole=1
 vncunused=0
-
-debug_engine='${debug_engine}'
 
 on_poweroff="${on_poweroff}";
 on_reboot="${on_reboot}";
@@ -478,6 +490,10 @@ EOF
 	echo "[debug]: $xl_cmd"
 	#${tmuxcmd} -2 new -d -s "cbsd-${jname}" "eval ${xl_cmd}"
 
+	if [ -d /var/log/xen ]; then
+		[ -r /var/log/xen/qemu-dm-${jname}.log ] && ${RM_CMD} /var/log/xen/qemu-dm-${jname}.log
+	fi
+
 	case "${debug_engine}" in
 		gdb)
 			if [ -x /usr/local/bin/gdb ]; then
@@ -493,7 +509,7 @@ EOF
 			echo "Run xl throuch GDB. Please execute 'run' to launch XEN instance"
 			echo
 			echo "${gdb_cmd} -batch --args ${xl_cmd}"
-			${gdb_cmd} -ex run --args ${xl_cmd}
+			env cbsd_workdir="${workdir}" ${gdb_cmd} -ex run --args ${xl_cmd}
 			;;
 		lldb)
 			echo
@@ -501,23 +517,31 @@ EOF
 			echo "Run xl throuch LLDB. Please execute 'run' to launch XEN instance"
 			echo
 			echo "/usr/bin/lldb -- ${xl_cmd}"
-			/usr/bin/lldb -- ${xl_cmd}
+			env cbsd_workdir="${workdir}" /usr/bin/lldb -- ${xl_cmd}
 			bhyve_exit=$?
 			${RM_CMD} -f ${tmpdir}/cmds.$$
 			;;
 		*)
-			${tmuxcmd} -2 -u new -d -s "cbsd-${jname}" "${xl_cmd}"
+			env cbsd_workdir="${workdir}" ${tmuxcmd} -2 -u new -d -s "cbsd-${jname}" "${xl_cmd}"
 			;;
 	esac
 
 	[ -n "${dsk_bootable}" ] && ${ECHO} "${N1_COLOR}Boot device: ${N2_COLOR}${dsk_bootable}${N0_COLOR}"
 	printf "${N1_COLOR}Waiting for PID"
+	sync
+	sleep 2
+
 	for i in $( ${SEQ_CMD} 10 ); do
 		_state=$( ${XL_CMD} list ${jname} > /dev/null 2>&1 )
 		if [ $? -eq 0 ]; then
 				sleep 1
 				printf "."
 		else
+				if [ -r /var/log/xen/qemu-dm-${jname}.log ]; then
+					echo
+					${ECHO} "${N1_COLOR}content of ${N2_COLOR}/var/log/xen/qemu-dm-${jname}.log${N1_COLOR}:${N0_COLOR}"
+					${CAT_CMD} /var/log/xen/qemu-dm-${jname}.log
+				fi
 				break
 		fi
 	done

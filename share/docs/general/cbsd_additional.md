@@ -241,7 +241,7 @@ cbsd jstart jname='lala*'
 
 ```
 
-![](http://www.bsdstore.ru/gif/jnamemask.gif)
+![](http://www.convectix.com/gif/jnamemask.gif)
 
 ## A brief summary of the filesystem hierarchy **CBSD**
 
@@ -346,7 +346,7 @@ any software, bugs happen. If a component or tool that is part of
 **CBSD** crashes, or returns unexpected data or behaviour,
 [CBSD command debuging](cmdsyntax_cbsd.md#cmddebug)
 can be enabled. If the bug is reproducible, and an actaul bug discovered,
-please report the issue via e-mail: **CBSD** _at_ **bsdstore.ru**, or better yet submit a pull request that
+please report the issue via e-mail: **CBSD** _at_ **convectix.com**, or better yet submit a pull request that
 identifies the issue found, and contains the code to resolve the issue.
 
 

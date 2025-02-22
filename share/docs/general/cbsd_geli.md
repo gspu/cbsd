@@ -2,18 +2,18 @@
 
 FreeBSD virtual environment management and repository
 
-- [About](http://www.bsdstore.ru/en/about.html)
-- [News](http://www.bsdstore.ru/en/news.html)
-- [Screenshots](http://www.bsdstore.ru/en/screenshots.html)
-- [Tutorial](http://www.bsdstore.ru/en/tutorial.html)
-- [Documentation »](http://www.bsdstore.ru/en/docs.html)  - [Articles by author's](http://www.bsdstore.ru/en/articles.html)
-  - [Articles and press](http://www.bsdstore.ru/en/press.html)
-- [Marketplace(Templates)](https://marketplace.bsdstore.ru)
-- [Support the project](http://www.bsdstore.ru/en/donate.html)
-- [bhyve.cloud](http://www.bsdstore.ru/en/bhyve-cloud.html)
-- Lang »  - [Русский](http://www.bsdstore.ru/ru/cbsd_geli.html)
-  - [English](http://www.bsdstore.ru/en/cbsd_geli.html)
-  - [Deutsch](http://www.bsdstore.ru/de/cbsd_geli.html)
+- [About](http://www.convectix.com/en/about.html)
+- [News](http://www.convectix.com/en/news.html)
+- [Screenshots](http://www.convectix.com/en/screenshots.html)
+- [Tutorial](http://www.convectix.com/en/tutorial.html)
+- [Documentation »](http://www.convectix.com/en/docs.html)  - [Articles by author's](http://www.convectix.com/en/articles.html)
+  - [Articles and press](http://www.convectix.com/en/press.html)
+- [Marketplace(Templates)](https://marketplace.convectix.com)
+- [Support the project](http://www.convectix.com/en/donate.html)
+- [bhyve.cloud](http://www.convectix.com/en/bhyve-cloud.html)
+- Lang »  - [Русский](http://www.convectix.com/ru/cbsd_geli.html)
+  - [English](http://www.convectix.com/en/cbsd_geli.html)
+  - [Deutsch](http://www.convectix.com/de/cbsd_geli.html)
 
 2020-10 upd: we reached the first fundraising goal and rented a server in Hetzner for development! Thank you for [donating](https://www.patreon.com/clonos) !
 
@@ -89,7 +89,7 @@ As is the case with initmaster, if you start a second init file — the system w
 
 Schematically, the interaction with **CBSD** GELI script with the system looks like this:
 
-![](http://www.bsdstore.ru/img/cbsd_geli1.png)
+![](http://www.convectix.com/img/cbsd_geli1.png)
 
 ## Using jails fstab to list of crypted images and   mount points
 

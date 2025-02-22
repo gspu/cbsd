@@ -50,7 +50,7 @@ sqlite>
 
 ```
 
-![](http://www.bsdstore.ru/img/trafstat1.png)
+![](http://www.convectix.com/img/trafstat1.png)
 
-![](http://www.bsdstore.ru/img/trafstat2.png)
+![](http://www.convectix.com/img/trafstat2.png)
 

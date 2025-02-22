@@ -5,7 +5,7 @@
 **Description**:
 
 
-Upgrade procedure jail always carries certain risks in the form of disruption of service, therefore, make it a rule to always create backups of the jail. If you are running on ZFS file system, you can use the command [cbsd jsnapshot](http://www.bsdstore.ru/en/13.0.x/wf_jsnapshot_ssi.html) for a frozen state of the jail before the start of work. For example:
+Upgrade procedure jail always carries certain risks in the form of disruption of service, therefore, make it a rule to always create backups of the jail. If you are running on ZFS file system, you can use the command [cbsd jsnapshot](http://www.convectix.com/en/13.0.x/wf_jsnapshot_ssi.html) for a frozen state of the jail before the start of work. For example:
 
 ```
 cbsd jsnapshot mode=create jname=jail1 snapname=before_update
@@ -97,7 +97,7 @@ and change _ver_ parameter to **10.0**, then save it via "Commit". Or, as in the
 
 On the next run, the jails will mount base 10.0 (on screenshot the base in the system not found and **CBSD** has invited her to download). Of course, with such a upgrade to a new major version, after this operation you need to rebuild the software in the jail or update it through **pkg** — operation is highly desirable because library system changed. As a minimum, to identify this fact we can use the **libchk** utils.
 
-![](http://www.bsdstore.ru/img/jupgrade1.png)
+![](http://www.convectix.com/img/jupgrade1.png)
 
 ## Upgrading baserw=1 jails between different versions of the base via **CBSD**
 
@@ -120,7 +120,7 @@ cbsd jupgrade jname=jail1
 
 This operation causes the system to overwrite all the files in the base jail from your base original directory _$workdir/basejails/base\_\\\*\_\\\*\_ver_
 
-![](http://www.bsdstore.ru/img/jupgrade2.png)
+![](http://www.convectix.com/img/jupgrade2.png)
 
 ## Upgrading baserw=0,1 jail in one version, switch to stable=1
 
@@ -130,7 +130,7 @@ There are cases when you need to upgrade the files in one version, for example, 
 cbsd repo action=get sources=base mode=upgrade
 ```
 
-\- flags **mode=upgrade** permits to **CBSD** overwrite this directory with new files, if you already have a version of the base for this version. Or, you can build a more recent version of the base, using [Building and upgrading bases](http://www.bsdstore.ru/en/base_cbsd.html) Also, you can go with the base version with a RELEASE to STABLE (in this case, the name of the base directory will not X.Y, just X. Ie, instead base\_\\\*\_\\\*\_9.2 will be used base\_\\\*\_\\\*\_9 directory. For this you need in configurator of jail (cbsd jconfig) change the parameter stable=0 to stable=1 (either through cbsd initenv-tui mode is set STABLE branches globally), and do not forget to add stable=1 flags in repo command (if not set globally)
+\- flags **mode=upgrade** permits to **CBSD** overwrite this directory with new files, if you already have a version of the base for this version. Or, you can build a more recent version of the base, using [Building and upgrading bases](http://www.convectix.com/en/base_cbsd.html) Also, you can go with the base version with a RELEASE to STABLE (in this case, the name of the base directory will not X.Y, just X. Ie, instead base\_\\\*\_\\\*\_9.2 will be used base\_\\\*\_\\\*\_9 directory. For this you need in configurator of jail (cbsd jconfig) change the parameter stable=0 to stable=1 (either through cbsd initenv-tui mode is set STABLE branches globally), and do not forget to add stable=1 flags in repo command (if not set globally)
 
 ```
 cbsd repo action=get sources=base mode=upgrade stable=1
@@ -140,9 +140,9 @@ Similar rules for jails with baserw=1, it is only necessary to remember after up
 
 In addition, provided that you have a base system in the corresponding version (or you jail migrated to another server where there is a base more recent), when you start the jail with baserw=1, **CBSD** can automatically check for more recent files for this version and show information message "You have a more recent version of the base in ...":
 
-![](http://www.bsdstore.ru/img/jupgrade3.png)
+![](http://www.convectix.com/img/jupgrade3.png)
 
 ## Update of configuration files in jail, etcupdate/mergemaster
 
 Updating binary files is half the trouble) You must also synchronize the configuration files. See how **CBSD** may be useful here:
-[etcupdate](http://www.bsdstore.ru/en/13.0.x/wf_etcupdate_ssi.html) helper
+[etcupdate](http://www.convectix.com/en/13.0.x/wf_etcupdate_ssi.html) helper

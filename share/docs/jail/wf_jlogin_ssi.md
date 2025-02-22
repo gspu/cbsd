@@ -35,7 +35,7 @@ This is achieved through the configuration file blogin.conf and the parameter **
 The file can be placed for the individual environment in the directory _$workdir/jails-system/$jname/etc_, and globally, overwriting the value from _$workdir/etc/defaults/blogin.conf_.
 To do this, create a file with your configuration in the directory _$workdir/etc/_
 
-With a custom call, you can use [CBSD variables](http://www.bsdstore.ru/en/13.0.x/wf_cbsd_variables_ssi.html) \- for this or that environment
+With a custom call, you can use [CBSD variables](http://www.convectix.com/en/13.0.x/wf_cbsd_variables_ssi.html) \- for this or that environment
 
 For example, if you want instead of the standard behavior, when the blogin lauched ssh client, the file _$workdir/etc/blogin.conf_ can look like this:
 
@@ -44,8 +44,8 @@ For example, if you want instead of the standard behavior, when the blogin lauch
 login_cmd="/usr/bin/ssh your_user@${ipv4_first}"
 ```
 
-![](http://www.bsdstore.ru/img/jlogin1.png)
+![](http://www.convectix.com/img/jlogin1.png)
 
-![](http://www.bsdstore.ru/img/jlogin2.png)
+![](http://www.convectix.com/img/jlogin2.png)
 
 

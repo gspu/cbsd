@@ -17,6 +17,6 @@ cbsd jailscp
 
 ```
 
-![](http://www.bsdstore.ru/img/jailscp1.png)
+![](http://www.convectix.com/img/jailscp1.png)
 
 

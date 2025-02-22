@@ -333,7 +333,7 @@ Automatically correct the /etc/resolv.conf, automatically assigning as the prim
 
 ```
 
-System commands for starts and stops jail. If you want to write additional scripts executed by starting and stopping jails see: [Jail config](http://www.bsdstore.ru/en/13.0.x/wf_jconfig_ssi.html#execscript)
+System commands for starts and stops jail. If you want to write additional scripts executed by starting and stopping jails see: [Jail config](http://www.convectix.com/en/13.0.x/wf_jconfig_ssi.html#execscript)
 
 * * *
 

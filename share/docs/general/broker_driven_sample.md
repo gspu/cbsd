@@ -11,7 +11,7 @@ Here we will use multiple **CBSD** workspaces, when some resources can be initia
 This opens up great opportunities for building pool-binded methods for hosting virtual machines. Pool-binded cluster means that all services or virtual machines
 of the cluster will be tied to one or another pool, which can move from one server to another in emergency situations, during DRS operation or equipment maintenance.
 Thus, it can become the basis for building a 'shared nothing cluster' based on FreeBSD and **CBSD**.
-![](http://www.bsdstore.ru/img/cbsd_pool_mq1.png)
+![](http://www.convectix.com/img/cbsd_pool_mq1.png)
 
 The creation of a failover cluster will be described in a more extended article, here we will restrict ourselves to several **CBSD**
 working environments to demonstrate the operation of the asynchronous interface through an broker bus.
@@ -20,7 +20,7 @@ We need a **beanstalkd** service that acts as a shared bus for all agents.
 Let's put **beanstalkd** in jail on our server.
 To do this, create a jail with an arbitrary name in which **beanstalkd** will be launched, for example, **bs1** (assign the container the correct working IP address, we need it):
 
-![](http://www.bsdstore.ru/img/cbsd_pool_mq2.png)
+![](http://www.convectix.com/img/cbsd_pool_mq2.png)
 
 ```
 cbsd jconstruct-tui

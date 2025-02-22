@@ -18,7 +18,7 @@ Hint: XEN/FreeBSD Dom0 boot not working in UEFI mode, please use legacy (MBR) bo
 
 ```
 pkg install -y sysutils/xen-tools emulators/xen-kernel
-sysrc xencommons_enable=YES xendriverdomain_enable=YES
+sysrc xencommons_enable=YES
 echo 'vm.max_user_wired=-1' >> /etc/sysctl.conf
 echo 'xc0     /usr/libexec/getty Pc           xterm   onifconsole secure' >> /etc/ttys
 mkdir -p /var/lock /var/run/xen

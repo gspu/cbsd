@@ -72,13 +72,13 @@ In the absence of **rcshutdown\_timeout** in the system **/etc/rc.conf**, **cbsd
 
 Also, keep in mind that when using the zfs features ( _$workdir/nc.inventory_, the parameter **zfsfeat=1**), and the file system ZFS, at jstop, file system of jails will be unmounted and those catalog _**$workdir/** jails-data/jail1-data_ will be empty. If in such a case when jail data is requires without running it, by the command **zfs list** You can see the name appropriate file system and run zfs mount **fs**.
 
-![](http://www.bsdstore.ru/gif/jstart.gif)
+![](http://www.convectix.com/gif/jstart.gif)
 
 ## Writing scripts executed on starting and stopping jail
 
-Please read details on the [Jail config](http://www.bsdstore.ru/en/13.0.x/wf_jconfig_ssi.html#execscript)
+Please read details on the [Jail config](http://www.convectix.com/en/13.0.x/wf_jconfig_ssi.html#execscript)
 
 ## Priority launch of jails
 
-In **CBSD** you can specify the sequence in which the jails will be started. Please read details on the [jail starting order](http://www.bsdstore.ru/en/13.0.x/wf_jorder_ssi.html)
+In **CBSD** you can specify the sequence in which the jails will be started. Please read details on the [jail starting order](http://www.convectix.com/en/13.0.x/wf_jorder_ssi.html)
 

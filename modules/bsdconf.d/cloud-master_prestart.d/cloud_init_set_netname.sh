@@ -2,7 +2,7 @@
 # Helper to set proper interface name for cloud-init network settings
 # this can be useful in distributions where interface names are 
 # dynamically dependent on PCI bus slot
-# Additional: https://www.bsdstore.ru/en/articles/cbsd_cloud_init.html
+# Additional: https://www.convectix.com/en/articles/cbsd_cloud_init.html
 
 set -e
 . ${distdir}/cbsd.conf

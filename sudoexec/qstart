@@ -818,6 +818,14 @@ ${vga_args} \
 	# update state_time, local SQLite for back compatible
 	cbsdsqlrw local UPDATE jails SET state_time="(strftime('%s','now'))" WHERE jname='${jname}'
 
+	expose mode=apply
+
+	# first-run hack for MYbQT via SSH method.
+	if [ -r ${jailsysdir}/${jname}/mybqt ]; then
+		${RM_CMD} ${jailsysdir}/${jname}/mybqt
+		nodeip-expose mode=create jname=${jname}
+	fi
+
 	return 0
 }
 

@@ -41,13 +41,13 @@ cbsd jcoldmigrate node=netsnap jname=amp123
 
 _on the destionation node anything isn't present now:_
 
-![](http://www.bsdstore.ru/img/jcoldmigrate1.png)
+![](http://www.convectix.com/img/jcoldmigrate1.png)
 
 _from node cbuilder64 migrate jail amp123 to netsnap:_
 
-![](http://www.bsdstore.ru/img/jcoldmigrate2.png)
+![](http://www.convectix.com/img/jcoldmigrate2.png)
 
 _jail amp123 on netsnap was started automatically:_
 
-![](http://www.bsdstore.ru/img/jcoldmigrate3.png)
+![](http://www.convectix.com/img/jcoldmigrate3.png)
 

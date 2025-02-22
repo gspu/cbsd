@@ -20,20 +20,20 @@ In this case, we launched a NetBSD virtual machine with the lldb option and got 
 To launch bhyve through debugger, use the menu debug\_engine in 'cbsd bconfig' and 'cbsd bconstruct-tui' dialogs.
 
 
-![](http://www.bsdstore.ru/img/bhyve_gdb1.png)
+![](http://www.convectix.com/img/bhyve_gdb1.png)
 
 You can choose your favorite debugger available in FreeBSD: **gdb** or **lldb**
 
-![](http://www.bsdstore.ru/img/bhyve_gdb2.png)
+![](http://www.convectix.com/img/bhyve_gdb2.png)
 
 The difference in launching through debug\_engine from the usual one is that **CBSD** as a prefix for running bhyve with all the arguments, substituting your chosen debugger.
 This launch will not take place in the background so that you can see and interact with the debugger interactively.
 
 During the startup process, you will end up in gdb/lldb and you need to execute the 'run' command to start the virtual machine.
 
-![](http://www.bsdstore.ru/img/bhyve_gdb3.png)
+![](http://www.convectix.com/img/bhyve_gdb3.png)
 
 If the bhyve process dies, you will have a debugger console where you can at least get a backtrace and attach it to your PR/message, which can help a lot in solving the problem.
 
-![](http://www.bsdstore.ru/img/bhyve_gdb4.png)
+![](http://www.convectix.com/img/bhyve_gdb4.png)
 

@@ -29,7 +29,7 @@ cbsd jexec jname='*' pkg update -y
 cbsd jexec jname='*' pkg clean -ya
 ```
 
-![](http://www.bsdstore.ru/img/jexec1.png)
+![](http://www.convectix.com/img/jexec1.png)
 
 Multiple command execution:
 

@@ -2,18 +2,18 @@
 
 FreeBSD virtual environment management and repository
 
-- [About](http://www.bsdstore.ru/en/about.html)
-- [News](http://www.bsdstore.ru/en/news.html)
-- [Screenshots](http://www.bsdstore.ru/en/screenshots.html)
-- [Tutorial](http://www.bsdstore.ru/en/tutorial.html)
-- [Documentation »](http://www.bsdstore.ru/en/docs.html)  - [Articles by author's](http://www.bsdstore.ru/en/articles.html)
-  - [Articles and press](http://www.bsdstore.ru/en/press.html)
-- [Marketplace(Templates)](https://marketplace.bsdstore.ru)
-- [Support the project](http://www.bsdstore.ru/en/donate.html)
-- [bhyve.cloud](http://www.bsdstore.ru/en/bhyve-cloud.html)
-- Lang »  - [Русский](http://www.bsdstore.ru/ru/13.0.x/wf_imghelper_ssi.html)
-  - [English](http://www.bsdstore.ru/en/13.0.x/wf_imghelper_ssi.html)
-  - [Deutsch](http://www.bsdstore.ru/de/13.0.x/wf_imghelper_ssi.html)
+- [About](http://www.convectix.com/en/about.html)
+- [News](http://www.convectix.com/en/news.html)
+- [Screenshots](http://www.convectix.com/en/screenshots.html)
+- [Tutorial](http://www.convectix.com/en/tutorial.html)
+- [Documentation »](http://www.convectix.com/en/docs.html)  - [Articles by author's](http://www.convectix.com/en/articles.html)
+  - [Articles and press](http://www.convectix.com/en/press.html)
+- [Marketplace(Templates)](https://marketplace.convectix.com)
+- [Support the project](http://www.convectix.com/en/donate.html)
+- [bhyve.cloud](http://www.convectix.com/en/bhyve-cloud.html)
+- Lang »  - [Русский](http://www.convectix.com/ru/13.0.x/wf_imghelper_ssi.html)
+  - [English](http://www.convectix.com/en/13.0.x/wf_imghelper_ssi.html)
+  - [Deutsch](http://www.convectix.com/de/13.0.x/wf_imghelper_ssi.html)
 
 2020-10 upd: we reached the first fundraising goal and rented a server in Hetzner for development! Thank you for [donating](https://www.patreon.com/clonos) !
 
@@ -107,7 +107,7 @@ Run imghelper and see our field:
 
 ```
 
-![](http://www.bsdstore.ru/img/imghelper1.png)
+![](http://www.convectix.com/img/imghelper1.png)
 
 Also, we can determine in advance the parameters via the command line (after having received the names of the variables in terms of --help):
 
@@ -121,7 +121,7 @@ External help: /usr/local/share/doc/cbsd/wf_imghelper.html
 
 ```
 
-![](http://www.bsdstore.ru/img/imghelper2.png)
+![](http://www.convectix.com/img/imghelper2.png)
 
 Finally, we can simply use the environment variables:
 
@@ -134,7 +134,7 @@ Finally, we can simply use the environment variables:
 
 ```
 
-![](http://www.bsdstore.ru/img/imghelper3.png)
+![](http://www.convectix.com/img/imghelper3.png)
 
 Copyright © 2013—2024 CBSD Team.
 

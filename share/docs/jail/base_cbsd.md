@@ -38,9 +38,9 @@ by constructing a copy of the base from your files
 
 Thus, you control where and how files will be received, depending on your level of trust and security requirements
 
-![](http://www.bsdstore.ru/img/bases1.png)
+![](http://www.convectix.com/img/bases1.png)
 
-Described below are the steps needed to get the initial FreeBSD sources from the project's SVN repository ( [http://svn.freebsd.org](http://svn.freebsd.org/)), its compilation and installation in a separate directory which will act as base. These actions are necessary, if you don't want to use pre compiled versions available on [ftp://ftp.freebsd.org](ftp://ftp.freebsd.org) or [http://bsdstore.ru](http://www.bsdstore.ru), which can be retrieved with the **cbsd repo** command. Also, by manually building becomes possible to not only get releases, but also individual branches.
+Described below are the steps needed to get the initial FreeBSD sources from the project's SVN repository ( [http://svn.freebsd.org](http://svn.freebsd.org/)), its compilation and installation in a separate directory which will act as base. These actions are necessary, if you don't want to use pre compiled versions available on [ftp://ftp.freebsd.org](ftp://ftp.freebsd.org) or [http://convectix.com](http://www.convectix.com), which can be retrieved with the **cbsd repo** command. Also, by manually building becomes possible to not only get releases, but also individual branches.
 
 ## Sources and configuration of receiving base
 
@@ -164,7 +164,7 @@ other params for installworld:
 
 **cbsd world** command is sequence for **cbsd buildworld && cbsd installworld**
 
-When you have the base in _${workdir}/basejail_,you can go to the [jail creation](http://www.bsdstore.ru/en/13.0.x/wf_jcreate_ssi.html).
+When you have the base in _${workdir}/basejail_,you can go to the [jail creation](http://www.convectix.com/en/13.0.x/wf_jcreate_ssi.html).
 
 ## Deleting the base
 

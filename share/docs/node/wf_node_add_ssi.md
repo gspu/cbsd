@@ -25,6 +25,6 @@ Unessential argument:
 cbsd node mode=add node=192.168.1.2 pw=superpw port=22
 ```
 
-![](http://www.bsdstore.ru/img/nodeadd1.png)
+![](http://www.convectix.com/img/nodeadd1.png)
 
 

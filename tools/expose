@@ -359,6 +359,20 @@ EOF
 			# reload rule
 			naton
 			;;
+		nft)
+			cbsdlogger NOTICE "${CBSD_APP}: nft: add table ip nat${jname}"
+			${NFT_CMD} add table ip nat${jname}
+			cbsdlogger NOTICE "${CBSD_APP}: nft: add prerouring/postrouting chain for: nat${jname}"
+			${NFT_CMD} -- add chain ip nat${jname} prerouting { type nat hook prerouting priority -100 \; }
+			${NFT_CMD} add chain ip nat${jname} postrouting { type nat hook postrouting priority 100 \; }
+			cbsdlogger NOTICE "${CBSD_APP}: nft: ${NFT_CMD} add rule ip nat${jname} prerouting tcp dport ${in} dnat to ${jip}:${out}"
+			${NFT_CMD} add rule ip nat${jname} prerouting tcp dport ${in} dnat to ${jip}:${out}
+			cbsdlogger NOTICE "${CBSD_APP}: nft: ${NFT_CMD} add rule ip nat${jname} postrouting ip daddr ${jip} masquerade"
+			${NFT_CMD} add rule ip nat${jname} postrouting ip daddr ${jip} masquerade
+			# not needed?
+			# sysctl "net.ipv4.ip_forward=1"
+			# 
+			;;
 		*)
 			if [ ${freebsdhostversion} -gt 1100120 ]; then
 				${IPFW_CMD} add ${fwnum} fwd ${jip},${out} ${proto} from any to ${_inaddr} ${in} in ${COMMENT}
@@ -413,7 +427,7 @@ fw_expose_list()
 
 fw_expose_clear()
 {
-	local _need_naton=0
+	local _need_naton=0 _ret=
 
 	case "${nat_enable}" in
 		pf)
@@ -442,7 +456,16 @@ fw_expose_clear()
 			cbsdlogger NOTICE ${CBSD_APP}: fw_expose_clear for ${jname}: delete ipfw rule ${fwnum}
 			${IPFW_CMD} delete ${fwnum}
 			;;
+		nft)
+			${NFT_CMD} list table ip nat${jname} >/dev/null 2>&1
+			_ret=$?
+			if [ ${_ret} -eq 0 ]; then
+				cbsdlogger NOTICE ${CBSD_APP}: nft_expose_clear for ${jname}: ${NFT_CMD} delete table ip nat${jname}
+				${NFT_CMD} delete table ip nat${jname}
+			fi
 	esac
+
+	return 0
 }
 
 fw_expose_delete()

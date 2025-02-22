@@ -43,8 +43,8 @@ To edit a launch sequence use **jset** or the TUI-editor **jorder-tui**
 
 To edit bhyve priority, use the commands **border** or **border-tui**
 
-![](http://www.bsdstore.ru/img/jorder1.png)
+![](http://www.convectix.com/img/jorder1.png)
 
-![](http://www.bsdstore.ru/img/jorder2.png)
+![](http://www.convectix.com/img/jorder2.png)
 
 

@@ -5,7 +5,7 @@ So, there are the following network options:
 - \- Bridge network: e1000, virtio ( + NAT )
 - \- Point-to-point network from bhyve to hoster via tap: e1000, virtio
 - \- Private virtual switch via VALE: only virtio
-- \- [Pass-thru and SR-IOV](http://www.bsdstore.ru/en/13.0.x/wf_bhyveppt_ssi.html#sriov) ( ppt device )
+- \- [Pass-thru and SR-IOV](http://www.convectix.com/en/13.0.x/wf_bhyveppt_ssi.html#sriov) ( ppt device )
 
 Options 1 by default:
 
@@ -175,11 +175,11 @@ hoster.
 
 schematically it might look like this:
 
-![](http://www.bsdstore.ru/img/cbsd_netopt1.png)
+![](http://www.convectix.com/img/cbsd_netopt1.png)
 
-![](http://www.bsdstore.ru/img/cbsd_netopt2.png)
+![](http://www.convectix.com/img/cbsd_netopt2.png)
 
-![](http://www.bsdstore.ru/img/cbsd_netopt3.png)
+![](http://www.convectix.com/img/cbsd_netopt3.png)
 
 ## Options 4: VALE switch + external route via vether(4)
 
@@ -228,7 +228,7 @@ EOF
 
 ```
 
-![](http://www.bsdstore.ru/img/cbsd_vale_vether1.png)
+![](http://www.convectix.com/img/cbsd_vale_vether1.png)
 
 ## Options 5: Netgraph bridge
 
@@ -243,9 +243,9 @@ By default CBSD searches for and uses interfaces named **cbsdng\_ngX**:
 
 ```
 
-![](http://www.bsdstore.ru/img/cbsdng1.png)
+![](http://www.convectix.com/img/cbsdng1.png)
 
 As result:
 
-![](http://www.bsdstore.ru/img/cbsdng2.png)
+![](http://www.convectix.com/img/cbsdng2.png)
 

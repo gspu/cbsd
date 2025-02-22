@@ -64,13 +64,13 @@ and definitely not convenient that every time you have to correct the contents o
 
 _Sets 0 (empty) in ip4\_addr field when create vnet-jail_
 
-![](http://www.bsdstore.ru/img/vnet1.png)
+![](http://www.convectix.com/img/vnet1.png)
 
 _If the kernel has VIMAGE option, it is possible to set the vnet 1_
 
-![](http://www.bsdstore.ru/img/vnet2.png)
+![](http://www.convectix.com/img/vnet2.png)
 
 _Inside the jail. We do what we want, we get your IP, set up ipfw_
 
-![](http://www.bsdstore.ru/img/vnet3.png)
+![](http://www.convectix.com/img/vnet3.png)
 

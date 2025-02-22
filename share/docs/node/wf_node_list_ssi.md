@@ -16,4 +16,4 @@ Through argument **display** you can specify the fields for output data. If **di
 cbsd node mode=list
 ```
 
-![](http://www.bsdstore.ru/img/nodelist1.png)
+![](http://www.convectix.com/img/nodelist1.png)

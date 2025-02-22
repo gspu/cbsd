@@ -22,11 +22,11 @@ To create a via DIALOG:
 
 The same menu is available to create a jail when configuring **CBSD** via bsdconfig
 
-![](http://www.bsdstore.ru/img/cbsd_syntax3.png)
+![](http://www.convectix.com/img/cbsd_syntax3.png)
 
 If **bconstruct-tui** worked correctly, at the end you will be asked to create a virtual machine. In the case of positive response, **bcreate** will be made to the new configuration automatically. Otherwise, script displays the path to the configuration file (in _$workdir/tmp_), on which you can create a VM.
 
-![](http://www.bsdstore.ru/gif/bcreate.gif)
+![](http://www.convectix.com/gif/bcreate.gif)
 
 ## Virtual Machine Profiles
 
@@ -149,28 +149,28 @@ Options and their brief description, which appear in the dialogue form. Dependin
 
 ```
 
-![](http://www.bsdstore.ru/img/bcreate7.png)
+![](http://www.convectix.com/img/bcreate7.png)
 
 Guest OS type:
 
-![](http://www.bsdstore.ru/img/bcreate8.png)
+![](http://www.convectix.com/img/bcreate8.png)
 
 Choosing profile for Linux type guest:
 
-![](http://www.bsdstore.ru/img/bcreate9.png)
+![](http://www.convectix.com/img/bcreate9.png)
 
 Choosing VM name:
 
-![](http://www.bsdstore.ru/img/bcreate10.png)
+![](http://www.convectix.com/img/bcreate10.png)
 
 Choosing bhyve UEFI boot method:
 
-![](http://www.bsdstore.ru/img/bcreate11.png)
+![](http://www.convectix.com/img/bcreate11.png)
 
 Choosing bhyve VNC params:
 
-![](http://www.bsdstore.ru/img/bcreate12.png)
+![](http://www.convectix.com/img/bcreate12.png)
 
 Choosing bhyve params:
 
-![](http://www.bsdstore.ru/img/bcreate13.png)
+![](http://www.convectix.com/img/bcreate13.png)

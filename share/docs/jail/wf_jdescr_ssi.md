@@ -25,10 +25,10 @@ setenv LANG ru_RU.UTF-8
 cbsd jdescr jname=kde4 editor=mcedit mode=update
 ```
 
-It is advisable to maintain meaningful descriptions as your collection of jails grows. In addition it can be quite convenient to aggregate this information in order to create dashboards and build jail maps. One example of how this could look is the following simple script: [jmap2html.sh.html](http://www.bsdstore.ru/en/misc/jmap2html.sh.html) which generates an overview in the form of a HTML page [dashboard sample](http://www.bsdstore.ru/en/misc/dashboard/index.html)
+It is advisable to maintain meaningful descriptions as your collection of jails grows. In addition it can be quite convenient to aggregate this information in order to create dashboards and build jail maps. One example of how this could look is the following simple script: [jmap2html.sh.html](http://www.convectix.com/en/misc/jmap2html.sh.html) which generates an overview in the form of a HTML page [dashboard sample](http://www.convectix.com/en/misc/dashboard/index.html)
 
-![](http://www.bsdstore.ru/img/jdescr1.png)
+![](http://www.convectix.com/img/jdescr1.png)
 
-![](http://www.bsdstore.ru/img/jdescr2.png)
+![](http://www.convectix.com/img/jdescr2.png)
 
 

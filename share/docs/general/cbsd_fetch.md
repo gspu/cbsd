@@ -101,7 +101,7 @@ If you have the processing power available on the Internet (hosting, data center
 virtual machines. So, you become a participant in the **CBSD** project and help your region (country) get, perhaps, the best mirror for them.
 
 In addition, for those who want to help the project with a local mirror in your resources, in the **RO** mode, an rsync server is open, from which you can initiate through **cron**
-content synchronization. The URL of this property is **rsync://electro.bsdstore.ru/iso/**. If your mirror is accessible from the Internet, you can send **pull-request** to GitHub to the repository
+content synchronization. The URL of this property is **rsync://electro.convectix.com/iso/**. If your mirror is accessible from the Internet, you can send **pull-request** to GitHub to the repository
 [https://github.com/cbsd/cbsd-vmprofiles](https://github.com/cbsd/cbsd-vmprofiles) by adding your mirror to **cbsd\_iso\_mirrors=**. With the release of the new version of **CBSD**
 your mirror will go to **CBSD**.
 
@@ -130,7 +130,7 @@ touch /var/log/cbsd_mirror.log /var/log/cbsd_mirror_cloud.log
 chown -R www:www /usr/local/www/cbsd-mirror /var/log/cbsd_mirror.log /var/log/cbsd_mirror_cloud.log
 ```
 
-4) Correct **nginx.conf**, specifying **server\_name** as correct name of the server (in this example: **electrode.bsdstore.ru**) and set path to root directory:
+4) Correct **nginx.conf**, specifying **server\_name** as correct name of the server (in this example: **electrode.convectix.com**) and set path to root directory:
 
 ```
 cat > /usr/local/etc/nginx/nginx.conf <<EOF

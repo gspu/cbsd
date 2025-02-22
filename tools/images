@@ -15,7 +15,7 @@ When we register a new image, we process several options:
 
   # a) name ( lookup CBSD image in ~cbsd/import/<name>.img ), e.g: name=myapp
   # b) path=realpath to CBSD image, e.g: path=/var/db/myapp.img
-  # c) path=<remote url>  , e.g.: path=https://dl.bsdstore.ru/img/...
+  # c) path=<remote url>  , e.g.: path=https://dl.convectix.com/img/...
 
 When registering, the image will be unpacked into a separate ZFS dataset 
 and a snapshot <dataset>@start will be created. This snapshot will be 

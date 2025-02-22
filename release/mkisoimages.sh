@@ -106,7 +106,7 @@ if [ -z "${DPATH}" ]; then
 	exit 1
 fi
 
-[ -z "${PUBLISHER}" ] && PUBLISHER="The CBSD Project. http://www.bsdstore.ru"
+[ -z "${PUBLISHER}" ] && PUBLISHER="The CBSD Project. http://www.convectix.com"
 [ -z "${EFI}" ] && EFI=1
 
 if [ ! -f "${CHROOT}/boot/loader.efi" -a ${EFI} -eq 1 ]; then

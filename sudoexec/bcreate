@@ -667,8 +667,13 @@ fi
 /usr/local/bin/cbsd ${miscdir}/updatesql ${jailsysdir}/${jname}/local.sqlite ${distdir}/share/local-bhyve-cpu_topology.schema cpu_topology
 /usr/local/bin/cbsd ${miscdir}/updatesql ${jailsysdir}/${jname}/local.sqlite ${distdir}/share/local-bhyve-settings.schema settings
 /usr/local/bin/cbsd ${miscdir}/updatesql ${jailsysdir}/${jname}/local.sqlite ${distdir}/share/local-bhyve-soundhw.schema bhyve_soundhw
-
 ${miscdir}/sqlcli ${jailsysdir}/${jname}/local.sqlite "INSERT INTO bhyve_soundhw ( soundhw_play, soundhw_rec ) VALUES ( '/dev/dsp', '/dev/dsp' )"
+
+/usr/local/bin/cbsd ${miscdir}/updatesql ${jailsysdir}/${jname}/local.sqlite ${distdir}/share/local-bhyve-lpc.schema lpc
+${miscdir}/sqlcli ${jailsysdir}/${jname}/local.sqlite "INSERT INTO bhyve_soundhw ( soundhw_play, soundhw_rec ) VALUES ( '/dev/dsp', '/dev/dsp' )"
+
+${miscdir}/sqlcli ${jailsysdir}/${jname}/local.sqlite "INSERT INTO 'lpc' ( 'lpcslot_name', 'lpcslot_desc', 'lpcslot_value' ) VALUES ( 'bootrom', 'bootrom device', '0' ), ( 'com1', 'com1 device', 'stdio' ), ( 'com2', 'com2 device', '0' ), ( 'com3', 'com3 device', '0' ), ( 'com4', 'com4 device', '0' ), ( 'tpm', 'TPM device', '0' );"
+
 
 [ -n "${fstablocal}" -a -f "${fstablocal}" ] && ${CP_CMD} ${fstablocal} ${jailfstabdir}/${jailfstabpref}${jname}.local
 

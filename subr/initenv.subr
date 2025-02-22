@@ -66,7 +66,7 @@ init_items_default()
 	nat_enable_default="Enable NAT"
 	fbsdrepo_default="1"
 	mdtmp_default="8"
-	repo_default="https://bsdstore.ru"
+	repo_default="https://convectix.com"
 	workdir_default="/usr/jails"
 	ipfw_enable_default="1"
 	zfsfeat_default="1"

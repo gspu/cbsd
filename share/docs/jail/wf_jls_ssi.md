@@ -15,7 +15,7 @@ To hide the header, use the argument **header=0**.
 
 All possible options for the sample described in the _$workdir/share/jail-arg_ file
 
-In addition to the basic CBSD values, you can add your own fields and values for output with the jls command. More on this: [environment custom facts](http://www.bsdstore.ru/en/custom_facts.html)
+In addition to the basic CBSD values, you can add your own fields and values for output with the jls command. More on this: [environment custom facts](http://www.convectix.com/en/custom_facts.html)
 
 **JID**Jail ID**JNAME**environment name**IP4\_ADDR**list of assigned IP addresses (IPv4,IPv6)**HOST\_HOSTNAME**environment FQDN**PATH**root filesystem for jail**STATUS**On (running), Off (stoped), Unregister (missing in the SQL database)
 
@@ -43,8 +43,8 @@ cbsd jls display=jname,ip4_addr,vnet,real_ip4,astart
 cbsd jls header=0 display=jname,mycustom1,mycustom2,status
 ```
 
-![](http://www.bsdstore.ru/img/jls1.png)
+![](http://www.convectix.com/img/jls1.png)
 
-![](http://www.bsdstore.ru/img/jls2.png)
+![](http://www.convectix.com/img/jls2.png)
 
 

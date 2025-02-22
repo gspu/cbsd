@@ -34,7 +34,7 @@ Besides limiting kernels, you may want to limit memory consumption via **vmemory
 cbsd jcreate jname=myjail cpu=1 vmemoryuse=1g runasap=1
 ```
 
-Or, if you prefer to create environments through the [**CBSDfile**](http://www.bsdstore.ru/en/cbsdfile.html), it might look like this:
+Or, if you prefer to create environments through the [**CBSDfile**](http://www.convectix.com/en/cbsdfile.html), it might look like this:
 
 ```
 jail_test2()
@@ -63,7 +63,7 @@ Floating file quotas are only possible for jails residing on **ZFS**-file system
 Renice example:
 
 
-1) Let's create an AMP jail and have it run a php script that performs some work (such as [bench.zip](http://www.bsdstore.ru/en/misc/bench.zip) taken from [http://www.php-benchmark-script.com/](http://www.php-benchmark-script.com/)). We then clone the jail, calling the first **highprio1** and the second **lowprio1**. Using **cbsd jrctl-tui** we give the first the highest possible priority **-20**, and set the second jail to the lowest priority of **20**. In addition we limit the jail to one core through **cpuset** with **cbsd jconfig** (single-core systems are hard to come by these days and smart schedulers do not allow for a clean experiment without taking this step ;-).
+1) Let's create an AMP jail and have it run a php script that performs some work (such as [bench.zip](http://www.convectix.com/en/misc/bench.zip) taken from [http://www.php-benchmark-script.com/](http://www.php-benchmark-script.com/)). We then clone the jail, calling the first **highprio1** and the second **lowprio1**. Using **cbsd jrctl-tui** we give the first the highest possible priority **-20**, and set the second jail to the lowest priority of **20**. In addition we limit the jail to one core through **cpuset** with **cbsd jconfig** (single-core systems are hard to come by these days and smart schedulers do not allow for a clean experiment without taking this step ;-).
 
 ```
 % cbsd jls display=jid,jname,ip4_addr,cpuset
@@ -220,8 +220,8 @@ shmsize 	   SysV shared memory size, in bytes
 wallclock	   wallclock time, in seconds
 ```
 
-![](http://www.bsdstore.ru/img/jrctl1.png)
+![](http://www.convectix.com/img/jrctl1.png)
 
-![](http://www.bsdstore.ru/img/jrctl2.png)
+![](http://www.convectix.com/img/jrctl2.png)
 
 

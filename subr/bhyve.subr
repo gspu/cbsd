@@ -1413,24 +1413,45 @@ compile_console_args()
 {
 	local com1=0 com2=0
 
-	case "${vm_console}" in
-		"nmdm")
+#	case "${vm_console}" in
+#		"nmdm")
+#
+#			if ! next_nmdm_id ; then
+#				${ECHO} "${N1_COLOR}No such next_nmdm_id for VMs: ${N2_COLOR}${jname}${N0_COLOR}"
+#				return 1
+#			fi
+#
+#			com1=${nmdm_index}
+#			com2=$(( nmdm_index + 1 ))
+#
+#			console_args="-l com1,/dev/nmdm${com1}A -l com2,/dev/nmdm${com2}A"
+#			console_nmdm="/dev/nmdm${com1}B /dev/nmdm${com2}B"
+#			;;
+#		*)
+#			console_args="-l com1,stdio"
+#			;;
+#	esac
 
-			if ! next_nmdm_id ; then
-				${ECHO} "${N1_COLOR}No such next_nmdm_id for VMs: ${N2_COLOR}${jname}${N0_COLOR}"
-				return 1
-			fi
 
-			com1=${nmdm_index}
-			com2=$(( nmdm_index + 1 ))
+	if ! next_nmdm_id ; then
+		${ECHO} "${N1_COLOR}No such next_nmdm_id for VMs: ${N2_COLOR}${jname}${N0_COLOR}"
+		return 1
+	fi
 
-			console_args="-l com1,/dev/nmdm${com1}A -l com2,/dev/nmdm${com2}A"
-			console_nmdm="/dev/nmdm${com1}B /dev/nmdm${com2}B"
-			;;
-		*)
-			console_args="-l com1,stdio"
-			;;
-	esac
+	# -l com1,/dev/nmdm0A
+
+	com1=${nmdm_index}
+	com2=$(( nmdm_index + 1 ))
+#	console_args="-l com1,stdio -l com2,/dev/nmdm${com2}A"
+
+	console_args="-l com1,/dev/nmdm${com1}A"
+
+	# TCP for FreeBSD 14.3+
+#	console_args="-l com1,tcp=0.0.0.0:9999"
+
+#	console_args="-l com1,/dev/nmdm${com1}A -l com2,/dev/nmdm${com2}A"
+#	console_nmdm="/dev/nmdm${com1}B /dev/nmdm${com2}B"
+
 	return 0
 }
 
@@ -1749,7 +1770,7 @@ compile_vnc_args()
 					;;
 			esac
 			# build skip list
-			_vms=$( ${miscdir}/sqlcli ${dbdir}/local.sqlite "SELECT jname FROM jails WHERE emulator = \"bhyve\"" )
+			_vms=$( ${miscdir}/sqlcli ${dbdir}/local.sqlite "SELECT jname FROM jails WHERE emulator = 'bhyve'" )
 			for i in ${_vms}; do
 				[ "${i}" = "${jname}" ] && continue		# its me
 				[ ! -r ${jailsysdir}/${i}/local.sqlite ] && continue
@@ -1789,7 +1810,7 @@ compile_vnc_args()
 	store_bhyve_pci_slot -n fbuf -a ${bhyve_pci_index}
 
 	# update vnc_port in SQL and duplicate it in the ascii file
-	cbsdsqlrw ${jailsysdir}/${jname}/local.sqlite "UPDATE settings SET vnc_port=\"${vm_port}\""
+	cbsdsqlrw ${jailsysdir}/${jname}/local.sqlite "UPDATE settings SET vnc_port='${vm_port}'"
 	echo "${vm_port}" > ${jailsysdir}/${jname}/vnc_port
 
 	if [ -n "${bhyve_vnc_tcp_bind}" ]; then

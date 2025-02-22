@@ -11,7 +11,7 @@ The name of this file is your custom field and the information that your script 
 will be available for the above scripts.
 The value in the output should be in the format of one word (digits).
 
-At the same time, inside your scripts, you will be available to the internal facts of environments from **CBSD**: [CBSD variables](http://www.bsdstore.ru/en/13.0.x/wf_cbsd_variables_ssi.html).
+At the same time, inside your scripts, you will be available to the internal facts of environments from **CBSD**: [CBSD variables](http://www.convectix.com/en/13.0.x/wf_cbsd_variables_ssi.html).
 
 For example:
 
@@ -26,7 +26,7 @@ EOF
 % cbsd jget jname=jail1 mycustom1
 ```
 
-![](http://www.bsdstore.ru/img/custom_facts1.png)
+![](http://www.convectix.com/img/custom_facts1.png)
 
 ## tags
 

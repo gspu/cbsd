@@ -39,5 +39,5 @@ cbsd bstart vm1 vm2 vm3 ..
 If the start/bstop command run with no arguments, this will list all inactive/active VM for interactive selection
 
 If you have the appropriate build of FreeBSD and **CBSD** not less **11.2.0**, you can take advantage of instant start of the virtual machine from
-[checpoint](http://www.bsdstore.ru/en/13.0.x/wf_bcheckpoint_ssi.html), bypassing the boot phase. To do this, use the argument **checkpoint=** with name of checkpoint
+[checpoint](http://www.convectix.com/en/13.0.x/wf_bcheckpoint_ssi.html), bypassing the boot phase. To do this, use the argument **checkpoint=** with name of checkpoint
 

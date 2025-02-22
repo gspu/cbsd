@@ -2,18 +2,18 @@
 
 FreeBSD virtual environment management and repository
 
-- [About](http://www.bsdstore.ru/en/about.html)
-- [News](http://www.bsdstore.ru/en/news.html)
-- [Screenshots](http://www.bsdstore.ru/en/screenshots.html)
-- [Tutorial](http://www.bsdstore.ru/en/tutorial.html)
-- [Documentation »](http://www.bsdstore.ru/en/docs.html)  - [Articles by author's](http://www.bsdstore.ru/en/articles.html)
-  - [Articles and press](http://www.bsdstore.ru/en/press.html)
-- [Marketplace(Templates)](https://marketplace.bsdstore.ru)
-- [Support the project](http://www.bsdstore.ru/en/donate.html)
-- [bhyve.cloud](http://www.bsdstore.ru/en/bhyve-cloud.html)
-- Lang »  - [Русский](http://www.bsdstore.ru/ru/13.0.x/wf_vpc_ssi.html)
-  - [English](http://www.bsdstore.ru/en/13.0.x/wf_vpc_ssi.html)
-  - [Deutsch](http://www.bsdstore.ru/de/13.0.x/wf_vpc_ssi.html)
+- [About](http://www.convectix.com/en/about.html)
+- [News](http://www.convectix.com/en/news.html)
+- [Screenshots](http://www.convectix.com/en/screenshots.html)
+- [Tutorial](http://www.convectix.com/en/tutorial.html)
+- [Documentation »](http://www.convectix.com/en/docs.html)  - [Articles by author's](http://www.convectix.com/en/articles.html)
+  - [Articles and press](http://www.convectix.com/en/press.html)
+- [Marketplace(Templates)](https://marketplace.convectix.com)
+- [Support the project](http://www.convectix.com/en/donate.html)
+- [bhyve.cloud](http://www.convectix.com/en/bhyve-cloud.html)
+- Lang »  - [Русский](http://www.convectix.com/ru/13.0.x/wf_vpc_ssi.html)
+  - [English](http://www.convectix.com/en/13.0.x/wf_vpc_ssi.html)
+  - [Deutsch](http://www.convectix.com/de/13.0.x/wf_vpc_ssi.html)
 
 2020-10 upd: we reached the first fundraising goal and rented a server in Hetzner for development! Thank you for [donating](https://www.patreon.com/clonos) !
 
@@ -29,20 +29,20 @@ The **CBSD** project is an attempt to combine the most diverse technologies avai
 [FreeBSD](https://www.freebsd.org) OS in the field of virtualization and containerization,
 to create a hybrid platform for running isolated environments (in other words: create your own self-hosted AWS without resorting to Amazon ;-).
 We have already demonstrated FreeBSD technologies such as jail, XEN and bhyve hypervisors. **CBSD** associates them with components such as
-[RACCT](http://www.bsdstore.ru/en/articles/cbsd_with_grafana.html),
-[RCTL](http://www.bsdstore.ru/en/13.0.x/wf_jrctl_ssi.html),
-the ability to use network file systems [NFSv4/GlusterFS](http://www.bsdstore.ru/en/articles/cbsd_with_dfs.html) and
-[P9](http://www.bsdstore.ru/en/13.0.x/wf_bhyve_p9_ssi.html),
-[SR-IOV](http://www.bsdstore.ru/en/13.0.x/wf_bhyveppt_ssi.html#sriov),
+[RACCT](http://www.convectix.com/en/articles/cbsd_with_grafana.html),
+[RCTL](http://www.convectix.com/en/13.0.x/wf_jrctl_ssi.html),
+the ability to use network file systems [NFSv4/GlusterFS](http://www.convectix.com/en/articles/cbsd_with_dfs.html) and
+[P9](http://www.convectix.com/en/13.0.x/wf_bhyve_p9_ssi.html),
+[SR-IOV](http://www.convectix.com/en/13.0.x/wf_bhyveppt_ssi.html#sriov),
 [CARP](https://www.youtube.com/watch?v=OOqMI4-qMg8),
-[PXE Boot](http://www.bsdstore.ru/en/articles/cbsd_vm_hook_dhcpd.html),
-[cloud-init support](http://www.bsdstore.ru/en/13.0.x/wf_bhyve_cloudinit_ssi.html),
-[etcupdate](http://www.bsdstore.ru/en/13.0.x/wf_etcupdate_ssi.html),
+[PXE Boot](http://www.convectix.com/en/articles/cbsd_vm_hook_dhcpd.html),
+[cloud-init support](http://www.convectix.com/en/13.0.x/wf_bhyve_cloudinit_ssi.html),
+[etcupdate](http://www.convectix.com/en/13.0.x/wf_etcupdate_ssi.html),
 [vale(4)](http://man.freebsd.org/vale/4) virtual switches and so on.
 
 The project develops not only user-frendly UI in the form of bsdconfig/dialog-based interfaces and command line, but also
 [WEB interface](https://clonos.tekroutine.com) and
-[API](http://www.bsdstore.ru/en/broker_driven_sample_ssi.html).
+[API](http://www.convectix.com/en/broker_driven_sample_ssi.html).
 All these volumes of work, in turn, help other people save time and quickly implement various projects, such as
 [BITBSD](http://bitbsd.org/) and [BitCloud.sh](https://bitclouds.sh/): programmable VPS platform for blockchain.
 Starting as classic wrapper scripts for creating primitive container actions, **CBSD** eventually got more and more layers of abstractions and expanded its capabilities.
@@ -54,7 +54,7 @@ to create a full-mesh [full-mesh](https://en.wikipedia.org/wiki/Network_topology
 network between multiple physical hosts in different parts of the globe.
 
 This is one of the biggest challenges in our ambitious
-[RoadMap](http://www.bsdstore.ru/en/roadmap.html) called
+[RoadMap](http://www.convectix.com/en/roadmap.html) called
 Stretched virtual L2 network (vxlan, qinq) for mutliple DataCenter.
 
 In turn, this step opens the door to solving the following large tasks as a distributed VALE switch/MAC learning
@@ -101,7 +101,7 @@ The hosts in our example and their addresses (IPv4 should also work):
 - gold-hoster-01 ( 2a01:4f8:241:500c::1, Hetzner DC )
 - gold-hoster-02 ( 2a01:4f8:241:500b::1, Hetzner DC )
 
-![](http://www.bsdstore.ru/img/vpc_init1.png)
+![](http://www.convectix.com/img/vpc_init1.png)
 
 We can create named isolated **VPC** sections (virtual private/private cloud/container),
 each of which will have its own independent network,
@@ -193,7 +193,7 @@ jhoster1:
 
 ```
 
-![](http://www.bsdstore.ru/img/vpc_init2.png)
+![](http://www.convectix.com/img/vpc_init2.png)
 
 In the output of cbsd vpc mode=init\_peers, we see a preliminary map of the distribution of IP addresses between peers.
 It is this map that we should see in a few seconds in the form of initialized vxlan interfaces with the ifconfig command.
@@ -225,7 +225,7 @@ gold-hoster:
 Run the ifconfig command and make sure that on each server we have N-1 number of tunnels
 and the remote hosts respond to us by running the ping command:
 
-![](http://www.bsdstore.ru/img/vpc_init3.png)
+![](http://www.convectix.com/img/vpc_init3.png)
 
 In the output, we see a lower MTU on the vxlan interface - encapsulation adds 50 bytes to each packet.
 Information about where this tunnel leads to is stored in the description field of each interface.
@@ -267,33 +267,33 @@ interface for vnet/VIMAGE-based containers and/or virtual network cards for bhyv
 
 or using **cbsd bsdconfig-tui**:
 
-![](http://www.bsdstore.ru/img/vpc_init4.png)
+![](http://www.convectix.com/img/vpc_init4.png)
 
 In the menu we need an element to indicate the name of the container,
 also set **ip4\_addr** to **0**, activate **vnet** (virtualized stack) and select **vpc1**
 as the interface for [epair(4)](http://man.freebsd.org/epair/4):
 
-![](http://www.bsdstore.ru/img/vpc_init5.png)
+![](http://www.convectix.com/img/vpc_init5.png)
 
-![](http://www.bsdstore.ru/img/vpc_init6.png)
+![](http://www.convectix.com/img/vpc_init6.png)
 
-![](http://www.bsdstore.ru/img/vpc_init7.png)
+![](http://www.convectix.com/img/vpc_init7.png)
 
 When containers start, we can see the initialization of the epair(4) interfaces and their assignment to our **vpc1**.
 From this moment they are isolated in the network segment from any other devices and networks.
 
-![](http://www.bsdstore.ru/img/vpc_init8.png)
+![](http://www.convectix.com/img/vpc_init8.png)
 
 Currently, we have created one container for each of the three physical servers,
 you can use the jwhereis and jls commands to localize the placement of containers:
 
-![](http://www.bsdstore.ru/img/vpc_init9.png)
+![](http://www.convectix.com/img/vpc_init9.png)
 
 Now initialize the IP addresses inside each container in the classic way via ifconfig.
 Since the containers are combined into one L2 network, we can assign any network.
 In this example, we use the network 10.10.11.0/24. We can make sure that all containers see each other:
 
-![](http://www.bsdstore.ru/img/vpc_init10.png)
+![](http://www.convectix.com/img/vpc_init10.png)
 
 ## Init VPC on boot
 
@@ -316,7 +316,7 @@ the internal network, and changing application endpoints.
 In a virtual network, you can have not only a vnet-based container, but virtual machines with any OS supported by bhyve.
 
 See this youtube link for a VPC with jail and bhyve on a practical example.
-[this youtube link](http://www.bsdstore.ru/_blank), which demonstrates VPC with jail and bhyve on a practical example.
+[this youtube link](http://www.convectix.com/_blank), which demonstrates VPC with jail and bhyve on a practical example.
 
 Copyright © 2013—2024 CBSD Team.
 

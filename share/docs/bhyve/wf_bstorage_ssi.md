@@ -18,7 +18,7 @@ To list virtual disks, use:
 cbsd bhyve-dsk mode=list
 ```
 
-![](http://www.bsdstore.ru/img/bhyve-dsk1.png)
+![](http://www.convectix.com/img/bhyve-dsk1.png)
 
 You can adjust the amount of information through arguments **header=0** и **display=**
 
@@ -114,9 +114,9 @@ you can change the settings that **CBSD** will use in these operations.
 You can change the default settings for ZFS datasets and ZVOL volumes through the zfs.conf configuration file.
 For example, you can enable compression for GOLD images of cloud-init, change recordsize, volblockmodesize, etc.
 
-![](http://www.bsdstore.ru/img/bhyve-dsk2.png)
+![](http://www.convectix.com/img/bhyve-dsk2.png)
 
-![](http://www.bsdstore.ru/img/bhyve-dsk3.png)
+![](http://www.convectix.com/img/bhyve-dsk3.png)
 
-![](http://www.bsdstore.ru/img/bhyve-dsk4.png)
+![](http://www.convectix.com/img/bhyve-dsk4.png)
 

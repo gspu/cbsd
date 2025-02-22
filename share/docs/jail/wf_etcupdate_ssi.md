@@ -155,17 +155,17 @@ By running resolve, we can fix the conflicts manually, bringing the file to the 
 
 ```
 
-![](http://www.bsdstore.ru/img/etcupdate1.png)
+![](http://www.convectix.com/img/etcupdate1.png)
 
-![](http://www.bsdstore.ru/img/etcupdate2.png)
+![](http://www.convectix.com/img/etcupdate2.png)
 
-![](http://www.bsdstore.ru/img/etcupdate3.png)
+![](http://www.convectix.com/img/etcupdate3.png)
 
-![](http://www.bsdstore.ru/img/etcupdate4.png)
+![](http://www.convectix.com/img/etcupdate4.png)
 
-![](http://www.bsdstore.ru/img/etcupdate5.png)
+![](http://www.convectix.com/img/etcupdate5.png)
 
-![](http://www.bsdstore.ru/img/etcupdate6.png)
+![](http://www.convectix.com/img/etcupdate6.png)
 
 Keep your systems up to date!
 

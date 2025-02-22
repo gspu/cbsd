@@ -54,11 +54,12 @@ install_module()
 	local _metadata_tmp="/tmp/cbsd_module.$$"
 
 	# fetch metadata via unprivilege user
-	${SUDO_CMD} -u nobody ${FETCH_CMD} -q -o ${_metadata_tmp} ${_gh_raw_content_prefix}-${data}/${version}/metadata.conf
+	${TIMEOUT_CMD} -s KILL 6 ${SUDO_CMD} -u nobody /usr/local/cbsd/bin/cfetch -u ${_gh_raw_content_prefix}-${data}/${version}/metadata.conf -o ${_metadata_tmp}
 	_ret=$?
 
 	if [ ${_ret} -ne 0 ]; then
-		${ECHO} "${N1_COLOR}${CBSD_APP}: unable to fetch metadata via: ${FETCH_CMD} ${N2_COLOR}${_gh_raw_content_prefix}-${data}/${version}/metadata.conf${N0_COLOR}" 1>&2
+		${ECHO} "${N1_COLOR}${CBSD_APP}: unable to fetch metadata via: /usr/local/cbsd/bin/cfetch -u ${N2_COLOR}${_gh_raw_content_prefix}-${data}/${version}/metadata.conf${N0_COLOR}" 1>&2
+		[ -r ${_metadata_tmp} ] && ${RM_CMD} ${_metadata_tmp}
 		return 1
 	fi
 

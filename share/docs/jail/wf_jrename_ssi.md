@@ -26,5 +26,5 @@ Optional parameters:
 cbsd jrename old=jail1 new=jail50 host_hostname=jail50.my.domain ip4_addr=192.168.0.5/24
 ```
 
-![](http://www.bsdstore.ru/img/jrename1.png)
+![](http://www.convectix.com/img/jrename1.png)
 

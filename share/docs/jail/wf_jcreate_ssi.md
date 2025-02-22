@@ -20,7 +20,7 @@ Attention! Because the list and choose of packages formed by pkg.conf of master 
 
 **Use the features of profiles:**
 
-If you do not use automation (Puppet, Ansible, own implementation for generation of jconf) to create environments and you have to create a container with different parameters, use the ability to create your own [profile](http://www.bsdstore.ru/en/13.0.x/wf_profiles_ssi.html)
+If you do not use automation (Puppet, Ansible, own implementation for generation of jconf) to create environments and you have to create a container with different parameters, use the ability to create your own [profile](http://www.convectix.com/en/13.0.x/wf_profiles_ssi.html)
 to override the default values. You can override any parameter - the proposed template for jail name, version, binding to a specific interface instead of 'auto', etc..
 
 for creating config via dialog:
@@ -31,9 +31,9 @@ cbsd jconstruct-tui
 
 The same menu is available to create a jail when configuring **CBSD** via bsdconfig
 
-![](http://www.bsdstore.ru/img/cbsd_syntax3.png)
+![](http://www.convectix.com/img/cbsd_syntax3.png)
 
-Let it not scare you _a small ;-)_ the number of settings in **jconstruct-tui** \- here are displayed only the most important options, suitable for most people. If you need a more flexible configuration - please use [cbsd jconfig](http://www.bsdstore.ru/en/13.0.x/wf_jconfig_ssi.html) after jail creation
+Let it not scare you _a small ;-)_ the number of settings in **jconstruct-tui** \- here are displayed only the most important options, suitable for most people. If you need a more flexible configuration - please use [cbsd jconfig](http://www.convectix.com/en/13.0.x/wf_jconfig_ssi.html) after jail creation
 
 If **jconstruct-tui** work correctly, on the exit the question for jail create will be asked. In a case positively answer, **jcreate** it will be executed on a new configuration automatically. Otherwise, the script will save configuration file (in _$workdir/ftmp_), on which it is possible to create a jail by hand.
 
@@ -48,7 +48,7 @@ commands, or specify alternative path to jail-skel dir in .jconf (jcreate tools)
 
 You can override the **jailskeldir** ="$workdir/share/jail-skel", parameters which is stored in _$workdir/etc/defaults/jail-freebsd-default.conf_ to specify an alternate template directory, which will overwrite the files in the original base files when creating jail. To do this, create a file **jail-freebsd-XXXXX.conf** in _$workdir/etc_ and enter the value.:
 
-See for details: [Profiles for jail creation](http://www.bsdstore.ru/en/13.0.x/wf_profiles_ssi.html)
+See for details: [Profiles for jail creation](http://www.convectix.com/en/13.0.x/wf_profiles_ssi.html)
 
 ## DIALOG MENU OPTIONS
 
@@ -67,7 +67,7 @@ See for details: [Profiles for jail creation](http://www.bsdstore.ru/en/13.0.x/w
 - arch - Specify architecture of jail environment
 - vnet - Enable or disable VIMAGE feature
 
-![](http://www.bsdstore.ru/gif/jcreate.gif)
+![](http://www.convectix.com/gif/jcreate.gif)
 
 **Example** (fill for jname, fqdn, ips fields + GO):
 
@@ -75,24 +75,24 @@ See for details: [Profiles for jail creation](http://www.bsdstore.ru/en/13.0.x/w
 cbsd jconstruct-tui
 ```
 
-![](http://www.bsdstore.ru/img/jcreate1.png)
+![](http://www.convectix.com/img/jcreate1.png)
 
 When repository configured properly, you can preset to new jail some packages. Use first character of name port for faster searching and hit space for mark it.
 
-![](http://www.bsdstore.ru/img/jcreate2.png)
+![](http://www.convectix.com/img/jcreate2.png)
 
 Required fields: a short (one word) the name of the jail. This name is used to identify the jail:
 
-![](http://www.bsdstore.ru/img/jcreate3.png)
+![](http://www.convectix.com/img/jcreate3.png)
 
 Required fields full (the domain) name of the cell. This name will be used as jail hostname:
 
-![](http://www.bsdstore.ru/img/jcreate4.png)
+![](http://www.convectix.com/img/jcreate4.png)
 
-Required fields: IP address of jail. May have a network prefix with a record like IP/prefix. To assign more than one IP address, use the editing of the file **rc.conf** jails described in [Jail config](http://www.bsdstore.ru/en/13.0.x/wf_jconfig_ssi.html)
+Required fields: IP address of jail. May have a network prefix with a record like IP/prefix. To assign more than one IP address, use the editing of the file **rc.conf** jails described in [Jail config](http://www.convectix.com/en/13.0.x/wf_jconfig_ssi.html)
 
-![](http://www.bsdstore.ru/img/jcreate5.png)
+![](http://www.convectix.com/img/jcreate5.png)
 
 When you choose item **GO**, you are prompted to create the jail immediately by automatically running **cbsd jcreate jconf=..**. Otherwise, you will be the path to the saved configuration to run **cbsd jcreate** by hand:
 
-![](http://www.bsdstore.ru/img/jcreate6.png)
+![](http://www.convectix.com/img/jcreate6.png)

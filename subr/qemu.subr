@@ -1196,13 +1196,13 @@ compile_machine_args()
 
 compile_vnc_args()
 {
-	local vm_port
-	local vnc_bind
-	local _jip _ret
-	local width height
+	local vm_port=
+	local vnc_bind=
+	local _jip= _ret=
+	local width= height=
 	local _pcislot_args=
 	local _vnc_bind=127.0.0.1
-	local _skip_ports i _vms _tmpport
+	local _skip_ports= i= _vms= _tmpport=
 
 	vnc_args=
 
@@ -1223,7 +1223,7 @@ compile_vnc_args()
 					;;
 			esac
 			# build skip list
-			_vms=$( ${miscdir}/sqlcli ${dbdir}/local.sqlite "SELECT jname FROM jails WHERE emulator = \"qemu\"" )
+			_vms=$( ${miscdir}/sqlcli ${dbdir}/local.sqlite "SELECT jname FROM jails WHERE emulator = 'qemu'" )
 			for i in ${_vms}; do
 				[ "${i}" = "${jname}" ] && continue		# its me
 				[ ! -r ${jailsysdir}/${i}/local.sqlite ] && continue
@@ -1256,7 +1256,7 @@ compile_vnc_args()
 	esac
 
 	# update vnc_port in SQL and duplicate it in the ascii file
-	cbsdsqlrw ${jailsysdir}/${jname}/local.sqlite "UPDATE settings SET vnc_port=\"${vm_port}\""
+	cbsdsqlrw ${jailsysdir}/${jname}/local.sqlite "UPDATE settings SET vnc_port='${vm_port}'"
 	echo "${vm_port}" > ${jailsysdir}/${jname}/vnc_port
 
 	if [ -n "${qemu_vnc_tcp_bind}" ]; then
@@ -1306,6 +1306,8 @@ compile_vnc_args()
 			qemu_vnc_tcp_ipconnect="${vnc_bind}"
 			;;
 	esac
+
+	echo "${qemu_vnc_tcp_ipconnect}" > ${jailsysdir}/${jname}/vnc_bind
 
 	if [ -n "${qemu_vnc_resolution}" ]; then
 		width=${qemu_vnc_resolution%%x*}

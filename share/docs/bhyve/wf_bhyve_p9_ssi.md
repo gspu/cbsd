@@ -58,7 +58,7 @@ or:
 9mount -i 'virtio!sharename' /mnt
 ```
 
-![](http://www.bsdstore.ru/img/bhyve-p9fs1.png)
+![](http://www.convectix.com/img/bhyve-p9fs1.png)
 
 bhyve shared folders via VirtFS/virtio-p9:
 

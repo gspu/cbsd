@@ -2,18 +2,18 @@
 
 FreeBSD virtual environment management and repository
 
-- [About](http://www.bsdstore.ru/en/about.html)
-- [News](http://www.bsdstore.ru/en/news.html)
-- [Screenshots](http://www.bsdstore.ru/en/screenshots.html)
-- [Tutorial](http://www.bsdstore.ru/en/tutorial.html)
-- [Documentation »](http://www.bsdstore.ru/en/docs.html)  - [Articles by author's](http://www.bsdstore.ru/en/articles.html)
-  - [Articles and press](http://www.bsdstore.ru/en/press.html)
-- [Marketplace(Templates)](https://marketplace.bsdstore.ru)
-- [Support the project](http://www.bsdstore.ru/en/donate.html)
-- [bhyve.cloud](http://www.bsdstore.ru/en/bhyve-cloud.html)
-- Lang »  - [Русский](http://www.bsdstore.ru/ru/cmdsyntax_cbsd.html)
-  - [English](http://www.bsdstore.ru/en/cmdsyntax_cbsd.html)
-  - [Deutsch](http://www.bsdstore.ru/de/cmdsyntax_cbsd.html)
+- [About](http://www.convectix.com/en/about.html)
+- [News](http://www.convectix.com/en/news.html)
+- [Screenshots](http://www.convectix.com/en/screenshots.html)
+- [Tutorial](http://www.convectix.com/en/tutorial.html)
+- [Documentation »](http://www.convectix.com/en/docs.html)  - [Articles by author's](http://www.convectix.com/en/articles.html)
+  - [Articles and press](http://www.convectix.com/en/press.html)
+- [Marketplace(Templates)](https://marketplace.convectix.com)
+- [Support the project](http://www.convectix.com/en/donate.html)
+- [bhyve.cloud](http://www.convectix.com/en/bhyve-cloud.html)
+- Lang »  - [Русский](http://www.convectix.com/ru/cmdsyntax_cbsd.html)
+  - [English](http://www.convectix.com/en/cmdsyntax_cbsd.html)
+  - [Deutsch](http://www.convectix.com/de/cmdsyntax_cbsd.html)
 
 2020-10 upd: we reached the first fundraising goal and rented a server in Hetzner for development! Thank you for [donating](https://www.patreon.com/clonos) !
 
@@ -23,7 +23,7 @@ Attention! I apologize for the automatic translation of this text. You can impro
 
 ## CBSD syntax
 
-All commands begin with _cbsd_ prefix (if you not in [CBSD CLI](http://www.bsdstore.ru/en/cbsdsh.html#cbsdsh)) and must be run as the **root** user:
+All commands begin with _cbsd_ prefix (if you not in [CBSD CLI](http://www.convectix.com/en/cbsdsh.html#cbsdsh)) and must be run as the **root** user:
 
 ```
 		% cbsd jls
@@ -63,7 +63,7 @@ Result:
 	node= only for current node
 	header=0 don't print header
 	display= list by comma for column. Default: jid,jname,ip4_addr,host_hostname,path,status
-	External help: http://www.bsdstore.ru/10.0.2/html/wf_jls_en.html
+	External help: http://www.convectix.com/10.0.2/html/wf_jls_en.html
 
 ```
 
@@ -77,18 +77,18 @@ In the following lines is a brief description of the arguments, if it exist
 
 Also, it may be a reference to the documentation (External help). It can point to a site and a local file, if installed documentation.
 
-![](http://www.bsdstore.ru/img/cbsd_syntax1.png)
+![](http://www.convectix.com/img/cbsd_syntax1.png)
 
 Some of the commands waiting in as a parameter the name of the jails, can be interactive, with a list of jails (including from remote nodes) to choose from. To do this, just run the command with no argument. Examples of these commands:
 
 **cbsd jlogin, cbsd blogin, cbsd jconfig, cbsd bconfig, cbsd jstop, cbsd bstop, cbsd jstart, cbsd bstart**, etc...
 
-![](http://www.bsdstore.ru/img/cbsd_syntax2.png)
+![](http://www.convectix.com/img/cbsd_syntax2.png)
 
 In addition, **CBSD** installed as a module for base tools **bsdconfig** (adds itself to the end of the list), which grouped some -tui utility, so some controls CBSD you can perform through the interactive interface, running **bsdconfig cbsd**.
 
 
-![](http://www.bsdstore.ru/img/cbsd_syntax3.png)
+![](http://www.convectix.com/img/cbsd_syntax3.png)
 
 ## Interactivity, the color in the output result
 
@@ -124,7 +124,7 @@ For enable debugging via **sh xtrace** and trace all operation, use **CBSD\_DEBU
 
 Since 10.1.5, **CBSD** can display information not only to understand the human form, but also in HTML, XML and JSON for easy machine parsing and simply for the cyborgs joy
 
-![](http://www.bsdstore.ru/img/cbsd_syntax4.png)
+![](http://www.convectix.com/img/cbsd_syntax4.png)
 
 Copyright © 2013—2024 CBSD Team.
 
