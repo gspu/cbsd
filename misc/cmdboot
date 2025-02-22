@@ -115,6 +115,7 @@ brctl \
 wget \
 flock \
 losetup \
+nft \
 sha256sum \
 ip \
 ionice \
