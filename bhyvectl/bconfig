@@ -28,6 +28,8 @@ ${H3_COLOR}See also${N0_COLOR}:
 
   cbsd bset --help
   cbsd bhyve-dsk --help
+  cbsd blpc --help
+  cbsd bpcibus --help
 
 "
 EXTHELP="wf_bconfig"

@@ -1,0 +1,161 @@
+#!/usr/local/bin/cbsd
+#v14.2.
+CBSDMODULE="bhyve"
+MYARG="jname mode"
+MYOPTARG="display header select lpcslot_name"
+MYDESC="Operate with bhyve PCI bus map"
+ADDHELP="
+  mode=[list|reset]
+  mode=get - get PCI bus for specified device (device_name= required, select= - optional)
+  mode=list - show current PCI bus map
+  mode=reset - reset to default
+select - change SQL query for get, e.g: select=\"lpcslot_name,lpcslot_value\"
+lpcslot_name - lpcslot_name of device for select in mode=get, e.g: tpm
+header=0 don't print header
+display= list by comma for column. Default: lpcslot_name,lpcslot_value
+
+${H3_COLOR}See also${N0_COLOR}:
+
+ cbsd bconfig --help
+ cbsd bget --help
+ cbsd bhyve-ppt --help
+
+"
+
+. ${subrdir}/nc.subr
+. ${tools}
+. ${strings}
+
+select="lpcslot_value"		# by default, select PCI bus
+device_name=
+
+. ${cbsdinit}
+
+. ${subrdir}/rcconf.subr
+case "${emulator}" in
+	bhyve|xen|qemu)
+		true
+		;;
+	*)
+		log_err 1 "${N1_COLOR}Not in bhyve emulator: ${N2_COLOR}${jname}${N0_COLOR}"
+		;;
+esac
+
+[ -z "${display}" ] && display="lpcslot_name,lpcslot_value"
+
+#remove commas for loop action on header
+mydisplay=$( echo ${display} | ${TR_CMD} ',' '  ' )
+
+# upper for header
+myheader=$( echo ${mydisplay} | ${TR_CMD} '[:lower:]' '[:upper:]' )
+
+show_header()
+{
+	local _header="${H1_COLOR}${BOLD}${myheader}${N0_COLOR}"
+	[ ${header} -ne 0 ] && ${ECHO} "${_header}"
+}
+
+# if $1 = "Unregister" then overwrite status to "Unregister"
+populate_output_data()
+{
+	local _i _val src_size
+
+	_status=
+
+	#populate values for in output string
+	for _i in ${mydisplay}; do
+		_val=
+		eval _val=\$$_i
+		[ -z "${_val}" ] && _val="-"
+		if [ -z "${_status}" ]; then
+			_status="${N0_COLOR}${_val}"
+		else
+			_status="${_status} ${_val}"
+		fi
+	done
+}
+
+
+# $1 - which file from. Eg: local
+show_basesdata_from_sql()
+{
+	local _i
+
+	#   set sqlfile for ". rcconf" including
+	if [ -n "${1}" ]; then
+		sqlfile="$1"
+	else
+		sqlfile="local"
+	fi
+
+	_sql="SELECT lpcslot_name,lpcslot_value FROM lpc"
+
+	OIFS="${IFS}"
+	IFS="|"
+	sqldelimer="|"
+
+	cbsdsqlro ${sqlfile} ${_sql} | while read lpcslot_name lpcslot_value; do
+		IFS="${OIFS}"
+		populate_output_data
+		printf "${N2_COLOR}"
+		printf "${_status}"
+		printf "${N0_COLOR}\n"
+		IFS="|"
+	done
+	IFS="${OIFS}"
+}
+
+show_remote()
+{
+	show_header
+
+	[ -z "${node}" ] && node=$( node mode=list header=0 allinfo=0 )
+
+	for _n in ${node}; do
+		nodename="${_n}"
+		show_basesdata_from_sql "inv.${_n}"
+	done
+}
+
+show_local()
+{
+	local _errcode _status
+
+	show_header
+	show_basesdata_from_sql ${jailsysdir}/${jname}/local.sqlite
+}
+
+show_lpc()
+{
+	if [ -n "${node}" ]; then
+		show_remote
+		exit
+	fi
+
+	show_local
+}
+
+#### MAIN
+[ -z "${header}" ] && header=1
+
+case "${mode}" in
+	get)
+		[ -z "${lpcslot_name}" ] && err 1 "${N2_COLOR}lpcslot_name= ${N1_COLOR} is mandatory${N0_COLOR}"
+		_sql="SELECT ${select} FROM lpc WHERE lpcslot_name='${lpcslot_name}'"
+		sqllistdelimer=" "
+		cbsdsqlro ${jailsysdir}/${jname}/local.sqlite ${_sql}
+		;;
+	list)
+		sqllistdelimer=" "
+		show_lpc | ${COLUMN_CMD} -t
+		;;
+	reset)
+		# truncate pcibus_run table
+		#cbsdsqlrw ${jailsysdir}/${jname}/local.sqlite DELETE FROM pcibus
+		${ECHO} "${N1_COLOR}Reset lpc table for: ${N2_COLOR}${jname}${N0_COLOR}"
+		;;
+	*)
+		err 1 "${N1_COLOR}Unknown mode ${mode}, valid: ${N2_COLOR}list,reset${N0_COLOR}"
+esac
+
+exit 0

@@ -35,6 +35,7 @@ bhyve-ppt \
 bhyvecfg-passhtu-tui \
 bjail \
 blogin \
+blpc \
 bls \
 bmigrate \
 bootmgmt \
