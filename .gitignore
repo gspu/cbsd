@@ -6,6 +6,7 @@ bin/cfetch
 misc/cbsd_dot
 misc/cbsd_fwatch
 misc/cbsd_md5
+misc/src/cbsd_md5/cbsd_md5
 misc/cbsdlogtail
 misc/cbsdtee
 misc/chk_arp_byip
@@ -23,6 +24,7 @@ misc/resolv
 misc/sqlcli
 misc/ipv6range
 misc/sipcalc
+misc/src/sipcalc/sipcalc
 misc/next-vale-port
 sbin/netmask
 tools/bridge
