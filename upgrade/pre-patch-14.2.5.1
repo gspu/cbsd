@@ -1,0 +1,23 @@
+#!/bin/sh
+#v41.2.5
+# Update bhyve tables for soundhw
+: ${distdir="/usr/local/cbsd"}
+[ ! -r "${distdir}/subr/cbsdbootstrap.subr" ] && exit 1
+. ${distdir}/subr/cbsdbootstrap.subr || exit 1
+test_sql_stuff
+
+[ ! -h "${dbdir}/local.sqlite" ] && exit
+
+vms=$( ${miscdir}/sqlcli ${dbdir}/local.sqlite "SELECT jname FROM jails WHERE emulator = 'bhyve'" )
+
+for i in ${vms}; do
+	mydb="${jailsysdir}/${i}/local.sqlite"
+	[ ! -r "${mydb}" ] && continue
+	# alter created if not exist
+	unset _test
+	_test=$( ${miscdir}/sqlcli ${mydb} "SELECT COUNT(lpcslot_name) FROM lpc;" 2>/dev/null )
+	[ -n "${_test}" ] && continue
+	${ECHO} "  * ${N1_COLOR}Update bhyve tables: lpc for ${N2_COLOR}${i}${N0_COLOR}"
+	/usr/local/bin/cbsd ${miscdir}/updatesql ${mydb} ${distdir}/share/local-bhyve-lpc.schema lpc
+	${miscdir}/sqlcli ${mydb} "INSERT INTO 'lpc' ( 'lpcslot_name', 'lpcslot_desc', 'lpcslot_value' ) VALUES ( 'bootrom', 'bootrom device', '0' ), ( 'com1', 'com1 device', 'stdio' ), ( 'com2', 'com2 device', '0' ), ( 'com3', 'com3 device', '0' ), ( 'com4', 'com4 device', '0' ), ( 'tpm', 'TPM device', '0' );"
+done
