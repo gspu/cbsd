@@ -62,8 +62,26 @@ case "${platform}" in
 		${SYSCTL_CMD} net.ipv6.ip_forward=1 >/dev/null
 		;;
 	*)
-		${SYSCTL_CMD} net.inet6.ip6.forwarding=1 >/dev/null
-		${SYSCTL_CMD} net.inet.ip.forwarding=1 >/dev/null
+		_res=$( ${SYSCTL_CMD} -qn net.inet6.ip6.forwarding 2>/dev/null )
+		_ret=$?
+		if [ ${_ret} -ne 0 ]; then
+			cbsdlogger NOTICE ${CBSD_APP}: net.inet6.ip6.forwarding not found, skip IPv6 forwarding
+		else
+			if [ "${_res}" != "1" ]; then
+				cbsdlogger NOTICE ${CBSD_APP}: enable net.inet6.ip6.forwarding via sysctl
+				${SYSCTL_CMD} net.inet6.ip6.forwarding=1 >/dev/null
+			fi
+		fi
+		_res=$( ${SYSCTL_CMD} -qn net.inet.ip.forwarding 2>/dev/null )
+		_ret=$?
+		if [ ${_ret} -ne 0 ]; then
+			cbsdlogger NOTICE ${CBSD_APP}: net.inet.ip.forwarding not found, skip IPv4 forwarding
+		else
+			if [ "${_res}" != "1" ]; then
+				cbsdlogger NOTICE ${CBSD_APP}: enable net.inet.ip.forwarding via sysctl
+				${SYSCTL_CMD} net.inet.ip.forwarding=1 >/dev/null
+			fi
+		fi
 		;;
 esac
 
