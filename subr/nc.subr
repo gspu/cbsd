@@ -16,10 +16,10 @@ fi
 # return 0 if jail not exist
 # return 1 if jail exist
 get_jid() {
-	local _res
+	local _res=
 	myjid="0"
 
-	[ -z "$jname" -a -z "${path}" ] && return 0
+	[ -z "${jname}" -a -z "${path}" ] && return 0
 
 	case "${platform}" in
 		Linux)
@@ -29,12 +29,16 @@ get_jid() {
 	esac
 
 	_res=$( cbsdjls | while read _jid _name; do
-		[ "${_name}" = "${jname}" ] && echo ${_jid}
-	done)
+		if [ "${_name}" = "${jname}" ]; then
+			printf "${_jid}"
+			exit 0
+		fi
+	done )
 
 	[ -z "${_res}" ] && return 0
 
-	myjid=${_res}
+	myjid="${_res}"
+
 	return 1
 }
 
