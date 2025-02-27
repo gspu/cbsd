@@ -357,12 +357,16 @@ if [ ${freebsdhostversion} -gt 1200043 ]; then
 	fi
 fi
 
-# this feature available for FreeBSD 14.0+
-if [ ${freebsdhostversion} -gt 1400090 ]; then
-	if [ "${allow_nfsd}" = "1" ]; then
-		echo "allow.nfsd = \"1\";" >> ${out}
-	else
-		echo "allow.nfsd = \"0\";" >> ${out}
+# allow.nfsd
+nfs_feat=$( ${SYSCTL_CMD} -qn kern.features.nfsd 2>/dev/null )
+if [ "${nfs_feat}" = "1" ]; then
+	# this feature available for FreeBSD 14.0+
+	if [ ${freebsdhostversion} -gt 1400090 ]; then
+		if [ "${allow_nfsd}" = "1" ]; then
+			echo "allow.nfsd = \"1\";" >> ${out}
+		else
+			echo "allow.nfsd = \"0\";" >> ${out}
+		fi
 	fi
 fi
 

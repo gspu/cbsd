@@ -871,31 +871,74 @@ if [ -r "${jailsysdir}/${jname}/cpu" ]; then
 		fi
 	fi
 
+[ -r ${ftmpdir}/jstart.${jname}.err ] && ${RM_CMD} ${ftmpdir}/jstart.${jname}.err
+
 case "${platform}" in
 	DragonFly)
 		# legacy jail tools only
 		#cat ${ftmpdir}/${jname}.conf
 		${MOUNT_CMD} -t devfs devfs ${path}/dev
 		echo "[debug] ${JAIL_CMD} ${path} ${host_hostname} ${ip4_addr} ${exec_start}"
-		/usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} ${path} ${host_hostname} ${ip4_addr} ${exec_start}
-		echo "[debug]: ${ftmpdir}/jstart.${jname}.$$"
+		/usr/local/cbsd/misc/daemonize -e ${ftmpdir}/jstart.${jname}.err -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} ${path} ${host_hostname} ${ip4_addr} ${exec_start}
+		ret=$?
 		;;
 	*)
-		cbsdlogger NOTICE ${CBSD_APP}: ${CPUSET} /usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname}
+		cbsdlogger NOTICE ${CBSD_APP}: ${CPUSET} /usr/local/cbsd/misc/daemonize -e ${ftmpdir}/jstart.${jname}.err -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname}
 		#echo "${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname}"
 		case "${quiet}" in
 			0)
-				${CPUSET} /usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname}
+				${CPUSET} /usr/local/cbsd/misc/daemonize -e ${ftmpdir}/jstart.${jname}.err -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname}
+				ret=$?
 				;;
 			1)
-				${CPUSET} /usr/local/cbsd/misc/daemonize -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname} > /dev/null
+				${CPUSET} /usr/local/cbsd/misc/daemonize -e ${ftmpdir}/jstart.${jname}.err -p ${ftmpdir}/jstart.${jname}.$$ ${NICE_CMD} -n ${nice} ${JAIL_CMD} -f ${ftmpdir}/${jname}.conf -c ${jname} > /dev/null
+				ret=$?
 				;;
 		esac
 esac
 
+if [ ${ret} -ne 0 ]; then
+	if [ -r ${ftmpdir}/jstart.${jname}.err ]; then
+		${CAT_CMD} ${ftmpdir}/jstart.${jname}.err
+		${RM_CMD} ${ftmpdir}/jstart.${jname}.err
+	fi
+	jcleanup jname=${jname}
+	log_err 1 "${N1_COLOR}${CBSD_APP}: daemonize error${N0_COLOR}"
+fi
+
 trap "" HUP INT ABRT BUS TERM EXIT
 
-[ -f "${ftmpdir}/jstart.${jname}.$$" ] && cbsd_pwait --pid=$( ${CAT_CMD} ${ftmpdir}/jstart.${jname}.$$ ) --timeout=${parallel}
+[ -r "${ftmpdir}/jstart.${jname}.$$" ] && cbsd_pwait --pid=$( ${CAT_CMD} ${ftmpdir}/jstart.${jname}.$$ ) --timeout=${parallel} > /dev/null 2>&1
+sleep 1
+
+jstart_slow=0
+
+# wait for jid
+for i in 1 2 3 4 5 6; do
+	get_jid
+	ret=$?
+	[ ${ret} -eq 1 -a -n "${myjid}" ] && break
+	if [ "${quiet}" != "1" ]; then
+		printf "${CLRLINE}"
+		printf "${CURSORRST}"
+		printf "${N1_COLOR}${CBSD_APP}: waiting for ${jname} JID: ${N2_COLOR}${i}/6 ... ${N0_COLOR}"
+		jstart_slow=1
+	fi
+	sleep 1
+done
+
+if [ ${ret} -eq 0 ]; then
+	[ "${quiet}" != "1" ] && ${ECHO} "${W1_COLOR}ERROR${N0_COLOR}"
+	if [ -r ${ftmpdir}/jstart.${jname}.err ]; then
+		${CAT_CMD} ${ftmpdir}/jstart.${jname}.err
+		${RM_CMD} ${ftmpdir}/jstart.${jname}.err
+	fi
+	jcleanup jname=${jname}
+	log_err 1 "${N1_COLOR}${CBSD_APP}: jail failed${N0_COLOR}"
+fi
+
+[ ${jstart_slow} -eq 1 -a "${quiet}" != "1" ] && ${ECHO} "${H1_COLOR}${myjid}${N0_COLOR}"
+unset jstart_slow
 
 ### late start ###
 # late exec_start: for zfsattached and vnet-based jails
