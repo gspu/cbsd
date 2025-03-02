@@ -199,7 +199,7 @@ get_construct_bhyve_options_menu()
 
 	# build main menu: params first
 	# bhyverun_wrapper, bhyvestop_wrapper, bhyve_cmd
-	for i in bhyverun_wrapper bhyve_cmd efi_firmware; do
+	for i in bhyverun_wrapper bhyve_cmd; do
 		eval VAL=\$$i
 		_mydesc=
 		eval _mydesc=\$${i}_msg
@@ -332,7 +332,7 @@ get_construct_bhyve_options()
 		"-")
 			continue
 			;;
-		mnt_start|mnt_stop|uuid|bhyverun_wrapper|boot_delay|bhyve_cmd|efi_firmware)
+		mnt_start|mnt_stop|uuid|bhyverun_wrapper|boot_delay|bhyve_cmd)
 			get_construct_${mychoice}
 			continue
 			;;
@@ -630,14 +630,24 @@ get_construct_bhyve_cmd()
 	cbsd_inputbox_simple && bhyve_cmd="${mtag}"
 }
 
-# bhyve form for $efi_firmware
-get_construct_efi_firmware()
+# bhyve form for $bootrom
+get_construct_bootrom()
 {
 	local title=" alternative/custom bhyve UEFI firmware path "
-	local prompt="e.g:\n /usr/local/cbsd/upgrade/patch/efi.fd"
-	defaultitem="${efi_firmware}"
+	local prompt="e.g:\n ${distdir}/upgrade/patch/efi.fd\n or '0' to disable"
+	defaultitem="${bootrom}"
 
-	cbsd_inputbox_simple && efi_firmware="${mtag}"
+	cbsd_inputbox_simple && bootrom="${mtag}"
+}
+
+# bhyve form for $com
+get_construct_com()
+{
+	local title=" configure TTY-class devices: ${1} "
+	local prompt="e.g:\n 'stdio', 'serial', or 'tcp'\n or '0' to disable"
+	defaultitem="${com}"
+
+	cbsd_inputbox_simple && com="${mtag}"
 }
 
 

@@ -1240,6 +1240,8 @@ compile_lpc_args()
 	local _pcislot_function=
 	local _pcislot_pcislot=
 	local _pcislot_args=
+	local _sql= _res= _part= _items=
+	local _vnc_bind= _vnc_port=
 
 	# todo: backward order
 	_pcislot_bus="31"		# 0 to 31
@@ -1258,7 +1260,77 @@ compile_lpc_args()
 		_pcislot_args="${_pcislot_args}:${i}"
 	done
 
-	lpc_args="-s ${_pcislot_args},lpc"
+	_sql="SELECT lpcslot_name,lpcslot_value FROM lpc WHERE lpcslot_value !='0'"
+
+	OIFS="${IFS}"
+	IFS="|"
+	sqldelimer="|"
+
+	_items=0
+
+	eval $( cbsdsqlro ${jailsysdir}/${jname}/local.sqlite ${_sql} | while read lpcslot_name lpcslot_value; do
+		IFS="${OIFS}"
+		echo "lpcslot_name${_items}=\"${lpcslot_name}\""
+		echo "lpcslot_value${_items}=\"${lpcslot_value}\""
+		echo "_items=${_items}"
+		_items=$(( _items + 1 ))
+		IFS="|"
+	done )
+	IFS="${OIFS}"
+
+	_res=
+
+	for i in $( ${SEQ_CMD} 0 ${_items} ); do
+		eval lpcslot_name="\$lpcslot_name${i}"
+		eval lpcslot_value="\$lpcslot_value${i}"
+
+		case "${lpcslot_name}" in
+			bootrom)
+				if [ -r ${jailsysdir}/${jname}/BHYVE_UEFI_VARS.fd ]; then
+					_part="-l ${lpcslot_name},${lpcslot_value},${jailsysdir}/${jname}/BHYVE_UEFI_VARS.fd,fwcfg=qemu"
+				else
+					_part="-l ${lpcslot_name},${lpcslot_value}"
+				fi
+				;;
+			com*)
+				case "${lpcslot_value}" in
+					serial)
+						if ! next_nmdm_id ; then
+							err 1 "${N1_COLOR}No such next_nmdm_id for VMs: ${N2_COLOR}${jname}${N0_COLOR}"
+						fi
+						_part="-l ${lpcslot_name},/dev/nmdm${nmdm_index}A"
+						if [ ${quiet} -ne 1 ]; then
+							[ -z "${_vnc_bind}" ] && _vnc_bind=$( ${HEAD_CMD} -1 ${jailsysdir}/${jname}/vnc_bind )
+							[ -z "${_vnc_port}" ] && _vnc_port=$( ${HEAD_CMD} -1 ${jailsysdir}/${jname}/vnc_port )
+							${ECHO} "${N1_COLOR}Serial console is enabled: ${N2_COLOR}/dev/nmdm${nmdm_index}B${N0_COLOR}"
+							if [ "${cd_vnc_wait}" = "1" ]; then
+								${ECHO} "${N1_COLOR}For attach Serial console, use: ${N2_COLOR}nc -z ${_vnc_bind} ${_vnc_port}; cu -l /dev/nmdm${nmdm_index}B${N1_COLOR} (to exit: ${N2_COLOR}~.${N1_COLOR})${N0_COLOR}"
+							else
+								${ECHO} "${N1_COLOR}For attach Serial console, use: ${N2_COLOR}cu -l /dev/nmdm${nmdm_index}B${N0_COLOR}"
+							fi
+						fi
+						;;
+#					tcp)
+#						# FreeBSD 15+
+#						_part="-l com1,tcp=127.0.0.1:1234"
+#						;;
+					*)
+						_part="-l ${lpcslot_name},${lpcslot_value}"
+						;;
+				esac
+				;;
+		esac
+		if [ -n "${_res}" ]; then
+			_res="${_res} ${_part}"
+		else
+			_res="${_part}"
+		fi
+	done
+
+
+#	echo "MYLPC: [${_res}]" >> /tmp/lpc
+
+	lpc_args="-s ${_pcislot_args},lpc ${_res}"
 	store_bhyve_pci_slot -n lpc -a ${bhyve_pci_index}
 }
 
@@ -1387,6 +1459,10 @@ compile_pci_passthru_args()
 # export arguments for bhyve efi_args
 compile_efi_args()
 {
+	efi_args=
+
+	# obsolete
+	return 0
 	case "${vm_efi}" in
 		uefi)
 			[ ! -r "${efi_firmware}" ] && err 1 "${N1_COLOR}${CBSD_APP}: no such efi_firmware: ${N2_COLOR}${efi_firmware}${N0_COLOR}"
@@ -1412,6 +1488,9 @@ compile_efi_args()
 compile_console_args()
 {
 	local com1=0 com2=0
+
+	# obsolete
+	return 0
 
 #	case "${vm_console}" in
 #		"nmdm")
@@ -1455,10 +1534,11 @@ compile_console_args()
 	return 0
 }
 
-# export arguments for bhyve virtio-rnd
+# export arguments for bhyve virtiornd_args
 compile_virtiornd_args()
 {
 	local _pcislot_args=
+	virtiornd_args=
 
 	# this is feature of FreeBSD 10.1+
 	[ ${freebsdhostversion} -lt 1000730 ] && return 0

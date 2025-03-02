@@ -647,7 +647,7 @@ start_bhyve()
 	# init virtiornd_args
 	if ! compile_virtiornd_args; then
 		${ECHO} "${N1_COLOR}No such rnd for VMs: ${N2_COLOR}${jname}${N0_COLOR}"
-		unset lpc_args
+		unset virtiornd_args
 	fi
 
 	# init VirtFS compile_virtio_9p_args
@@ -668,11 +668,6 @@ start_bhyve()
 		unset efi_args
 	fi
 
-	# init lpc_args
-	if ! compile_lpc_args; then
-		${ECHO} "${N1_COLOR}No such lpc for VMs: ${N2_COLOR}${jname}${N0_COLOR}"
-		unset lpc_args
-	fi
 
 	# init vnc_args
 	if ! compile_vnc_args; then
@@ -690,6 +685,12 @@ start_bhyve()
 				;;
 		esac
 		# todo: check for port
+	fi
+
+	# init lpc_args: after VNC_ARGS: we must know the VNC port when cd_vnc_wait=1
+	if ! compile_lpc_args; then
+		${ECHO} "${N1_COLOR}No such lpc for VMs: ${N2_COLOR}${jname}${N0_COLOR}"
+		unset lpc_args
 	fi
 
 	if [ "${lm}" = "1" -a -n "${lm_rnodename}"  ]; then

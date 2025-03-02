@@ -19,5 +19,5 @@ for i in ${vms}; do
 	[ -n "${_test}" ] && continue
 	${ECHO} "  * ${N1_COLOR}Update bhyve tables: lpc for ${N2_COLOR}${i}${N0_COLOR}"
 	/usr/local/bin/cbsd ${miscdir}/updatesql ${mydb} ${distdir}/share/local-bhyve-lpc.schema lpc
-	${miscdir}/sqlcli ${mydb} "INSERT INTO 'lpc' ( 'lpcslot_name', 'lpcslot_desc', 'lpcslot_value' ) VALUES ( 'bootrom', 'bootrom device', '0' ), ( 'com1', 'com1 device', 'stdio' ), ( 'com2', 'com2 device', '0' ), ( 'com3', 'com3 device', '0' ), ( 'com4', 'com4 device', '0' ), ( 'tpm', 'TPM device', '0' );"
+	${miscdir}/sqlcli ${mydb} "INSERT INTO 'lpc' ( 'lpcslot_name', 'lpcslot_desc', 'lpcslot_value' ) VALUES ( 'bootrom', 'bootrom device', '${distdir}/upgrade/patch/efi.fd' ), ( 'com1', 'com1 device', 'stdio' ), ( 'com2', 'com2 device', '0' ), ( 'com3', 'com3 device', '0' ), ( 'com4', 'com4 device', '0' ), ( 'tpm', 'TPM device', '0' );"
 done

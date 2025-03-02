@@ -1,9 +1,9 @@
 #!/usr/local/bin/cbsd
 #v14.2.5
-MYARG=""
-MYOPTARG="jname"
+MYARG="jname"
+MYOPTARG=""
 CBSDMODULE="bhyve"
-MYDESC="Ncurses based bhyve lpc configurator"
+MYDESC="Ncurses based bhyve LPC configurator"
 EXTHELP="wf_jorder"
 
 . ${subrdir}/nc.subr
@@ -16,60 +16,14 @@ EXTHELP="wf_jorder"
 . ${subrdir}/settings-tui-bhyve.subr
 . ${dialog}
 
-load_table()
-{
-	local jnum=0
-	local sqldelimer=" "
-
-	eval $( cbsdsqlro local 'SELECT jname,b_order FROM jails WHERE status<2 AND emulator="bhyve" ORDER BY CAST(b_order AS int) ASC' |while read jname b_order; do
-		echo "export jails_${jnum}_jname=\"${jname}\""
-		echo "export jails_${jnum}_order=\"${b_order}\""
-		jnum=$(( jnum + 1 ))
-	done )
-}
-
-
-# $1 - jname
-# $2 - new order
-update_order()
-{
-	[ -z "${1}" ] && return 1
-	[ -z "${2}" ] && return 1
-
-	local jname="${1}"
-	local order="${2}"
-
-	cbsdsqlrw local "UPDATE jails SET b_order='${order}' WHERE jname='${jname}' AND emulator='bhyve'"
-}
-
-
-# $1 - jname
-# $2 - index
-get_new_value()
-{
-	local _input
-	[ -z "${1}" ] && return 1
-	local jname="${1}"
-
-	f_dialog_title " order "
-
-	f_dialog_input _input "Enter weight. Lower weight = higher priority, first boot: 0" "${index}" \
-		"${_message}" || return $?
-
-	update_order ${jname} ${_input}
-}
-
-
 dialog_menu_main()
 {
 	local title=" ${product} v${myversion} "
 	local btitle="$DIALOG_BACKTITLE"
-	local prompt="Use menu for select bhyve domain"
+	local prompt="Use menu to configure LPC device for ${jname}"
 	local defaultitem=
 	local hline=
-	local i jnum order
-
-	load_table
+	local i= jnum=
 
 	local menu_list=" \
 		'EXIT'		'' \
@@ -93,67 +47,33 @@ dialog_menu_main()
 
 	IFS="${OIFS}"
 
-	echo "NUM: ${lpc_num}"
+#	echo "NUM: ${lpc_num}"
+
+	item_num="0"
+	local menu_list=""
 
 	for i in $( ${SEQ_CMD} 0 ${lpc_num} ); do
 		eval name="\$lpc_${i}_name"
-		echo "> ${name}"
-	done
-	exit 0
-
-	while [ -n "${jname}" ]; do
-		eval order="\$jails_${jnum}_order"
-		menu_list="$menu_list '${order} ${jname}'	''"
-
-		# if jname/selected passed, set's selector to this item
-		if [ "${selected}" = "${jname}" ]; then
-			defaultitem="${order} ${jname}"
-			f_dialog_default_store "${defaultitem}"
-		fi
-
-		jnum=$(( jnum + 1 ))
-		unset jname order
-		eval jname="\$jails_${jnum}_jname"
-		eval order="\$jails_${jnum}_order"
+		eval value="\$lpc_${i}_value"
+		eval desc="\$lpc_${i}_desc"
+		menu_list="${menu_list} '${item_num} ${name}'	'${value}'	'${desc}'"
+		inc_menu_index item_num
 	done
 
-	local height width rows
-	eval f_dialog_menu_size height width rows \
-		\"\$DIALOG_TITLE\"     \
-		\"\$DIALOG_BACKTITLE\" \
-		\"\$prompt\"           \
-		\"\$hline\"            \
-		$menu_list
+	menu_list="${menu_list} '-'	'-'	''"
+	menu_list="${menu_list} 'EXIT'	'EXIT'	'Exit from TUI'"
 
-	height=$(( height + 1 ))
+	[ -n "${menu_choice}" ] && defaultitem="${menu_choice}"
 
-	# Obtain default-item from previously stored selection
-	f_dialog_default_fetch defaultitem
+	#cbsd_menubox_with_help
+	cbsd_menubox
+	retval=$?
 
-	local menu_choice
-	menu_choice=$( eval $DIALOG \
-		--title \"\$DIALOG_TITLE\"         \
-		--backtitle \"\$DIALOG_BACKTITLE\" \
-		--hline \"\$hline\"                \
-		--ok-label \"\$msg_ok\"            \
-		--cancel-label \"\$msg_cancel\"    \
-		--default-item \"\$defaultitem\"   \
-		--menu \" \$prompt \"              \
-		$height $width $rows               \
-		$menu_list                         \
-		2>&1 >&$DIALOG_TERMINAL_PASSTHRU_FD
-	)
-
-	local retval=$?
 	f_dialog_data_sanitize menu_choice
 	f_dialog_menutag_store "$menu_choice"
+	f_dialog_default_store "$menu_choice"
 
-	# Only update default-item on success
-	if [ ${retval} -eq ${DIALOG_OK} ]; then
-		selected=${menu_choice##* }
-	fi
-
-	return $retval
+	return ${retval}
 }
 
 
@@ -183,6 +103,21 @@ while [ 1 ]; do
 			;;
 		"-")
 			continue
+			;;
+		bootrom)
+			# bhyve form for $efi_firmware
+			bootrom=$( cbsdsqlro ${jailsysdir}/${jname}/local.sqlite "SELECT lpcslot_value FROM lpc WHERE lpcslot_name='bootrom'" )
+			obootrom="${bootrom}"
+			get_construct_bootrom
+			[ "${obootrom}" != "bootrom" ] && cbsdsqlrw ${jailsysdir}/${jname}/local.sqlite "UPDATE lpc SET lpcslot_value='${bootrom}' WHERE lpcslot_name='bootrom'"
+			;;
+		com*)
+			eval cfg_name="\$mychoice"
+			# bhyve form for $com
+			com=$( cbsdsqlro ${jailsysdir}/${jname}/local.sqlite "SELECT lpcslot_value FROM lpc WHERE lpcslot_name='${cfg_name}'" )
+			ocom="${orig_val}"
+			get_construct_com "${cfg_name}"
+			[ "${com}" != "${ocom}" ] && cbsdsqlrw ${jailsysdir}/${jname}/local.sqlite "UPDATE lpc SET lpcslot_value='${com}' WHERE lpcslot_name='${cfg_name}'"
 			;;
 		*)
 			get_new_value ${mychoice} ${index}
