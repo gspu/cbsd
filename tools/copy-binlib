@@ -13,8 +13,8 @@ ${H3_COLOR}Description${N0_COLOR}:
 
  Filelist support for hardlink, e.g. valid line's:
 
- % /rescue/cat
- % /sbin/swapon /sbin/swapctl /sbin/swapoff
+ %% /rescue/cat
+ %% /sbin/swapon /sbin/swapctl /sbin/swapoff
 
 ${H3_COLOR}Options${N0_COLOR}:
 

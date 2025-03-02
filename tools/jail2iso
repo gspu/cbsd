@@ -959,6 +959,9 @@ mfs_type="mfs_root"
 #mfsbsd.autodhcp="YES"
 vfs.root.mountfrom="ufs:/dev/md0"
 vfs.root_mount_always_wait=1
+if_bridge_load="YES"
+#pptdevs="0/2/0"
+#vmm_load="YES"
 geom_label_load="YES"
 geom_md_load="YES"
 geom_part_gpt_load="YES"
@@ -1031,6 +1034,8 @@ if_bnxt.ko \
 if_re.ko \
 opensolaris.ko \
 zfs.ko \
+vmm.ko \
+if_bridge.ko \
 geom_concat.ko \
 geom_eli.ko \
 geom_gate.ko \
@@ -1151,6 +1156,9 @@ mfs_name="/mfsroot"
 mfs_type="mfs_root"
 vfs.root.mountfrom="ufs:/dev/md0"
 vfs.root_mount_always_wait=1
+if_bridge_load="YES"
+#pptdevs="0/2/0"
+#vmm_load="YES"
 EOF
 
 		${MV_CMD} ${TMP_DIR}/mfsroot.gz ${TMP_DIR}/root
